@@ -28,7 +28,7 @@ public class TerrainAction extends ActionSupport {
 	private Map<String, Object> json;
 	
 	// upload de fichier
-	private final String UPLOAD_DESTINATION = "/var/www/html/gestion-vente-terrain/images/terrains/";
+	private final String UPLOAD_DESTINATION = "C:\\Users\\elier\\Workspace\\php\\vente_de_terrain\\images\\terrains\\";
 	private final String DEFAULT_IMAGE = "terrain_par_defaut.png";
 	private File uploadFichier;
 	private String uploadFichierContentType;
@@ -55,7 +55,7 @@ public class TerrainAction extends ActionSupport {
 		return SUCCESS;
 	}
 	
-	public String listPagination() {
+	public String list_pagination() {
 		this.paginationTerrain = this.terrainService.select(this.constraint);
 		this.paginationTerrain.setTotal(this.terrainService.countAll());
 		return SUCCESS;
@@ -68,17 +68,17 @@ public class TerrainAction extends ActionSupport {
 	
 	public String upload() {
 		final Calendar calendar = Calendar.getInstance();
-		int start = this.uploadFichierFileName.lastIndexOf('.');
-		int end = this.uploadFichierFileName.length();
-		String fichierFinal = String.format("terrain_img%d-%d-%dat%d-%d-%d-%d%s", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), calendar.get(Calendar.MILLISECOND), this.uploadFichierFileName.substring(start, end));
-		File destination = new File(this.UPLOAD_DESTINATION + fichierFinal);
+		int start = this.uploadFichierFileName.lastIndexOf('.'),
+			end = this.uploadFichierFileName.length();
+		String fichier_telecharge = String.format("terrain_img%d_%d_%dat%d_%d_%d_%d%s", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), calendar.get(Calendar.MILLISECOND), this.uploadFichierFileName.substring(start, end));
+		File destination = new File(this.UPLOAD_DESTINATION + fichier_telecharge);
 		this.json = new HashMap<>();
 		try {
 			Files.move(uploadFichier.toPath(), destination.toPath());
 			destination.setReadable(true, false);
 			destination.setExecutable(true, false);
 			this.json.put("status", true);
-			this.json.put("image", fichierFinal);
+			this.json.put("image", fichier_telecharge);
 		} catch (IOException e) {
 			e.printStackTrace();
 			this.json.put("status", false);

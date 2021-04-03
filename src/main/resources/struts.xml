@@ -76,7 +76,7 @@
 				<param name="root">terrains</param>
 			</result>
 		</action>
-		<action name="list-pagination" class="mg.venteDeTerrain.servletAction.TerrainAction" method="listPagination">
+		<action name="list-pagination" class="mg.venteDeTerrain.servletAction.TerrainAction" method="list_pagination">
 			<result name="success" type="json">
 				<param name="root">paginationTerrain</param>
 			</result>

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -24,7 +25,7 @@ public class ClientAction extends ActionSupport {
 	private Client client;
 	private Map<String, Object> json;
 	
-	private final String UPLOAD_DESTINATION = "C:\\Users\\elier\\Workspace\\php\\vente_de_terrain\\images";
+	private final String UPLOAD_DESTINATION = "C:\\Users\\elier\\Workspace\\php\\vente_de_terrain\\images\\clients\\";
 	private final String DEFAULT_IMAGE = "profile_par_defaut.png";
 	
 	private PaginationResult<Client> paginatedClientList;
@@ -35,20 +36,24 @@ public class ClientAction extends ActionSupport {
 	}
 	
 	public String upload() {
-		byte[] byteImage = Base64.getDecoder().decode(this.content);
+		byte[] image_bytes = Base64.getDecoder().decode(this.content);
 		this.json = new HashMap<>();
 		final Calendar calendar = Calendar.getInstance();
-		final String filename = String.format("client_img%d-%d-%dat%d-%d-%d-%d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), calendar.get(Calendar.MILLISECOND));
-		File destinationFile = new File(this.UPLOAD_DESTINATION + filename + ".png");
+		final String nom_photo_client = String.format("client_img%d_%d_%dat%d_%d_%d_%d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), calendar.get(Calendar.MILLISECOND));
+		File fichier_de_destination = new File(this.UPLOAD_DESTINATION + nom_photo_client + ".png"),
+			ancienne_photo = new File(this.UPLOAD_DESTINATION + this.ancienPhoto);
 		try {
-			if (this.ancienPhoto != null && !this.ancienPhoto.equals(this.DEFAULT_IMAGE) && Files.exists(Paths.get(this.UPLOAD_DESTINATION + this.ancienPhoto))) Files.delete(Paths.get(this.UPLOAD_DESTINATION + this.ancienPhoto));
-			BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(destinationFile));
-			bufferedOutputStream.write(byteImage);
-			bufferedOutputStream.flush();
-			destinationFile.setExecutable(true, false);
-			destinationFile.setReadable(true, false);
+			if (this.ancienPhoto != null && !this.ancienPhoto.equals(this.DEFAULT_IMAGE) && Files.exists(ancienne_photo.toPath())) {
+				Files.delete(ancienne_photo.toPath());
+			}
+			BufferedOutputStream flux_de_sortie = new BufferedOutputStream(new FileOutputStream(fichier_de_destination));
+			flux_de_sortie.write(image_bytes);
+			flux_de_sortie.flush();
+			flux_de_sortie.close();
+			fichier_de_destination.setExecutable(true, false);
+			fichier_de_destination.setReadable(true, false);
 			Client client = this.clientService.select(id);
-			client.setPhoto(filename + ".png");
+			client.setPhoto(nom_photo_client + ".png");
 			this.clientService.update(client);
 			this.json.put("status", true);
 		} catch (FileNotFoundException e) {
