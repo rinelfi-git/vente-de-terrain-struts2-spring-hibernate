@@ -31,6 +31,7 @@ public class Client implements Serializable {
 	@JoinTable(name = "telephone", joinColumns = @JoinColumn(name = "fk_client"))
 	@Column(name = "telephone_numero")
 	private Set<String> telephones;
+	
 	@OneToMany(mappedBy = "proprietaire", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Set<Terrain> terrains;
 	@OneToMany(mappedBy = "client",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
@@ -95,21 +96,5 @@ public class Client implements Serializable {
 	
 	public void setTelephones(Set<String> telephones) {
 		this.telephones = telephones;
-	}
-	
-	public Set<Terrain> getTerrains() {
-		return terrains;
-	}
-	
-	public void setTerrains(Set<Terrain> terrains) {
-		this.terrains = terrains;
-	}
-	
-	public Set<Vente> getVentes() {
-		return ventes;
-	}
-	
-	public void setVentes(Set<Vente> ventes) {
-		this.ventes = ventes;
 	}
 }

@@ -68,6 +68,8 @@ public class TerrainModel implements TerrainDao {
 			where_predicate.add(criteria_builder.equal(criteria_builder.upper(terrain_root.get("relief")), constraint.getRelief().toUpperCase()));
 		}
 		
+		where_predicate.add(criteria_builder.equal(terrain_root.get("enVente"), true));
+		
 		Predicate[] array_where_predicate = new Predicate[where_predicate.size()];
 		
 		for(int index = 0; index < array_where_predicate.length; index++) {

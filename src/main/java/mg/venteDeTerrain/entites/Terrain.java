@@ -28,6 +28,7 @@ public class Terrain implements Serializable {
 	@JoinTable(name = "apercue", joinColumns = @JoinColumn(name = "fk_terrain"))
 	@Column(name = "image_url")
 	private Set<String> apercues;
+	
 	@OneToMany(mappedBy = "terrain", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private Set<Vente> ventes;
 	
@@ -43,6 +44,22 @@ public class Terrain implements Serializable {
 	
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public Client getProprietaire() {
+		return proprietaire;
+	}
+	
+	public void setProprietaire(Client proprietaire) {
+		this.proprietaire = proprietaire;
+	}
+	
+	public boolean isEnVente() {
+		return enVente;
+	}
+	
+	public void setEnVente(boolean enVente) {
+		this.enVente = enVente;
 	}
 	
 	public String getLocalisation() {
@@ -83,29 +100,5 @@ public class Terrain implements Serializable {
 	
 	public void setApercues(Set<String> apercues) {
 		this.apercues = apercues;
-	}
-	
-	public Client getProprietaire() {
-		return proprietaire;
-	}
-	
-	public void setProprietaire(Client proprietaire) {
-		this.proprietaire = proprietaire;
-	}
-	
-	public Set<Vente> getVentes() {
-		return ventes;
-	}
-	
-	public void setVentes(Set<Vente> ventes) {
-		this.ventes = ventes;
-	}
-	
-	public boolean isEnVente() {
-		return enVente;
-	}
-	
-	public void setEnVente(boolean enVente) {
-		this.enVente = enVente;
 	}
 }
