@@ -24,7 +24,7 @@ public class ClientAction extends ActionSupport {
 	private Client client;
 	private Map<String, Object> json;
 	
-	private final String UPLOAD_DESTINATION = "/var/www/html/gestion-vente-terrain/images/clients/";
+	private final String UPLOAD_DESTINATION = "C:\\Users\\elier\\Workspace\\php\\vente_de_terrain\\images";
 	private final String DEFAULT_IMAGE = "profile_par_defaut.png";
 	
 	private PaginationResult<Client> paginatedClientList;
