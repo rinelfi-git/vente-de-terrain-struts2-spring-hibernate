@@ -25,4 +25,6 @@ public interface TerrainService {
 	PaginationResult<Terrain> select(PaginationConstraint paginationConstraint);
 	
 	long countAll();
+  
+  List<Object[]> derniersTerrains();
 }

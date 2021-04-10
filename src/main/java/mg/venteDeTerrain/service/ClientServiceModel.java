@@ -6,6 +6,7 @@ import mg.venteDeTerrain.utils.PaginationConstraint;
 import mg.venteDeTerrain.utils.PaginationResult;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Tuple;
 import java.util.List;
 
 @Transactional
@@ -43,7 +44,7 @@ public class ClientServiceModel implements ClientService {
 	}
 	
 	@Override
-	public List<Client> derniersClients() {
+	public List<Object[]> derniersClients() {
 		return this.dao.derniersClients();
 	}
 	

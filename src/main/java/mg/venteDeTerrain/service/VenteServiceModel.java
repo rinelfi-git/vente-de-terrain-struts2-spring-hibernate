@@ -26,6 +26,11 @@ public class VenteServiceModel implements VenteService {
 	}
 	
 	@Override
+	public long countAll() {
+		return this.dao.countAll();
+	}
+	
+	@Override
 	public List<Vente> select() {
 		return this.dao.select();
 	}

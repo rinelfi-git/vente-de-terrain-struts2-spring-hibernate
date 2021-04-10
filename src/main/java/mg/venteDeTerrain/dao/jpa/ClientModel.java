@@ -5,10 +5,7 @@ import mg.venteDeTerrain.entites.Client;
 import mg.venteDeTerrain.utils.PaginationConstraint;
 import mg.venteDeTerrain.utils.PaginationResult;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,7 +118,8 @@ public class ClientModel implements ClientDao {
 	
 	@Override
 	public long countAll() {
-		return entityManager.createQuery("select count(client.cin) from Client client", Long.class).getSingleResult();
+		TypedQuery<Long> query = this.entityManager.createQuery("select count(id) from Client", Long.class);
+		return query.getSingleResult();
 	}
 	
 	@Override
@@ -161,10 +159,10 @@ public class ClientModel implements ClientDao {
 	}
 	
 	@Override
-	public List<Client> derniersClients() {
-		TypedQuery<Client> query = this.entityManager.createQuery("from Client order by id desc", Client.class);
-		query.setFirstResult(1);
-		query.setMaxResults(12);
+	public List<Object[]> derniersClients() {
+		TypedQuery<Object[]> query = this.entityManager.createQuery("select nom, prenom, photo from Client as c order by id desc", Object[].class);
+		query.setFirstResult(0);
+		query.setMaxResults(7);
 		return query.getResultList();
 	}
 }

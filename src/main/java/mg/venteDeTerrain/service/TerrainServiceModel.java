@@ -39,6 +39,11 @@ public class TerrainServiceModel implements TerrainService {
 	}
 	
 	@Override
+	public List<Object[]> derniersTerrains() {
+		return this.dao.derniersTerrains();
+	}
+	
+	@Override
 	public List<Terrain> select() {
 		return this.dao.select();
 	}

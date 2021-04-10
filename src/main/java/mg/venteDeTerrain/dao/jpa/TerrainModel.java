@@ -11,6 +11,7 @@ import mg.venteDeTerrain.utils.VenteConstraint;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +19,16 @@ import java.util.List;
 public class TerrainModel implements TerrainDao {
 	
 	@PersistenceContext
-	private EntityManager entity_manager;
+	private EntityManager entityManager;
 	
 	@Override
 	public List<Terrain> select() {
-		return entity_manager.createQuery("select terrain from Terrain terrain inner join Client client on client.cin = terrain.proprietaire order by terrain.localisation asc, client.nom asc, client.prenom asc").getResultList();
+		return entityManager.createQuery("select t from Terrain as t inner join Client as c on c = t.proprietaire order by t.localisation asc, c.nom asc, c.prenom asc", Terrain.class).getResultList();
 	}
 	
 	@Override
 	public List<Terrain> select(VenteConstraint constraint) {
-		CriteriaBuilder criteria_builder = this.entity_manager.getCriteriaBuilder();
+		CriteriaBuilder criteria_builder = this.entityManager.getCriteriaBuilder();
 		CriteriaQuery<Terrain> criteria_query = criteria_builder.createQuery(Terrain.class);
 		Root<Terrain> terrain_root = criteria_query.from(Terrain.class);
 		List<Predicate> where_predicate = new ArrayList<>();
@@ -77,44 +78,44 @@ public class TerrainModel implements TerrainDao {
 		}
 		
 		if(where_predicate.size() > 0) { criteria_query.where(array_where_predicate); }
-		return this.entity_manager.createQuery(criteria_query).getResultList();
+		return this.entityManager.createQuery(criteria_query).getResultList();
 	}
 	
 	@Override
 	public List<Terrain> select_en_vente() {
-		Query query = entity_manager.createQuery("select terrain from Terrain terrain where terrain.enVente = :en_vente", Terrain.class);
+		Query query = entityManager.createQuery("select terrain from Terrain terrain where terrain.enVente = :en_vente", Terrain.class);
 		query.setParameter("en_vente", true);
 		return query.getResultList();
 	}
 	
 	@Override
 	public Terrain select(int id) {
-		return this.entity_manager.find(Terrain.class, id);
+		return this.entityManager.find(Terrain.class, id);
 	}
 	
 	@Override
 	public void insert(Terrain terrain) {
-		this.entity_manager.persist(terrain);
-		this.entity_manager.flush();
+		this.entityManager.persist(terrain);
+		this.entityManager.flush();
 	}
 	
 	@Override
 	public void update(Terrain terrain) {
-		this.entity_manager.merge(terrain);
-		this.entity_manager.flush();
+		this.entityManager.merge(terrain);
+		this.entityManager.flush();
 	}
 	
 	@Override
 	public void delete(int id) {
-		Terrain terrain = this.entity_manager.find(Terrain.class, id);
-		this.entity_manager.remove(terrain);
-		this.entity_manager.flush();
+		Terrain terrain = this.entityManager.find(Terrain.class, id);
+		this.entityManager.remove(terrain);
+		this.entityManager.flush();
 	}
 	
 	@Override
 	public PaginationResult<Terrain> select(PaginationConstraint constraint) {
 		PaginationResult<Terrain> pagination = new PaginationResult<>();
-		CriteriaBuilder criteria_builder = entity_manager.getCriteriaBuilder();
+		CriteriaBuilder criteria_builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Terrain> criteria_query = criteria_builder.createQuery(Terrain.class);
 		Root<Terrain> terrain_root = criteria_query.from(Terrain.class);
 		Join<Terrain, Client> client_join = terrain_root.join("proprietaire", JoinType.INNER);
@@ -156,7 +157,7 @@ public class TerrainModel implements TerrainDao {
 			criteria_query.where(predicate_field);
 		}
 		
-		Query query = entity_manager.createQuery(criteria_query);
+		Query query = entityManager.createQuery(criteria_query);
 		query.setFirstResult(constraint.getLimit());
 		query.setMaxResults(constraint.getOffset());
 		pagination.setElements(query.getResultList());
@@ -167,9 +168,15 @@ public class TerrainModel implements TerrainDao {
 	
 	@Override
 	public long countAll() {
-		CriteriaBuilder criteriaBuilder = entity_manager.getCriteriaBuilder();
-		CriteriaQuery<Long> criteriaQuery = criteriaBuilder.createQuery(Long.class);
-		criteriaQuery.select(criteriaBuilder.count(criteriaQuery.from(Terrain.class)));
-		return entity_manager.createQuery(criteriaQuery).getSingleResult();
+		TypedQuery<Long> query = this.entityManager.createQuery("select count(id) from Terrain", Long.class);
+		return query.getSingleResult();
+	}
+	
+	@Override
+	public List<Object[]> derniersTerrains() {
+		TypedQuery<Object[]> query = this.entityManager.createQuery("select c.nom, c.prenom, t.localisation, (t.prixParMetreCarre * t.surface) as prix from Terrain as t join Client as c on c = t.proprietaire", Object[].class);
+		query.setFirstResult(0);
+		query.setMaxResults(7);
+		return query.getResultList();
 	}
 }

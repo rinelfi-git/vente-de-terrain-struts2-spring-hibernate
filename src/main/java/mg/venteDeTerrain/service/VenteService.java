@@ -14,4 +14,6 @@ public interface VenteService {
 	void update(Vente vente);
 	
 	void delete(int id);
+  
+  long countAll();
 }

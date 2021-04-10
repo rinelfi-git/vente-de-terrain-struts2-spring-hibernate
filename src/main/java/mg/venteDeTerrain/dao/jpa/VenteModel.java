@@ -28,8 +28,8 @@ public class VenteModel implements VenteDao {
 	}
 	
 	@Override
-	public void insert(Vente utilisateur) {
-		this.entityManager.persist(utilisateur);
+	public void insert(Vente vente) {
+		this.entityManager.persist(vente);
 		this.entityManager.flush();
 	}
 	
@@ -52,5 +52,11 @@ public class VenteModel implements VenteDao {
 		query.setFirstResult(1);
 		query.setMaxResults(10);
 		return query.getResultList();
+	}
+	
+	@Override
+	public long countAll() {
+		TypedQuery<Long> query = this.entityManager.createQuery("select count(id) from Vente", Long.class);
+		return query.getSingleResult();
 	}
 }

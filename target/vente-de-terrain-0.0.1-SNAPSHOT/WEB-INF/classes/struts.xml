@@ -13,6 +13,13 @@
 			<result name="success">/jsp/greeting.jsp</result>
 		</action>
 	</package>
+	<package name="dashboard-json" namespace="/dashboard" extends="json-default">
+		<action name="recapitulation" class="mg.venteDeTerrain.servletAction.DashboardAction">
+			<result name="success" type="json">
+				<param name="root">json</param>
+			</result>
+		</action>
+	</package>
 	<package name="client-json" namespace="/client" extends="json-default">
 		<action name="list" class="mg.venteDeTerrain.servletAction.ClientAction" method="list">
 			<result name="success" type="json">

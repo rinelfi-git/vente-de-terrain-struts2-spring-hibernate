@@ -4,6 +4,7 @@ import mg.venteDeTerrain.entites.Client;
 import mg.venteDeTerrain.utils.PaginationConstraint;
 import mg.venteDeTerrain.utils.PaginationResult;
 
+import javax.persistence.Tuple;
 import java.util.List;
 
 public interface ClientDao {
@@ -23,5 +24,5 @@ public interface ClientDao {
 	
 	long countSelection(PaginationConstraint constraint);
 	
-	List<Client> derniersClients();
+	List<Object[]> derniersClients();
 }

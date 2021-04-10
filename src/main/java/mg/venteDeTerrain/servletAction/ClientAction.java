@@ -130,11 +130,6 @@ public class ClientAction extends ActionSupport {
 		return SUCCESS;
 	}
 	
-	public String dernierClients() {
-		this.clients = this.clientService.derniersClients();
-		return SUCCESS;
-	}
-	
 	public void setContent(String content) {
 		this.content = content;
 	}

@@ -16,4 +16,6 @@ public interface VenteDao {
 	void delete(int id);
 	
 	List<Vente> derniersVentes();
+  
+  long countAll();
 }
