@@ -19,7 +19,8 @@ public class ClientModel implements ClientDao {
 	
 	@Override
 	public List<Client> select() {
-		return entityManager.createQuery("select client from Client client order by client.nom asc, client.prenom asc, client.cin asc", Client.class).getResultList();
+		TypedQuery<Client> query = entityManager.createQuery("from Client order by nom asc, prenom asc, cin asc", Client.class);
+		return query.getResultList();
 	}
 	
 	@Override
@@ -41,8 +42,8 @@ public class ClientModel implements ClientDao {
 	
 	@Override
 	public void delete(int id) {
-		Query query = this.entityManager.createQuery("delete from Client client where client.cin=:cin");
-		query.setParameter("cin", id);
+		Query query = this.entityManager.createQuery("delete from Client where id=:id");
+		query.setParameter("id", id);
 		query.executeUpdate();
 		this.entityManager.flush();
 	}

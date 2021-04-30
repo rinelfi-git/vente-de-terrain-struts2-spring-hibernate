@@ -10,6 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="jsocket-io" target="8" />
       <module name="vente-de-terrain" target="1.8" />
     </bytecodeTargetLevel>
   </component>

@@ -174,7 +174,7 @@ public class TerrainModel implements TerrainDao {
 	
 	@Override
 	public List<Object[]> derniersTerrains() {
-		TypedQuery<Object[]> query = this.entityManager.createQuery("select c.nom, c.prenom, t.localisation, (t.prixParMetreCarre * t.surface) as prix from Terrain as t join Client as c on c = t.proprietaire", Object[].class);
+		TypedQuery<Object[]> query = this.entityManager.createQuery("select c.nom, c.prenom, t.localisation, (t.prixParMetreCarre * t.surface) as prix, t.surface as surface from Terrain as t join Client as c on c = t.proprietaire", Object[].class);
 		query.setFirstResult(0);
 		query.setMaxResults(7);
 		return query.getResultList();
