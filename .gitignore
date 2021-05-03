@@ -4,6 +4,7 @@
 /out-tsc
 
 /.idea
+/.idea/*
 .project
 .classpath
 .c9/
