@@ -51,11 +51,9 @@ public class Utilisateur implements Serializable {
 	/*
 	default amin user
 	insert into utilisateur(user_name, user_email, user_password, user_photo) values
-	(
-		'Rinelfi',
+	('Rinelfi',
 		'elierijaniaina@gmail.com',
 		'$2a$10$g40yPZYlu17cqCJOMxj5.OjlBms8iMzHWPNlXQrJMKtWr.Dq1v1q6',
-		'rinelfi.jpg'
-	)
+		'rinelfi.jpg')
 	 */
 }
