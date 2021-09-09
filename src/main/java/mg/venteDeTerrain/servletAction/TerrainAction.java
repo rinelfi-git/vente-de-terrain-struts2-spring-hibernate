@@ -28,7 +28,7 @@ public class TerrainAction extends ActionSupport {
 	private Map<String, Object> json;
 	
 	// upload de fichier
-	private final String UPLOAD_DESTINATION = "/home/rinelfi/Workspace/Php/vente-de-terrain/images/terrains/";
+	private final String UPLOAD_DESTINATION = "C:\\wamp64\\www\\localstorage\\vente-de-terrain\\images\\terrains\\";
 	private final String DEFAULT_IMAGE = "default_field.jpg";
 	private File uploadFichier;
 	private String uploadFichierContentType;

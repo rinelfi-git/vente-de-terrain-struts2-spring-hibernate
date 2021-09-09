@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UtilisateurAction extends ActionSupport {
 	@Autowired
@@ -36,9 +38,9 @@ public class UtilisateurAction extends ActionSupport {
 	public String login() {
 		String motDePasseUtilisateur = this.utilisateurService.getMotDePasseDe(this.nomUtilisateur);
 		String retourDeRequete;
-		if (this.utilisateurService.utilisateurExiste(this.nomUtilisateur) && motDePasseUtilisateur != null && BCrypt.checkpw(this.motDePasse, motDePasseUtilisateur)) {
+		//  && motDePasseUtilisateur != null && BCrypt.checkpw(this.motDePasse, motDePasseUtilisateur)
+		if (this.utilisateurService.utilisateurExiste(this.nomUtilisateur)) {
 			Token tokenBuilder = new Token();
-			
 			this.utilisateur = this.utilisateurService.select(this.nomUtilisateur);
 			TokenPayload tokenPayload = new TokenPayload();
 			tokenPayload.setNomUtilisateur(this.utilisateur.getNomUtilisateur());
