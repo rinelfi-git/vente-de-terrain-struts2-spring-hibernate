@@ -1,0 +1,42 @@
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../webfonts/source-sans-pro/SourceSansPro-ExtraLight.ttf') format('ttf');
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../webfonts/source-sans-pro/SourceSansPro-ExtraLightItalic.ttf') format('ttf');
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../webfonts/source-sans-pro/SourceSansPro-Light.ttf') format('ttf');
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../webfonts/source-sans-pro/SourceSansPro-LightItalic.ttf') format('ttf');
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../webfonts/source-sans-pro/SourceSansPro-SemiBold.ttf') format('ttf');
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../webfonts/source-sans-pro/SourceSansPro-SemiBoldItalic.ttf') format('ttf');
+}
