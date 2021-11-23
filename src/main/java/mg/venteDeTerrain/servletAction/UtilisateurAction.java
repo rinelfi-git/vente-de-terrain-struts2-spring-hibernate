@@ -2,17 +2,14 @@ package mg.venteDeTerrain.servletAction;
 
 import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionSupport;
-import io.jsonwebtoken.Jwts;
 import mg.venteDeTerrain.entites.Utilisateur;
 import mg.venteDeTerrain.service.UserService;
-import mg.venteDeTerrain.utils.JWTUtil;
 import mg.venteDeTerrain.utils.token.Token;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.security.interfaces.RSAPrivateKey;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,13 +38,6 @@ public class UtilisateurAction extends ActionSupport {
         if (this.utilisateurService.utilisateurExiste(this.nomUtilisateur)) {
             Token tokenBuilder = new Token();
             this.utilisateur = this.utilisateurService.select(this.nomUtilisateur);
-            JWTUtil.getInstance();
-            RSAPrivateKey privateKey = (RSAPrivateKey) JWTUtil.getPrivateKey();
-            Map<String, Object> payload = new HashMap<>();
-            payload.put("username", this.utilisateur.getNomUtilisateur());
-            payload.put("email", this.utilisateur.getEmail());
-            payload.put("photo", this.utilisateur.getPhoto());
-            String token = Jwts.builder().addClaims(payload).signWith(privateKey).compact();
             int dureeMillisecondes;
             if (isSeSouvenirDeMoi()) dureeMillisecondes = 1000 * 60 * 60 * 24;
             else dureeMillisecondes = 1000 * 60 * 20;
