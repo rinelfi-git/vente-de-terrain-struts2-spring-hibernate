@@ -9,10 +9,10 @@
        http://www.springframework.org/schema/context/spring-context-3.2.xsd
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
-	<bean id="clientModel" class="mg.venteDeTerrain.dao.jpa.ClientModel"></bean>
-	<bean id="terrainModel" class="mg.venteDeTerrain.dao.jpa.TerrainModel"></bean>
-	<bean id="utilisateurModel" class="mg.venteDeTerrain.dao.jpa.UserModel"></bean>
-	<bean id="venteModel" class="mg.venteDeTerrain.dao.jpa.VenteModel"></bean>
+	<bean id="clientModel" class="mg.venteDeTerrain.dao.jpa.ClientModel"/>
+	<bean id="terrainModel" class="mg.venteDeTerrain.dao.jpa.TerrainModel"/>
+	<bean id="utilisateurModel" class="mg.venteDeTerrain.dao.jpa.UserModel"/>
+	<bean id="venteModel" class="mg.venteDeTerrain.dao.jpa.VenteModel"/>
 	<bean id="clientService" class="mg.venteDeTerrain.service.ClientServiceModel">
 		<property name="dao" ref="clientModel"/>
 	</bean>
@@ -27,7 +27,7 @@
 	</bean>
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.postgresql.Driver"/>
-		<property name="url" value="jdbc:postgresql://localhost:5432/hibernate_vente_de_terrain"/>
+		<property name="url" value="jdbc:postgresql://localhost:5430/vente_de_terrain"/>
 		<property name="username" value="postgres"/>
 		<property name="password" value="postgres"/>
 	</bean>
