@@ -1,9 +1,11 @@
 package mg.ventedeterrain.servletaction.extenddefault;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import mg.ventedeterrain.entites.Utilisateur;
 import mg.ventedeterrain.service.UserService;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.SessionAware;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,22 +24,38 @@ public class LoginAction extends ActionSupport implements SessionAware {
         this.session = session;
     }
     
+    public String execute() {
+        this.redirection = String.format("%s/dashboard.action", ServletActionContext.getRequest().getContextPath());
+        return this.session.containsKey("username") ? "redirect" : SUCCESS;
+    }
+    
     public String authentication() {
         this.allowed = false;
-        String password = this.userService.getMotDePasseDe(this.password);
-        if(this.userService.utilisateurExiste(this.username) && password != null && BCrypt.checkpw(this.password, password)) {
+        String password = this.userService.getMotDePasseDe(this.username);
+        boolean userExists = this.userService.utilisateurExiste(this.username);
+        System.out.println(password);
+        System.out.println(userExists);
+        if (userExists && password != null && BCrypt.checkpw(this.password, password)) {
             this.allowed = true;
         }
         return SUCCESS;
     }
     
     public String session() {
+        this.allowed = false;
         Utilisateur utilisateur = this.userService.select(this.username);
         this.session.put("username", utilisateur.getNomUtilisateur());
         this.session.put("email", utilisateur.getEmail());
         this.session.put("photo", utilisateur.getPhoto());
-        this.setRedirection(String.format("%s/terrain.action", ServletActionContext.getRequest().getContextPath()));
+        this.allowed = true;
         return SUCCESS;
+    }
+    
+    public String logout() {
+        ((SessionMap) ActionContext.getContext().getSession()).invalidate();
+        this.session.clear();
+        this.redirection = String.format("%s/login.action", ServletActionContext.getRequest().getContextPath());
+        return this.session.containsKey("username") ? "redirect" : ERROR;
     }
     
     public String getUsername() {
@@ -72,19 +90,19 @@ public class LoginAction extends ActionSupport implements SessionAware {
         this.remember = remember;
     }
     
-    public String getRedirection() {
-        return redirection;
-    }
-    
-    public void setRedirection(String redirection) {
-        this.redirection = redirection;
-    }
-    
     public boolean isAllowed() {
         return allowed;
     }
     
     public void setAllowed(boolean allowed) {
         this.allowed = allowed;
+    }
+    
+    public String getRedirection() {
+        return redirection;
+    }
+    
+    public void setRedirection(String redirection) {
+        this.redirection = redirection;
     }
 }

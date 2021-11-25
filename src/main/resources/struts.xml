@@ -14,17 +14,27 @@
 		</action>
 		<action name="login" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">
 			<result name="success">/jsp/login.jsp</result>
+			<result name="redirect" type="redirect">${redirection}</result>
 		</action>
-	</package>
-	<package name="login" namespace="/login" extends="struts-default">
-		<action name="session" method="session" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">
-			<result name="success" type="redirect">${redirection}</result>
+		<action name="logout" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">
+			<result name="error"></result>
+			<result name="redirect" type="redirect">${redirection}</result>
+		</action>
+		<action name="dashboard" class="mg.ventedeterrain.servletaction.extenddefault.DashboardAction">
+			<result name="success">/jsp/dashboard.jsp</result>
 		</action>
 	</package>
 	<!-- jsons	-->
 	<package name="login-json" namespace="/login" extends="json-default">
 		<action name="authentication" method="authentication" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">
-			<result name="success" type="json">${allowed}</result>
+			<result name="success" type="json">
+				<param name="root">allowed</param>
+			</result>
+		</action>
+		<action name="session" method="session" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">
+			<result name="success" type="json">
+				<param name="root">allowed</param>
+			</result>
 		</action>
 	</package>
 </struts>

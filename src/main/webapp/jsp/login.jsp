@@ -72,22 +72,34 @@
 <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/global.js"></script>
 <script>
-  $(() => {
-	  document.getElementById('login-form').addEventListener('submit', event => {
-		  event.preventDefault()
-		  $.ajax({
-			  url: `${BASE_URL}/login/authentication`,
-			  method: 'post',
-			  data: {username: document.getElementById('username').value, password: document.getElementById('password').value},
-			  success: data => {
-				  console.log('executed')
-			  },
-			  error: (err1, err2, err3) => {
-				  console.log(err1, err2, err3)
-			  }
-		  })
-	  })
-  })
+	$(() => {
+		document.getElementById('login-form').addEventListener('submit', event => {
+			event.preventDefault()
+			$.ajax({
+				url: `${BASE_URL}/login/authentication.action`,
+				method: 'post',
+				data: {username: document.getElementById('username').value, password: document.getElementById('password').value},
+				success: allowed => {
+					if (allowed) {
+						$.ajax({
+							url: `${BASE_URL}/login/session.action`,
+							method: 'post',
+							data: {username: document.getElementById('username').value},
+							success: sessionDefined => {
+								if (sessionDefined) document.location.href = `${BASE_URL}/dashboard.action`
+							},
+							error: (err1, err2, err3) => {
+								console.log(err1, err2, err3)
+							}
+						})
+					}
+				},
+				error: (err1, err2, err3) => {
+					console.log(err1, err2, err3)
+				}
+			})
+		})
+	})
 </script>
 </body>
 </html>
