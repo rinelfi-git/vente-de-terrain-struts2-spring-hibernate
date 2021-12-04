@@ -23,6 +23,18 @@
 			<result name="success">/jsp/dashboard.jsp</result>
 			<result name="login">/jsp/login-redirect.jsp</result>
 		</action>
+		<action name="client" class="mg.ventedeterrain.servletaction.extenddefault.ClientAction">
+			<result name="success">/jsp/client.jsp</result>
+			<result name="login">/jsp/login-redirect.jsp</result>
+		</action>
+		<action name="terrain" class="mg.ventedeterrain.servletaction.extenddefault.TerrainAction">
+			<result name="success">/jsp/client.jsp</result>
+			<result name="login">/jsp/login-redirect.jsp</result>
+		</action>
+		<action name="vente" class="mg.ventedeterrain.servletaction.extenddefault.VenteAction">
+			<result name="success">/jsp/client.jsp</result>
+			<result name="login">/jsp/login-redirect.jsp</result>
+		</action>
 	</package>
 	
 	<package name="login-default" namespace="/login" extends="struts-default">
@@ -39,6 +51,15 @@
 	</package>
 	
 	<package name="dashboard-default" namespace="/dashboard" extends="struts-default">
+	</package>
+	
+	<package name="terrain-default" namespace="/terrain" extends="struts-default">
+	</package>
+	
+	<package name="client-default" namespace="/client" extends="struts-default">
+	</package>
+	
+	<package name="vente-default" namespace="/vente" extends="struts-default">
 	</package>
 	<!-- jsons	-->
 	<!--	<package name="login-json" namespace="/login" extends="json-default">-->
