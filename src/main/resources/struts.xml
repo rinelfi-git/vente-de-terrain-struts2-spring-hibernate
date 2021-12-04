@@ -8,7 +8,7 @@
 	<constant name="struts.multipart.maxSize" value="10485760"/> <!-- 10 Mo -->
 	
 	<package name="default" namespace="/" extends="struts-default">
-		<default-action-ref name="greeting"/>
+		<default-action-ref name="login"/>
 		<action name="greeting" class="mg.ventedeterrain.servletaction.apis.ServerGreetingAction">
 			<result name="success">/jsp/greeting.jsp</result>
 		</action>
@@ -17,24 +17,40 @@
 			<result name="redirect" type="redirect">${redirection}</result>
 		</action>
 		<action name="logout" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">
-			<result name="error"></result>
 			<result name="redirect" type="redirect">${redirection}</result>
 		</action>
 		<action name="dashboard" class="mg.ventedeterrain.servletaction.extenddefault.DashboardAction">
 			<result name="success">/jsp/dashboard.jsp</result>
+			<result name="login">/jsp/login-redirect.jsp</result>
 		</action>
 	</package>
-	<!-- jsons	-->
-	<package name="login-json" namespace="/login" extends="json-default">
+	
+	<package name="login-default" namespace="/login" extends="struts-default">
 		<action name="authentication" method="authentication" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">
-			<result name="success" type="json">
-				<param name="root">allowed</param>
+			<result name="error">/jsp/login.jsp</result>
+			<result name="success" type="redirectAction">
+				<param name="actionName">session</param>
+				<param name="username">${username}</param>
 			</result>
 		</action>
 		<action name="session" method="session" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">
-			<result name="success" type="json">
-				<param name="root">allowed</param>
-			</result>
+			<result name="success">/jsp/dashboard-redirect.jsp</result>
 		</action>
 	</package>
+	
+	<package name="dashboard-default" namespace="/dashboard" extends="struts-default">
+	</package>
+	<!-- jsons	-->
+	<!--	<package name="login-json" namespace="/login" extends="json-default">-->
+	<!--		<action name="authentication" method="authentication" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">-->
+	<!--			<result name="success" type="json">-->
+	<!--				<param name="root">allowed</param>-->
+	<!--			</result>-->
+	<!--		</action>-->
+	<!--		<action name="session" method="session" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">-->
+	<!--			<result name="success" type="json">-->
+	<!--				<param name="root">allowed</param>-->
+	<!--			</result>-->
+	<!--		</action>-->
+	<!--	</package>-->
 </struts>

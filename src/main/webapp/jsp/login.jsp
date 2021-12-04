@@ -24,16 +24,17 @@
 <div class="login-page">
     <div class="login-box">
         <div class="login-logo">
-            <s:a href="login.action"><b>Green</b>FIELD</s:a>
+            <s:url namespace="/" action="login" var="home"/>
+            <s:a href="%{#home}"><b>Green</b>FIELD</s:a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
                 
-                <form method="post" autocomplete="off" id="login-form">
+                <form method="post" autocomplete="off" id="login-form" action="<s:url namespace="/login" action="authentication"/>">
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Nom d'utilisateur ou email" id="username">
+                        <s:textfield name="username" cssClass="form-control" type="email" requiredLabel="" value="%{username}" placeholder="adresse mail"/>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -41,7 +42,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Mot de passe" id="password">
+                        <s:textfield name="password" cssClass="form-control" type="password" requiredLabel="" value="%{password}" placeholder="mot de passe"/>
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -57,7 +58,7 @@
                         </div>
                     </div>
                     <s:if test="%{message != null && message != ''}">
-                        <p class="text text-center text-danger">${message}</p>
+                        <p class="text text-center text-danger"><s:property value="%{message}"/></p>
                     </s:if>
                     <div class="row">
                         <button type="submit" class="btn btn-primary btn-block">Connexion</button>
@@ -69,37 +70,5 @@
     </div>
     <!-- /.login-box -->
 </div>
-<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/global.js"></script>
-<script>
-	$(() => {
-		document.getElementById('login-form').addEventListener('submit', event => {
-			event.preventDefault()
-			$.ajax({
-				url: `${BASE_URL}/login/authentication.action`,
-				method: 'post',
-				data: {username: document.getElementById('username').value, password: document.getElementById('password').value},
-				success: allowed => {
-					if (allowed) {
-						$.ajax({
-							url: `${BASE_URL}/login/session.action`,
-							method: 'post',
-							data: {username: document.getElementById('username').value},
-							success: sessionDefined => {
-								if (sessionDefined) document.location.href = `${BASE_URL}/dashboard.action`
-							},
-							error: (err1, err2, err3) => {
-								console.log(err1, err2, err3)
-							}
-						})
-					}
-				},
-				error: (err1, err2, err3) => {
-					console.log(err1, err2, err3)
-				}
-			})
-		})
-	})
-</script>
 </body>
 </html>

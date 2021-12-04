@@ -7,9 +7,10 @@ import java.util.Map;
 
 public class DashboardAction extends ActionSupport implements SessionAware {
     private Map<String, Object> session;
+    private String redirection;
     
     public String execute() {
-        return SUCCESS;
+        return this.session.containsKey("username") ? SUCCESS : LOGIN;
     }
     
     @Override
@@ -21,4 +22,11 @@ public class DashboardAction extends ActionSupport implements SessionAware {
         return session;
     }
     
+    public String getRedirection() {
+        return redirection;
+    }
+    
+    public void setRedirection(String redirection) {
+        this.redirection = redirection;
+    }
 }

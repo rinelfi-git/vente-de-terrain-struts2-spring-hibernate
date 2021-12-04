@@ -10,13 +10,15 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 
 public class LoginAction extends ActionSupport implements SessionAware {
     @Autowired
     private UserService userService;
     private String username, password, message, redirection;
-    private boolean remember, allowed;
+    private boolean remember;
     private Map<String, Object> session;
     
     @Override
@@ -25,36 +27,44 @@ public class LoginAction extends ActionSupport implements SessionAware {
     }
     
     public String execute() {
-        this.redirection = String.format("%s/dashboard.action", ServletActionContext.getRequest().getContextPath());
+        String url = ServletActionContext.getRequest().getContextPath();
+        if (url != null && url.charAt(url.length() - 1) == '/') url = url.substring(0, url.length() - 1);
+        this.redirection = String.format("%s/dashboard.action", url);
         return this.session.containsKey("username") ? "redirect" : SUCCESS;
     }
     
     public String authentication() {
-        this.allowed = false;
+        String output;
+        this.setMessage("");
         String password = this.userService.getMotDePasseDe(this.username);
         boolean userExists = this.userService.utilisateurExiste(this.username);
-        System.out.println(password);
-        System.out.println(userExists);
         if (userExists && password != null && BCrypt.checkpw(this.password, password)) {
-            this.allowed = true;
+            output = SUCCESS;
+            String url = ServletActionContext.getRequest().getContextPath();
+            if (url != null && url.charAt(url.length() - 1) == '/') url = url.substring(0, url.length() - 1);
+            this.redirection = String.format("%s/login/session.action?username=%s", url, this.username);
+            System.out.println("url : " + url);
+        } else {
+            this.setMessage("Le nom d'utilisateur ou le mot de passe est incorrect");
+            output = ERROR;
         }
-        return SUCCESS;
+        return output;
     }
     
     public String session() {
-        this.allowed = false;
         Utilisateur utilisateur = this.userService.select(this.username);
         this.session.put("username", utilisateur.getNomUtilisateur());
         this.session.put("email", utilisateur.getEmail());
         this.session.put("photo", utilisateur.getPhoto());
-        this.allowed = true;
         return SUCCESS;
     }
     
     public String logout() {
         ((SessionMap) ActionContext.getContext().getSession()).invalidate();
         this.session.clear();
-        this.redirection = String.format("%s/login.action", ServletActionContext.getRequest().getContextPath());
+        String url = ServletActionContext.getRequest().getContextPath();
+        if (url.charAt(url.length() - 1) == '/') url = url.substring(0, url.length() - 1);
+        this.redirection = String.format("%s/login.action", url);
         return this.session.containsKey("username") ? "redirect" : ERROR;
     }
     
@@ -88,14 +98,6 @@ public class LoginAction extends ActionSupport implements SessionAware {
     
     public void setRemember(boolean remember) {
         this.remember = remember;
-    }
-    
-    public boolean isAllowed() {
-        return allowed;
-    }
-    
-    public void setAllowed(boolean allowed) {
-        this.allowed = allowed;
     }
     
     public String getRedirection() {
