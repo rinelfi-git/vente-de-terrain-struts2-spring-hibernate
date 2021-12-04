@@ -12,13 +12,7 @@
 <head>
     <meta charset="utf-8">
     <title>Login</title>
-    <base href="/">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/img/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/fontawesome.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/icheck-bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/source-sans-pro.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/adminlte.min.css">
+    <s:include value="fragments/links.jsp"></s:include>
 </head>
 <body>
 <div class="login-page">
@@ -70,5 +64,6 @@
     </div>
     <!-- /.login-box -->
 </div>
+<s:include value="fragments/scripts.jsp"></s:include>
 </body>
 </html>

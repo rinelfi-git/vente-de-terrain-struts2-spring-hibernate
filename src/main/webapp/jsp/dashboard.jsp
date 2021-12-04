@@ -12,13 +12,7 @@
 <head>
     <meta charset="utf-8">
     <title>Dashboard</title>
-    <base href="/">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="${pageContext.request.contextPath}/img/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/fontawesome.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/icheck-bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/source-sans-pro.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/adminlte.min.css">
+    <s:include value="fragments/links.jsp"></s:include>
 </head>
 <body class="layout-top-nav">
 <div class="wrapper">
@@ -186,9 +180,7 @@
         <!-- /.content-wrapper -->
     </div>
 </div>
-<script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/adminlte.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/global.js"></script>
+<s:include value="fragments/scripts.jsp"></s:include>
 <script>
 	function disconnection(element) {
 		alert(element)
