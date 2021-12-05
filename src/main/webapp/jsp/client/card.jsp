@@ -23,7 +23,7 @@
                             <span class="material-icons">place</span>
                         </span><b>Adresse</b>:<br>${adresse.lot} - ${adresse.codePostal} ${adresse.ville}</li>
                         </s:if>
-                        <s:if test="%{!telephones.isEmpty > 0}">
+                        <s:if test="%{!telephones.isEmpty}">
                             <li class="small">
                                 <span class="fa-li"><span class="material-icons">phone</span></span><b>Téléphone</b>:<br>
                                 <s:iterator value="telephones">
