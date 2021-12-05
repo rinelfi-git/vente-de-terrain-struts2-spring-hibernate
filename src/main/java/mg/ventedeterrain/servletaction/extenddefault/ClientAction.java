@@ -30,8 +30,7 @@ public class ClientAction extends ActionSupport implements SessionAware {
         clients.add(client);
         clients.add(client);
         clients.add(client);
-//        return this.session.containsKey("username") ? SUCCESS : LOGIN;
-        return SUCCESS;
+        return this.session.containsKey("username") ? SUCCESS : LOGIN;
     }
     
     public String search() {
