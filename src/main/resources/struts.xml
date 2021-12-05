@@ -11,26 +11,26 @@
 		<default-action-ref name="login"/>
 		<action name="login" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">
 			<result name="success">/jsp/login.jsp</result>
-			<result name="redirect" type="redirect">${redirection}</result>
+			<result name="redirect" type="redirectAction">dashboard</result>
 		</action>
 		<action name="logout" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">
-			<result name="redirect" type="redirect">${redirection}</result>
+			<result name="redirect" type="redirectAction">login</result>
 		</action>
 		<action name="dashboard" class="mg.ventedeterrain.servletaction.extenddefault.DashboardAction">
 			<result name="success">/jsp/dashboard.jsp</result>
-			<result name="login">/jsp/login-redirect.jsp</result>
+			<result name="login" type="redirectAction">login</result>
 		</action>
 		<action name="client" class="mg.ventedeterrain.servletaction.extenddefault.ClientAction">
 			<result name="success">/jsp/client.jsp</result>
-			<result name="login">/jsp/login-redirect.jsp</result>
+			<result name="login" type="redirectAction">login</result>
 		</action>
 		<action name="terrain" class="mg.ventedeterrain.servletaction.extenddefault.TerrainAction">
 			<result name="success">/jsp/terrain.jsp</result>
-			<result name="login">/jsp/login-redirect.jsp</result>
+			<result name="login" type="redirectAction">login</result>
 		</action>
 		<action name="vente" class="mg.ventedeterrain.servletaction.extenddefault.VenteAction">
 			<result name="success">/jsp/vente.jsp</result>
-			<result name="login">/jsp/login-redirect.jsp</result>
+			<result name="login" type="redirectAction">login</result>
 		</action>
 	</package>
 	
