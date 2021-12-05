@@ -9,9 +9,6 @@
 	
 	<package name="default" namespace="/" extends="struts-default">
 		<default-action-ref name="login"/>
-		<action name="greeting" class="mg.ventedeterrain.servletaction.apis.ServerGreetingAction">
-			<result name="success">/jsp/greeting.jsp</result>
-		</action>
 		<action name="login" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">
 			<result name="success">/jsp/login.jsp</result>
 			<result name="redirect" type="redirect">${redirection}</result>
@@ -28,11 +25,11 @@
 			<result name="login">/jsp/login-redirect.jsp</result>
 		</action>
 		<action name="terrain" class="mg.ventedeterrain.servletaction.extenddefault.TerrainAction">
-			<result name="success">/jsp/client.jsp</result>
+			<result name="success">/jsp/terrain.jsp</result>
 			<result name="login">/jsp/login-redirect.jsp</result>
 		</action>
 		<action name="vente" class="mg.ventedeterrain.servletaction.extenddefault.VenteAction">
-			<result name="success">/jsp/client.jsp</result>
+			<result name="success">/jsp/vente.jsp</result>
 			<result name="login">/jsp/login-redirect.jsp</result>
 		</action>
 	</package>
@@ -57,6 +54,9 @@
 	</package>
 	
 	<package name="client-default" namespace="/client" extends="struts-default">
+		<action name="search" class="mg.ventedeterrain.servletaction.extenddefault.ClientAction">
+			<result name="success">/jsp/client.jsp</result>
+		</action>
 	</package>
 	
 	<package name="vente-default" namespace="/vente" extends="struts-default">

@@ -1,0 +1,33 @@
+.col-4:has(.custom-class-image-edit-overlay) {
+	position: relative;
+}
+
+.custom-class-image-edit-overlay {
+	position: absolute;
+	top: 0;
+	left: 7.5px;
+	opacity: 0;
+	width: calc(100% - 15px);
+	border-radius: 50%;
+	transition: .2s;
+	cursor: pointer;
+}
+
+.custom-class-image-edit-overlay-background {
+	background-color: rgba(0, 0, 0, .4);
+}
+
+.custom-class-image-edit-overlay-foreground {
+	background-color: transparent;
+}
+
+.custom-class-image-edit-overlay-background.overlay-active {
+	transition: .2s;
+	opacity: 1;
+}
+
+.custom-class-image-edit-overlay:after {
+	content: "";
+	display: block;
+	padding-bottom: 100%;
+}

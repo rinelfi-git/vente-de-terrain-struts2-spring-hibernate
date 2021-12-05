@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<s:set var="back" value="'http://localhost/vente_de_terrain/users'"/>
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container">
@@ -41,15 +42,15 @@
             <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img src="<s:property value="%{#session.photo}" />" class="user-image img-circle elevation-2" alt="Utilisateur Image">
-                        <span class="d-none d-md-inline"><s:property value="%{#session.photo}"/></span>
+                        <img src="${back}/${session.photo}" class="user-image img-circle elevation-2" alt="profile">
+                        <span class="d-none d-md-inline">${session.username}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <!-- Utilisateur image -->
                         <li class="user-header bg-lightblue">
-                            <img src="<s:property value="%{#session.photo}" />" class="img-circle elevation-2" alt="Utilisateur Image">
+                            <img src="${back}/${session.photo}" class="img-circle elevation-2" alt="profile" style="background: #0069d9;">
                             <p>
-                                <s:property value="%{#session.username}"/> + ' - ' + <s:property value="%{#session.email}"/>
+                                ${session.username} - ${session.email}
                             </p>
                         </li>
                         <!-- Menu Footer-->

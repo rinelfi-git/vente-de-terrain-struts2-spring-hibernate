@@ -12,12 +12,12 @@
 <head>
     <meta charset="utf-8">
     <title>Dashboard</title>
-    <s:include value="fragments/links.jsp"></s:include>
+    <s:include value="fragments/links.jsp"/>
 </head>
 <body class="layout-top-nav">
 <div class="wrapper">
     <%--    top nav--%>
-    <s:include value="fragments/header.jsp"></s:include>
+    <s:include value="fragments/navs.jsp"/>
     
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -180,10 +180,10 @@
         <!-- /.content-wrapper -->
     </div>
 </div>
-<s:include value="fragments/scripts.jsp"></s:include>
+<s:include value="fragments/scripts.jsp"/>
 <script>
 	function disconnection(element) {
-		alert(element)
+		alert('Veuillez confirmer votre déconnexion')
 	}
 </script>
 </body>

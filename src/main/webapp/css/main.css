@@ -1,0 +1,8 @@
+html, body {
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+}
+.material-icons {
+	vertical-align: middle !important; /*Change this to adjust the icon*/
+}
