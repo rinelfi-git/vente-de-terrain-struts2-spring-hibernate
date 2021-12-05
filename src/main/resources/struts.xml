@@ -13,8 +13,8 @@
 			<result name="success">/jsp/login.jsp</result>
 			<result name="redirect" type="redirectAction">dashboard</result>
 		</action>
-		<action name="logout" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">
-			<result name="redirect" type="redirectAction">login</result>
+		<action name="logout" method="logout" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">
+			<result name="login" type="redirectAction">login</result>
 		</action>
 		<action name="dashboard" class="mg.ventedeterrain.servletaction.extenddefault.DashboardAction">
 			<result name="success">/jsp/dashboard.jsp</result>
@@ -43,7 +43,10 @@
 			</result>
 		</action>
 		<action name="session" method="session" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">
-			<result name="success">/jsp/dashboard-redirect.jsp</result>
+			<result name="success" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">dashboard</param>
+			</result>
 		</action>
 	</package>
 	

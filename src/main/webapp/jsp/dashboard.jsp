@@ -13,6 +13,7 @@
     <meta charset="utf-8">
     <title>Dashboard</title>
     <s:include value="fragments/links.jsp"/>
+    <s:include value="fragments/scripts.jsp"/>
 </head>
 <body class="layout-top-nav">
 <div class="wrapper">
@@ -180,10 +181,11 @@
         <!-- /.content-wrapper -->
     </div>
 </div>
-<s:include value="fragments/scripts.jsp"/>
 <script>
 	function disconnection(element) {
-		alert('Veuillez confirmer votre déconnexion')
+		if(confirm('Veuillez confirmer la mise en arrêt de la session')) {
+			document.location.href = BASE_URL + 'logout.action'
+        }
 	}
 </script>
 </body>

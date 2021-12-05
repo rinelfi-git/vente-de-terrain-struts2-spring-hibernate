@@ -62,10 +62,7 @@ public class LoginAction extends ActionSupport implements SessionAware {
     public String logout() {
         ((SessionMap) ActionContext.getContext().getSession()).invalidate();
         this.session.clear();
-        String url = ServletActionContext.getRequest().getContextPath();
-        if (url.charAt(url.length() - 1) == '/') url = url.substring(0, url.length() - 1);
-        this.redirection = String.format("%s/login.action", url);
-        return this.session.containsKey("username") ? "redirect" : ERROR;
+        return LOGIN;
     }
     
     public String getUsername() {
