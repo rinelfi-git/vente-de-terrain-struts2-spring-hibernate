@@ -39,12 +39,18 @@
         <s:include value="terrain/search-criteria.jsp"/>
         
         <!-- Main content -->
-        <div class="row">
-        
-            <app-terrain-presentation-card [terrain]="terrain" [states]="childStates" [clients]="clients" [componentIndex]="i" (update)="reloadView()"  *ngFor="let terrain of terrains; let i = index"></app-terr
         <div class="content">
-            <div class="container">ain-presentation-card>
-                    <!-- /.row -->
+            <div class="container">
+                <!-- /.row -->
+                <div class="row">
+                    <s:iterator value="terrains" status="status" var="terrain">
+                        <s:include value="terrain/card.jsp">
+                            <s:param name="terrain" value="#terrain"/>
+                            <s:param name="host">${fileHost}</s:param>
+                            <s:param name="index">${status.index}</s:param>
+                            <s:param name="field">${defaultThumbnail}</s:param>
+                        </s:include>
+                    </s:iterator>
                 </div><!-- /.container-fluid -->
                 
                 <!--			pagination-->
