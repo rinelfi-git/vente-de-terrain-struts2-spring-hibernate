@@ -37,6 +37,7 @@
         </div>
         
         <s:include value="terrain/search-criteria.jsp"/>
+        <s:include value="terrain/insert.jsp"/>
         
         <!-- Main content -->
         <div class="content">
