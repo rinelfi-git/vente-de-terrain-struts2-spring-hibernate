@@ -4,7 +4,7 @@
 	"http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
 	<constant name="struts.devMode" value="true"/>
-	<constant name="struts.multipart.saveDir" value="C:\apache2\tmp"/>
+	<constant name="struts.multipart.saveDir" value="/tmp"/>
 	<constant name="struts.multipart.maxSize" value="10485760"/> <!-- 10 Mo -->
 	
 	<package name="default" namespace="/" extends="struts-default">
@@ -63,6 +63,14 @@
 	</package>
 	
 	<package name="vente-default" namespace="/vente" extends="struts-default">
+	</package>
+	
+	<package name="thumbnail-json" namespace="/terrain/thumbnail" extends="json-default">
+		<action name="add" method="uploadThumbnail" class="mg.ventedeterrain.servletaction.extenddefault.TerrainAction">
+			<result name="success" type="json">
+				<param name="root">uploadedFilename</param>
+			</result>
+		</action>
 	</package>
 	<!-- jsons	-->
 	<!--	<package name="login-json" namespace="/login" extends="json-default">-->

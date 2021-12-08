@@ -38,6 +38,7 @@
         
         <s:include value="terrain/search-criteria.jsp"/>
         <s:include value="terrain/insert.jsp"/>
+        <s:include value="terrain/thumbnail.jsp"/>
         
         <!-- Main content -->
         <div class="content">

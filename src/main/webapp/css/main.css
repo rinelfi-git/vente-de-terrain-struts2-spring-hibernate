@@ -6,3 +6,49 @@ html, body {
 .material-icons {
 	vertical-align: middle !important; /*Change this to adjust the icon*/
 }
+
+.thumbnail {
+	height: 150px;
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.thumbnail .cross {
+	width: 100%;
+	height: 0px;
+	background: white;
+	transform: rotate(0);
+	transition: .2s;
+}
+
+.cross.cross-top {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.cross.cross-bottom {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+
+.cross.cross-top.active {
+	top: 70px;
+	transform: rotate(30deg);
+	height: 8px;
+	width: calc(100% - 2px);
+	border: 1px solid #4a4a4a;
+	box-shadow: black 0 0 10px;
+}
+
+.cross.cross-bottom.active {
+	bottom: 70px;
+	transform: rotate(-30deg);
+	height: 8px;
+	width: calc(100% - 2px);
+	border: 1px solid #4a4a4a;
+	box-shadow: black 0 0 10px;
+}

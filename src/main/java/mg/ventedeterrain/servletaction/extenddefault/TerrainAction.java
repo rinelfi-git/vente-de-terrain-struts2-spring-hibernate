@@ -1,17 +1,20 @@
 package mg.ventedeterrain.servletaction.extenddefault;
 
 import com.opensymphony.xwork2.ActionSupport;
-import mg.ventedeterrain.entites.Adresse;
 import mg.ventedeterrain.entites.Client;
 import mg.ventedeterrain.entites.Terrain;
 import org.apache.struts2.interceptor.SessionAware;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 
 public class TerrainAction extends ActionSupport implements SessionAware {
     private Map<String, Object> session;
-    private String fileHost = "http://localhost/vente_de_terrain/terrain", defaultThumbnail="default.jpg", keyword;
+    private String fileHost = "http://localhost/vente_de_terrain/terrain", defaultThumbnail = "default.jpg", keyword, apercuContentType, apercuFileName, uploadedFilename;
     private List<Terrain> terrains;
+    private File apercu;
     
     public String execute() {
         terrains = new ArrayList<>();
@@ -31,6 +34,20 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         terrains.add(terrain);
         terrains.add(terrain);
 //return this.session.containsKey("username") ? SUCCESS : LOGIN;
+        return SUCCESS;
+    }
+    
+    public String uploadThumbnail() throws IOException {
+        String uploadDestination = "/var/www/html/vente_de_terrain/terrain/";
+        final Calendar calendar = Calendar.getInstance();
+        int start = this.apercuFileName.lastIndexOf('.'),
+            end = this.apercuFileName.length();
+        String filename = String.format("terrain_img_%d_%d_%dat%d_%d_%d_%d%s", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), calendar.get(Calendar.MILLISECOND), this.apercuFileName.substring(start, end));
+        File destination = new File(uploadDestination + filename);
+        Files.move(apercu.toPath(), destination.toPath());
+        destination.setReadable(true, false);
+        destination.setExecutable(true, false);
+        this.uploadedFilename = filename;
         return SUCCESS;
     }
     
@@ -74,5 +91,38 @@ public class TerrainAction extends ActionSupport implements SessionAware {
     
     public void setDefaultThumbnail(String defaultThumbnail) {
         this.defaultThumbnail = defaultThumbnail;
+    }
+    
+    public File getApercu() {
+        return apercu;
+    }
+    
+    public void setApercu(File apercu) {
+        this.apercu = apercu;
+    }
+    
+    public String getApercuContentType() {
+        return apercuContentType;
+    }
+    
+    public void setApercuContentType(String apercuContentType) {
+        this.apercuContentType = apercuContentType;
+    }
+    
+    public String getApercuFileName() {
+        return apercuFileName;
+    }
+    
+    public void setApercuFileName(String apercuFileName) {
+        this.apercuFileName = apercuFileName;
+    }
+    
+    
+    public String getUploadedFilename() {
+        return uploadedFilename;
+    }
+    
+    public void setUploadedFilename(String uploadedFilename) {
+        this.uploadedFilename = uploadedFilename;
     }
 }

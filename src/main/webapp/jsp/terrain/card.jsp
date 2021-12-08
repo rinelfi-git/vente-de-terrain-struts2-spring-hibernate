@@ -48,7 +48,7 @@
                     </a>
                 </div>
             </s:else>
-            <button class="btn btn-outline-dark btn-flat" data-toggle="modal" data-target="#modifier-apercu${param.index}"><span class="material-icons">insert_photo</span> Changer les aperçues</button>
+            <button class="btn btn-outline-dark btn-flat" data-toggle="modal" data-target="#thumbnail-modal"><span class="material-icons">insert_photo</span> Changer les aperçues</button>
             <table class="w-100">
                 <tr>
                     <td><small><strong>Localisation</strong></small></td>
