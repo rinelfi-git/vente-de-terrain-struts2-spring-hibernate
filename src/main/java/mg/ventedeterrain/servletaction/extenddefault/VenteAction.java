@@ -16,7 +16,7 @@ public class VenteAction extends ActionSupport implements SessionAware {
     
     @Override
     public void setSession(Map<String, Object> session) {
-    
+        this.session = session;
     }
     
     public Map<String, Object> getSession() {
