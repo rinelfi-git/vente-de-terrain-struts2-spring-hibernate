@@ -8,13 +8,17 @@ import org.apache.struts2.interceptor.SessionAware;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class TerrainAction extends ActionSupport implements SessionAware {
     private Map<String, Object> session;
-    private String fileHost = "http://localhost/vente_de_terrain/terrain", defaultThumbnail = "default.jpg", keyword, apercuContentType, apercuFileName, uploadedFilename;
+    private String fileHost = "http://localhost/vente_de_terrain/terrain", defaultThumbnail = "default.jpg", keyword, apercuContentType, apercuFileName, uploadedFilename, identity;
     private List<Terrain> terrains;
     private File apercu;
+    private String saveThumb[], excludeThumb[];
+    private final String uploadDestination = "/var/www/html/vente_de_terrain/terrain/";
     
     public String execute() {
         terrains = new ArrayList<>();
@@ -38,7 +42,6 @@ public class TerrainAction extends ActionSupport implements SessionAware {
     }
     
     public String uploadThumbnail() throws IOException {
-        String uploadDestination = "/var/www/html/vente_de_terrain/terrain/";
         final Calendar calendar = Calendar.getInstance();
         int start = this.apercuFileName.lastIndexOf('.'),
             end = this.apercuFileName.length();
@@ -48,6 +51,15 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         destination.setReadable(true, false);
         destination.setExecutable(true, false);
         this.uploadedFilename = filename;
+        return SUCCESS;
+    }
+    
+    public String saveThumbnail() throws IOException {
+        System.out.println(Arrays.toString(this.saveThumb));
+        for (String image : this.excludeThumb) {
+            Path file = Paths.get(uploadDestination + image);
+            if (Files.exists(file)) Files.delete(file);
+        }
         return SUCCESS;
     }
     
@@ -124,5 +136,29 @@ public class TerrainAction extends ActionSupport implements SessionAware {
     
     public void setUploadedFilename(String uploadedFilename) {
         this.uploadedFilename = uploadedFilename;
+    }
+    
+    public String getIdentity() {
+        return identity;
+    }
+    
+    public void setIdentity(String identity) {
+        this.identity = identity;
+    }
+    
+    public String[] getSaveThumb() {
+        return saveThumb;
+    }
+    
+    public void setSaveThumb(String[] saveThumb) {
+        this.saveThumb = saveThumb;
+    }
+    
+    public String[] getExcludeThumb() {
+        return excludeThumb;
+    }
+    
+    public void setExcludeThumb(String[] excludeThumb) {
+        this.excludeThumb = excludeThumb;
     }
 }

@@ -71,6 +71,11 @@
 				<param name="root">uploadedFilename</param>
 			</result>
 		</action>
+		<action name="save" method="saveThumbnail" class="mg.ventedeterrain.servletaction.extenddefault.TerrainAction">
+			<result name="success" type="json">
+				<param name="root">true</param>
+			</result>
+		</action>
 	</package>
 	<!-- jsons	-->
 	<!--	<package name="login-json" namespace="/login" extends="json-default">-->
