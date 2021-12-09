@@ -1,6 +1,7 @@
 package mg.ventedeterrain.servletaction.extenddefault;
 
 import com.opensymphony.xwork2.ActionSupport;
+import mg.ventedeterrain.utils.VenteConstraint;
 import org.apache.struts2.interceptor.SessionAware;
 
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Map;
 public class VenteAction extends ActionSupport implements SessionAware {
     private Map<String, Object> session;
     private String namespace;
+    private VenteConstraint constraint;
     
     public String execute() {
         setNamespace("vente");
@@ -29,5 +31,13 @@ public class VenteAction extends ActionSupport implements SessionAware {
     
     public void setNamespace(String namespace) {
         this.namespace = namespace;
+    }
+    
+    public VenteConstraint getConstraint() {
+        return constraint;
+    }
+    
+    public void setConstraint(VenteConstraint constraint) {
+        this.constraint = constraint;
     }
 }

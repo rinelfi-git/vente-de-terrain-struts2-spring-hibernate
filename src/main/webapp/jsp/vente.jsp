@@ -46,7 +46,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <form onsubmit="" autocomplete="off">
+                            <form onsubmit="return performSearch(this)" autocomplete="off">
                                 <input type="submit" hidden="hidden">
                                 <div class="form-group">
                                     <label for="localisation">localisation:</label>
@@ -156,6 +156,11 @@
 	function handleChangeBudgetConstraint(element) {
 		if (element.value === modality.not) activeBudget(false)
 		else activeBudget(true)
+	}
+	
+	function performSearch(element) {
+		
+		return false
 	}
 </script>
 </body>
