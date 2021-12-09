@@ -42,7 +42,7 @@
                             
                             <div class="info-box-content">
                                 <span class="info-box-text">Terrains</span>
-                                <span class="info-box-number"></span>
+                                <span class="info-box-number">1</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -59,7 +59,7 @@
                             
                             <div class="info-box-content">
                                 <span class="info-box-text">Ventes</span>
-                                <span class="info-box-number">{{recapitulation && recapitulation.totalVente}}</span>
+                                <span class="info-box-number">10</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -72,7 +72,7 @@
                             
                             <div class="info-box-content">
                                 <span class="info-box-text">Clients</span>
-                                <span class="info-box-number">{{recapitulation && recapitulation.totalClient}}</span>
+                                <span class="info-box-number">10</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -112,7 +112,7 @@
                     <div class="col-md-6 col-sm-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Nouveau terrains ({{recapitulation.dernierTerrain.length}})</h3>
+                                <h3 class="card-title">Nouveau terrains (8)</h3>
                                 
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -126,21 +126,21 @@
                             <!-- /.card-header -->
                             <div class="card-body p-0">
                                 <ul class="products-list product-list-in-card pl-2 pr-2">
-                                    <li class="item" *ngFor="let terrain of recapitulation.dernierTerrain">
+                                    <li class="item" >
                                         <div class="product-info">
 										<span class="product-title">
-											{{terrain[2]}}
-											<span class="badge badge-info float-right">{{terrain[3].toLocaleString('fr', {maximumFractionDigits: 2})}} Ar</span><br>
-											<span class="badge badge-info float-right">{{terrain[4].toLocaleString('fr', {maximumFractionDigits: 2})}} m²</span>
+											Terrain
+											<span class="badge badge-info float-right">10 000 000 Ar</span><br>
+											<span class="badge badge-info float-right">15.12 m²</span>
 										</span>
-                                            <span class="product-description">propritaire : {{terrain[0]}} {{terrain[1]}}</span>
+                                            <span class="product-description">propritaire : Elie Rijaniaina</span>
                                         </div>
                                     </li>
                                 </ul>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer text-center">
-                                <a [routerLink]="['/', 'application', 'terrain']" class="uppercase">Tout voir</a>
+                                <a href="#!" class="uppercase">Tout voir</a>
                             </div>
                             <!-- /.card-footer -->
                         </div>
@@ -148,7 +148,7 @@
                     <div class="col-md-6 col-sm-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Nouveau clients ({{recapitulation.dernierClient.length}})</h3>
+                                <h3 class="card-title">Nouveau clients (5)</h3>
                                 
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
@@ -160,16 +160,16 @@
                             <!-- /.card-header -->
                             <div class="card-body p-0">
                                 <ul class="users-list clearfix">
-                                    <li *ngFor="let utilisateur of recapitulation.dernierClient">
-                                        <img [src]="url + utilisateur[2]" alt="User Image">
-                                        <span class="users-list-name">{{utilisateur[1] === '' ? utilisateur[0] : utilisateur[1]}}</span>
+                                    <li>
+                                        <img alt="Rijaniaina">
+                                        <span class="users-list-name">Elie Rijaniaina</span>
                                     </li>
                                 </ul>
                                 <!-- /.users-list -->
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer text-center">
-                                <a [routerLink]="['/', 'application', 'client']" class="uppercase">Tout voir</a>
+                                <a href="#!" class="uppercase">Tout voir</a>
                             </div>
                             <!-- /.card-footer -->
                         </div>
@@ -181,12 +181,5 @@
         <!-- /.content-wrapper -->
     </div>
 </div>
-<script>
-	function disconnection(element) {
-		if(confirm('Veuillez confirmer la mise en arrêt de la session')) {
-			document.location.href = BASE_URL + 'logout.action'
-        }
-	}
-</script>
 </body>
 </html>

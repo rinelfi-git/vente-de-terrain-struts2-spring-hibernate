@@ -25,16 +25,16 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="<s:url namespace="/" action="dashboard"  />" class="nav-link active">Accueil</a>
+                    <a href="<s:url namespace="/" action="dashboard"  />" class="nav-link <s:if test="%{namespace == 'dashboard'}">active</s:if>">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a href="<s:url namespace="/" action="client"  />" class="nav-link">Client</a>
+                    <a href="<s:url namespace="/" action="client"  />" class="nav-link <s:if test="%{namespace == 'client'}">active</s:if>">Client</a>
                 </li>
                 <li class="nav-item">
-                    <a href="<s:url namespace="/" action="terrain"  />" class="nav-link">Terrain</a>
+                    <a href="<s:url namespace="/" action="terrain"  />" class="nav-link <s:if test="%{namespace == 'terrain'}">active</s:if>">Terrain</a>
                 </li>
                 <li class="nav-item">
-                    <a href="<s:url namespace="/" action="vente"  />" class="nav-link">Vente</a>
+                    <a href="<s:url namespace="/" action="vente"  />" class="nav-link <s:if test="%{namespace == 'vente'}">active</s:if>">Vente</a>
                 </li>
             </ul>
             
@@ -55,7 +55,7 @@
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <!--							<a href="#" class="btn btn-default btn-flat">Profile</a>-->
+                            <!--<a href="#" class="btn btn-default btn-flat">Profile</a>-->
                             <button type="button" class="btn btn-default btn-flat float-right" onclick="disconnection(this)">Déconnexion</button>
                         </li>
                     </ul>
@@ -64,4 +64,11 @@
         </div>
     </div>
 </nav>
+<script>
+	function disconnection(element) {
+		if (confirm('Veuillez confirmer la mise en arrêt de la session')) {
+			document.location.href = BASE_URL + 'logout.action'
+		}
+	}
+</script>
 <!-- /.navbar -->

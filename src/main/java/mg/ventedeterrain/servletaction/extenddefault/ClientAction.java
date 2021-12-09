@@ -9,10 +9,11 @@ import java.util.*;
 
 public class ClientAction extends ActionSupport implements SessionAware {
     private Map<String, Object> session;
-    private String redirection, profileHost = "http://localhost/vente_de_terrain/client/", keyword;
+    private String redirection, profileHost = "http://localhost/vente_de_terrain/client/", keyword, namespace;
     private List<Client> clients;
     
     public String execute() {
+        setNamespace("client");
         clients = new ArrayList<>();
         Adresse adresse = new Adresse();
         Set<String> telephones = new HashSet<>();
@@ -76,5 +77,13 @@ public class ClientAction extends ActionSupport implements SessionAware {
     
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+    
+    public String getNamespace() {
+        return namespace;
+    }
+    
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
     }
 }

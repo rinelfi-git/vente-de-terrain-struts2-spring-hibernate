@@ -14,13 +14,14 @@ import java.util.*;
 
 public class TerrainAction extends ActionSupport implements SessionAware {
     private Map<String, Object> session;
-    private String fileHost = "http://localhost/vente_de_terrain/terrain", defaultThumbnail = "default.jpg", keyword, apercuContentType, apercuFileName, uploadedFilename, identity;
+    private String fileHost = "http://localhost/vente_de_terrain/terrain", defaultThumbnail = "default.jpg", keyword, apercuContentType, apercuFileName, uploadedFilename, identity, namespace;
     private List<Terrain> terrains;
     private File apercu;
     private String saveThumb[], excludeThumb[];
     private final String uploadDestination = "/var/www/html/vente_de_terrain/terrain/";
     
     public String execute() {
+        setNamespace("terrain");
         terrains = new ArrayList<>();
         Terrain terrain = new Terrain();
         Set<String> apercues = new HashSet<>();
@@ -160,5 +161,13 @@ public class TerrainAction extends ActionSupport implements SessionAware {
     
     public void setExcludeThumb(String[] excludeThumb) {
         this.excludeThumb = excludeThumb;
+    }
+    
+    public String getNamespace() {
+        return namespace;
+    }
+    
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
     }
 }

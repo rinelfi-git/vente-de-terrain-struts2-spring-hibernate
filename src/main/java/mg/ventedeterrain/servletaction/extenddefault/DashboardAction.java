@@ -7,9 +7,10 @@ import java.util.Map;
 
 public class DashboardAction extends ActionSupport implements SessionAware {
     private Map<String, Object> session;
-    private String redirection;
+    private String redirection, namespace;
     
     public String execute() {
+        setNamespace("dashboard");
         return this.session.containsKey("username") ? SUCCESS : LOGIN;
     }
     
@@ -28,5 +29,13 @@ public class DashboardAction extends ActionSupport implements SessionAware {
     
     public void setRedirection(String redirection) {
         this.redirection = redirection;
+    }
+    
+    public String getNamespace() {
+        return namespace;
+    }
+    
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
     }
 }
