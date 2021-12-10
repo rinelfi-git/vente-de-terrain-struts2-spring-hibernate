@@ -77,6 +77,14 @@
 			</result>
 		</action>
 	</package>
+	
+	<package name="vente-json" namespace="/vente" extends="json-default">
+		<action name="search" method="search" class="mg.ventedeterrain.servletaction.extenddefault.VenteAction">
+			<result name="success" type="json">
+				<param name="root">true</param>
+			</result>
+		</action>
+	</package>
 	<!-- jsons	-->
 	<!--	<package name="login-json" namespace="/login" extends="json-default">-->
 	<!--		<action name="authentication" method="authentication" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">-->

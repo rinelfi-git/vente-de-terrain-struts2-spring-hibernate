@@ -46,7 +46,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <form onsubmit="return performSearch(this)" autocomplete="off">
+                            <form onsubmit="return performSearch()" autocomplete="off">
                                 <input type="submit" hidden="hidden">
                                 <div class="form-group">
                                     <label for="localisation">localisation:</label>
@@ -110,7 +110,7 @@
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
-                            <button class="btn btn-primary" type="button" onclick="">Appliquer</button>
+                            <button class="btn btn-primary" type="button" onclick="performSearch()">Appliquer</button>
                         </div>
                         <!-- /.card-footer-->
                     </div>
@@ -158,8 +158,39 @@
 		else activeBudget(true)
 	}
 	
-	function performSearch(element) {
-		
+	function performSearch() {
+		const formData = new FormData()
+		const temp = {
+			localisation: document.getElementById('localisation').value,
+			relief: document.getElementById('relief').value,
+			surface: document.getElementById('surface').value,
+			budget: document.getElementById('budget').value
+		}
+		document.getElementsByName('contrainteSurface').forEach(contrainte => {
+			if (contrainte.checked) temp.surfaceConstraint = contrainte.value
+		})
+		document.getElementsByName('contrainteBudget').forEach(contrainte => {
+			if (contrainte.checked) temp.budgetConstraint = contrainte.value
+		})
+		for (let index in temp) {
+			console.log(index, temp[index])
+			formData.append('constraint.' + index, temp[index])
+		}
+		console.log(formData)
+		$.ajax({
+			url: BASE_URL + 'vente/search.action',
+			method: 'post',
+			dataType: 'json',
+			contentType: false,
+			processData: false,
+			data: formData,
+			success: response => {
+				alert('success')
+			},
+			error: (error1, error2, error3) => {
+				alert('error')
+			}
+		})
 		return false
 	}
 </script>

@@ -1,18 +1,26 @@
 package mg.ventedeterrain.servletaction.extenddefault;
 
 import com.opensymphony.xwork2.ActionSupport;
+import mg.ventedeterrain.entites.Terrain;
 import mg.ventedeterrain.utils.VenteConstraint;
 import org.apache.struts2.interceptor.SessionAware;
 
+import java.util.List;
 import java.util.Map;
 
 public class VenteAction extends ActionSupport implements SessionAware {
     private Map<String, Object> session;
+    private List<Terrain> terrains;
     private String namespace;
     private VenteConstraint constraint;
     
     public String execute() {
         setNamespace("vente");
+        return SUCCESS;
+    }
+    
+    public String search() {
+        
         return SUCCESS;
     }
     
@@ -39,5 +47,13 @@ public class VenteAction extends ActionSupport implements SessionAware {
     
     public void setConstraint(VenteConstraint constraint) {
         this.constraint = constraint;
+    }
+    
+    public List<Terrain> getTerrains() {
+        return terrains;
+    }
+    
+    public void setTerrains(List<Terrain> terrains) {
+        this.terrains = terrains;
     }
 }
