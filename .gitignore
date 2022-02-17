@@ -36,3 +36,4 @@ Thumbs.db
 
 /target
 /target/*
+/.apt_generated/

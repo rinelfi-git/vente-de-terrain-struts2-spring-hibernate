@@ -44,6 +44,11 @@ public class TerrainServiceModel implements TerrainService {
 	}
 	
 	@Override
+	public List<Terrain> select(int page, int limit) {
+		return this.dao.select(page, limit);
+	}
+	
+	@Override
 	public List<Terrain> select() {
 		return this.dao.select();
 	}

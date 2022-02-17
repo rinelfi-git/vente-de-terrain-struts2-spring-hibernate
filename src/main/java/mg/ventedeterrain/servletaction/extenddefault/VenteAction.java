@@ -2,8 +2,10 @@ package mg.ventedeterrain.servletaction.extenddefault;
 
 import com.opensymphony.xwork2.ActionSupport;
 import mg.ventedeterrain.entites.Terrain;
+import mg.ventedeterrain.service.VenteService;
 import mg.ventedeterrain.utils.VenteConstraint;
 import org.apache.struts2.interceptor.SessionAware;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Map;
@@ -13,6 +15,8 @@ public class VenteAction extends ActionSupport implements SessionAware {
     private List<Terrain> terrains;
     private String namespace;
     private VenteConstraint constraint;
+    @Autowired
+    private VenteService service;
     
     public String execute() {
         setNamespace("vente");

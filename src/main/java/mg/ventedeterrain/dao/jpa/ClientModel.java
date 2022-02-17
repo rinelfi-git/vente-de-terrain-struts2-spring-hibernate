@@ -19,8 +19,10 @@ public class ClientModel implements ClientDao {
 	
 	@Override
 	public List<Client> select() {
-		TypedQuery<Client> query = entityManager.createQuery("from Client order by nom asc, prenom asc, cin asc", Client.class);
-		return query.getResultList();
+		TypedQuery<Client> query = entityManager.createQuery("from Client c order by c.nom asc, c.prenom asc, c.cin asc", Client.class);
+		List<Client> output = query.getResultList();
+		System.out.println("selection : " + output.size());
+		return output;
 	}
 	
 	@Override
@@ -49,8 +51,7 @@ public class ClientModel implements ClientDao {
 	}
 	
 	@Override
-	public PaginationResult<Client> select(PaginationConstraint constraint) {
-		PaginationResult<Client> pagination = new PaginationResult<>();
+	public List<Client> select(PaginationConstraint constraint) {
 		CriteriaBuilder criteria_builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Client> criteria_query = criteria_builder.createQuery(Client.class);
 		Root<Client> client_root = criteria_query.from(Client.class);
@@ -109,12 +110,11 @@ public class ClientModel implements ClientDao {
 		}
 		
 		TypedQuery<Client> query = entityManager.createQuery(criteria_query);
-		query.setFirstResult(constraint.getLimit());
-		query.setMaxResults(constraint.getOffset());
-		pagination.setElements(query.getResultList());
-		pagination.setLimit(constraint.getLimit());
-		pagination.setOffset(constraint.getOffset());
-		return pagination;
+		query.setFirstResult(constraint.getOffset());
+		query.setMaxResults(constraint.getLimit());
+		List<Client> select = query.getResultList();
+		System.out.println(constraint.getOffset() + " " + constraint.getLimit());
+		return  select;
 	}
 	
 	@Override

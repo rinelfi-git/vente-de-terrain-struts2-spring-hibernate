@@ -17,7 +17,7 @@ public interface ClientService {
 	
 	void delete(int id);
 	
-	PaginationResult<Client> select(PaginationConstraint paginationConstraint);
+	List<Client> select(PaginationConstraint paginationConstraint);
 	
 	long countAll();
 	

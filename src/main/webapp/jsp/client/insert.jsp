@@ -20,7 +20,7 @@
                     <input type="submit" hidden="hidden" id="insert-information-submitters">
                     <div class="form-group">
                         <label for="insert-cin">cin:<span class="text-danger">*</span></label>
-                        <input type="text" placeholder="xxx xx(1 ou 2) xxx xxx (Sans espace)" name="cin" id="insert-cin" class="form-control" required maxlength="12">
+                        <input type="text" placeholder="xxx xx(1 ou 2) xxx xxx (Sans espace)" name="cin" id="insert-cin" class="form-control" required maxlength="12" pattern="[0-9]{5}(1|2){1}[0-9]{6}">
                         <small class="form-text text-danger" id="insert-cin-error"></small>
                     </div>
                     <div class="form-group">
@@ -49,14 +49,14 @@
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label for="insert-ville">ville:<span class="text-danger">*</span></label>
-                                <input type="text" placeholder="ex: Fianarantsoa" class="form-control" id="insert-ville" name="ville">
+                                <input type="text" placeholder="ex: Fianarantsoa" class="form-control" id="insert-ville" name="ville" required>
                                 <small class="form-text text-danger" id="insert-ville-error"></small>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label for="insert-postal">code postal:<span class="text-danger">*</span></label>
-                                <input type="number" placeholder="ex: 301" class="form-control" id="insert-postal" name="postal">
+                                <input type="number" placeholder="ex: 301" class="form-control" id="insert-postal" name="postal" required>
                                 <small class="form-text text-danger" id="insert-postal-error"></small>
                             </div>
                         </div>
@@ -65,6 +65,7 @@
                         <div class="form-group">
                             <label for="insert-lot">lot:</label>
                             <textarea id="insert-lot" rows="3" class="form-control" name="lot"></textarea>
+                            <small class="form-text text-danger" id="insert-lot-error"></small>
                         </div>
                     </div>
                 </form>
@@ -81,15 +82,15 @@
     <!-- /.modal-dialog -->
 </div>
 <script>
+	let insertSteps = {}
 	$(() => {
 		currentForm = 1
-		const formData = new FormData()
 		
 		function activeForm(form) {
-			$(steps.personal).hide()
-			$(steps.telephones).hide()
-			$(steps.address).hide()
-			$(steps[form]).show()
+			$(insertSteps.personal.element).hide()
+			$(insertSteps.telephones.element).hide()
+			$(insertSteps.address.element).hide()
+			$(insertSteps[form].element).show()
 		}
 		
 		const buttons = {
@@ -101,16 +102,13 @@
 		
 		$(buttons.previous).hide()
 		$(buttons.save).hide()
-		$(buttons.next).on('click', event => {
+		$(buttons.next).on('click', () => {
 			switch (currentForm) {
 				case 1:
-					$(steps.personal).trigger('submit')
+					$(insertSteps.personal.element).trigger('submit')
 					break
 				case 2:
-					$(steps.telephones).trigger('submit')
-					break
-				case 3:
-					$(steps.address).trigger('submit')
+					$(insertSteps.telephones.element).trigger('submit')
 					break
 			}
 		})
@@ -130,39 +128,259 @@
 					break
 			}
 		})
+		$(buttons.save).on('click', event => {
+			event.preventDefault()
+			$(insertSteps.address.element).trigger('submit')
+		})
 		
-		const steps = {
-			personal: document.getElementById('insert-personal-form'),
-			telephones: document.getElementById('insert-telephones-form'),
-			address: document.getElementById('insert-address-form')
+		insertSteps = {
+			personal: {
+				element: document.getElementById('insert-personal-form'),
+				fields: [
+					document.getElementById('insert-cin'),
+					document.getElementById('insert-nom'),
+					document.getElementById('insert-prenom')
+				],
+				invalids: [],
+				validate: function () {
+					let output = true
+					this.invalids = []
+					$(this.element).find('.form-text').text('')
+					$(this.element).find('.is-invalid').removeClass('is-invalid')
+					for (let element of this.fields) {
+						if (element.pattern !== '' && (element.value === '' || element.value.match(element.pattern) == null)) {
+							output = false
+							this.invalids.push({field: element, error: 'pattern'})
+						}
+						if (element.maxLength > 0 && element.value.length > element.maxLength) {
+							output = false
+							this.invalids.push({field: element, error: 'maxLength'})
+						}
+						if (element.minLength > 0 && element.value.length < element.minLength) {
+							output = false
+							this.invalids.push({field: element, error: 'minLength'})
+						}
+						if (element.required && element.value === '') {
+							output = false
+							this.invalids.push({field: element, error: 'required'})
+						}
+					}
+					return output
+				},
+				isValid: function () {
+					return this.validate()
+				}
+			},
+			telephones: {
+				element: document.getElementById('insert-telephones-form'),
+				fields: [],
+				invalids: [],
+				validate: function () {
+					let output = true
+					this.invalids = []
+					$(this.element).find('.form-text').text('')
+					$(this.element).find('.is-invalid').removeClass('is-invalid')
+					for (let element of this.fields) {
+						if (element.pattern !== '' && (element.value === '' || element.value.match(element.pattern) == null)) {
+							output = false
+							this.invalids.push({field: element, error: 'pattern'})
+						}
+						if (element.maxLength > 0 && element.value.length > element.maxLength) {
+							output = false
+							this.invalids.push({field: element, error: 'maxLength'})
+						}
+						if (element.minLength > 0 && element.value.length < element.minLength) {
+							output = false
+							this.invalids.push({field: element, error: 'minLength'})
+						}
+						if (element.required && element.value === '') {
+							output = false
+							this.invalids.push({field: element, error: 'required'})
+						}
+					}
+					return output
+				},
+				isValid: function () {
+					return this.validate()
+				}
+			},
+			address: {
+				element: document.getElementById('insert-address-form'),
+				fields: [
+					document.getElementById('insert-ville'),
+					document.getElementById('insert-postal'),
+					document.getElementById('insert-lot'),
+				],
+				invalids: [],
+				validate: function () {
+					let output = true
+					this.invalids = []
+					$(this.element).find('.form-text').text('')
+					$(this.element).find('.is-invalid').removeClass('is-invalid')
+					for (let element of this.fields) {
+						if (element.pattern !== '' && (element.value === '' || element.value.match(element.pattern) == null)) {
+							output = false
+							this.invalids.push({field: element, error: 'pattern'})
+						}
+						if (element.maxLength > 0 && element.value.length > element.maxLength) {
+							output = false
+							this.invalids.push({field: element, error: 'maxLength'})
+						}
+						if (element.minLength > 0 && element.value.length < element.minLength) {
+							output = false
+							this.invalids.push({field: element, error: 'minLength'})
+						}
+						if (element.required && element.value === '') {
+							output = false
+							this.invalids.push({field: element, error: 'required'})
+						}
+					}
+					return output
+				},
+				isValid: function () {
+					return this.validate()
+				}
+			}
 		}
-		$(steps.personal).validate()
-		$(steps.address).validate()
 		
 		updateTelephoneField()
 		
 		activeForm('personal')
 		
-		$(steps.personal).on('submit', event => {
+		$(insertSteps.personal.element).on('submit', event => {
 			event.preventDefault()
-			formData.append('cin', document.querySelector('[name=cin]').value)
-			formData.append('nom', document.querySelector('[name=nom]').value)
-			formData.append('prenom', document.querySelector('[name=prenom]').value)
-			if ($(event.target).valid()) {
+			if (insertSteps.personal.isValid()) {
 				currentForm++
 				$(buttons.previous).show()
 				$(buttons.close).hide()
 				activeForm('telephones')
+			} else {
+				for (let invalid of insertSteps.personal.invalids) {
+					if (invalid.error === 'required') {
+						invalid.field.classList.add('is-invalid')
+						let collections = invalid.field.parentElement.children
+						for (let collection in collections) {
+							if (typeof collections[collection] === 'object' && collections[collection].classList.contains('form-text')) {
+								collections[collection].textContent = 'Ce champ est requis'
+							}
+						}
+					} else if (invalid.error === 'pattern') {
+						invalid.field.classList.add('is-invalid')
+						let collections = invalid.field.parentElement.children
+						for (let collection in collections) {
+							if (typeof collections[collection] === 'object' && collections[collection].classList.contains('form-text')) {
+								collections[collection].textContent = 'Le format n\'est pas correct'
+							}
+						}
+					} else if (invalid.error === 'maxLength') {
+						invalid.field.classList.add('is-invalid')
+						let collections = invalid.field.parentElement.children
+						for (let collection in collections) {
+							if (typeof collections[collection] === 'object' && collections[collection].classList.contains('form-text')) {
+								collections[collection].textContent = 'L\'entrée est trop longue'
+							}
+						}
+					} else if (invalid.error === 'minLength') {
+						invalid.field.classList.add('is-invalid')
+						let collections = invalid.field.parentElement.children
+						for (let collection in collections) {
+							if (typeof collections[collection] === 'object' && collections[collection].classList.contains('form-text')) {
+								collections[collection].textContent = 'L\'entrée est trop courte'
+							}
+						}
+					}
+				}
 			}
 		})
-		$(steps.telephones).on('submit', event => {
+		$(insertSteps.telephones.element).on('submit', event => {
 			event.preventDefault()
-			if ($(steps.telephones).valid()) {
-				alert('valide')
+			if (insertSteps.telephones.isValid()) {
 				currentForm++
 				$(buttons.next).hide()
 				$(buttons.save).show()
+				for (let telephone of telephones) console.log(telephone)
 				activeForm('address')
+			} else {
+				for (let invalid of insertSteps.telephones.invalids) {
+					if (invalid.error === 'required') {
+						invalid.field.classList.add('is-invalid')
+						let collections = invalid.field.parentElement.parentElement.children
+						for (let collection in collections) {
+							if (typeof collections[collection] === 'object' && collections[collection].classList.contains('form-text')) collections[collection].textContent = 'Ce champ est requis'
+						}
+					} else if (invalid.error === 'pattern') {
+						invalid.field.classList.add('is-invalid')
+						let collections = invalid.field.parentElement.parentElement.children
+						for (let collection in collections) {
+							if (typeof collections[collection] === 'object' && collections[collection].classList.contains('form-text')) collections[collection].textContent = 'Le format n\'est pas correct'
+						}
+					} else if (invalid.error === 'maxLength') {
+						invalid.field.classList.add('is-invalid')
+						let collections = invalid.field.parentElement.parentElement.children
+						for (let collection in collections) {
+							if (typeof collections[collection] === 'object' && collections[collection].classList.contains('form-text')) collections[collection].textContent = 'L\'entrée est trop longue'
+						}
+					} else if (invalid.error === 'minLength') {
+						invalid.field.classList.add('is-invalid')
+						let collections = invalid.field.parentElement.parentElement.children
+						for (let collection in collections) {
+							if (typeof collections[collection] === 'object' && collections[collection].classList.contains('form-text')) collections[collection].textContent = 'L\'entrée est trop courte'
+						}
+					}
+				}
+			}
+		})
+		
+		$(insertSteps.address.element).on('submit', event => {
+			event.preventDefault()
+			if (insertSteps.address.isValid()) {
+				const formData = {
+					cin: insertSteps.personal.fields[0].value,
+					nom: insertSteps.personal.fields[1].value,
+					prenom: insertSteps.personal.fields[2].value,
+					ville: insertSteps.address.fields[0].value,
+					codePostal: insertSteps.address.fields[1].value,
+					lot: insertSteps.address.fields[2].value,
+					telephones: []
+				}
+				telephones.forEach((telephone, iteration) => formData.telephones.push(telephone))
+				submitInsertion(formData).then(response => console.log(response)).catch(errors => console.log(erros))
+			} else {
+				for (let invalid of insertSteps.address.invalids) {
+					if (invalid.error === 'required') {
+						invalid.field.classList.add('is-invalid')
+						let collections = invalid.field.parentElement.children
+						for (let collection in collections) {
+							if (typeof collections[collection] === 'object' && collections[collection].classList.contains('form-text')) {
+								collections[collection].textContent = 'Ce champ est requis'
+							}
+						}
+					} else if (invalid.error === 'pattern') {
+						invalid.field.classList.add('is-invalid')
+						let collections = invalid.field.parentElement.children
+						for (let collection in collections) {
+							if (typeof collections[collection] === 'object' && collections[collection].classList.contains('form-text')) {
+								collections[collection].textContent = 'Le format n\'est pas correct'
+							}
+						}
+					} else if (invalid.error === 'maxLength') {
+						invalid.field.classList.add('is-invalid')
+						let collections = invalid.field.parentElement.children
+						for (let collection in collections) {
+							if (typeof collections[collection] === 'object' && collections[collection].classList.contains('form-text')) {
+								collections[collection].textContent = 'L\'entrée est trop longue'
+							}
+						}
+					} else if (invalid.error === 'minLength') {
+						invalid.field.classList.add('is-invalid')
+						let collections = invalid.field.parentElement.children
+						for (let collection in collections) {
+							if (typeof collections[collection] === 'object' && collections[collection].classList.contains('form-text')) {
+								collections[collection].textContent = 'L\'entrée est trop courte'
+							}
+						}
+					}
+				}
 			}
 		})
 	})
@@ -174,11 +392,11 @@
 		let html = ''
 		telephones.forEach((telephone, iteration) => html += createTelephoneField(iteration, telephone))
 		document.getElementById('insert-telephones-iteration').innerHTML = html
-		$(document.getElementById('insert-telephones-form')).validate({
-			errorPlacement: (error, element) => {
-				$(element).parents('.form-group').find('.form-text').text(error.text())
-			}
+		insertSteps.telephones.fields = []
+		telephones.forEach((telephone, iteration) => {
+			if (insertSteps.telephones.fields) insertSteps.telephones.fields.push(document.getElementById('insert-telephone' + iteration))
 		})
+		console.log(insertSteps.telephones.fields)
 	}
 	
 	function addTelephone() {
@@ -190,7 +408,7 @@
 		return `<div class="form-group">
             <label for="insert-telephone` + iteration + `">téléphone n° ` + (iteration + 1) + `:<span class="text-danger">*</span></label>
             <div class="input-group">
-                <input type="text" placeholder="ex: 03x xx xxx xx (Sans éspace)" name="telephones[]" id="insert-telehone` + iteration + `" value="` + content + `" class="form-control" oninput="writeTelephone(` + iteration + `, this)" required="requires" maxlength="10">
+                <input type="text" placeholder="ex: 03x xx xxx xx (Sans éspace)" name="telephones[]" id="insert-telephone` + iteration + `" value="` + content + `" class="form-control" oninput="writeTelephone(` + iteration + `, this)" required="requires" maxlength="10" pattern="(03){1}[2-4]{1}[0-9]{7}">
                 <div class="input-group-append">
                     <button class="btn btn-danger" type="button" ` + (iteration <= 0 && 'disabled="disabled"') + ` onclick="deleteTelephone(` + iteration + `)"><i class="fa fa-minus"></i></button>
                 </div>
@@ -208,8 +426,19 @@
 		updateTelephoneField()
 	}
 	
-	function submitInsertion(order, element) {
-	
+	function submitInsertion(formData) {
+		alert('ok');
+		return new Promise((resolve, reject) => {
+			$.ajax({
+				method: 'post',
+				data: formData,
+				dataType: 'json',
+				url: baseUrl('client/insert.action'),
+				traditional: true,
+				success: response => resolve(response),
+				error: (error1, error2, error3) => reject([error1, error2, error3])
+			})
+		})
 	}
 	
 	function initInsertForm() {

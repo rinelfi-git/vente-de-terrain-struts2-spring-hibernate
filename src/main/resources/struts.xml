@@ -85,6 +85,23 @@
 			</result>
 		</action>
 	</package>
+	<package name="client-json" namespace="/client" extends="json-default">
+		<action name="insert" method="insert" class="mg.ventedeterrain.servletaction.extenddefault.ClientAction">
+			<result name="success" type="json">
+				<param name="root">true</param>
+			</result>
+		</action>
+		<action name="list" method="list" class="mg.ventedeterrain.servletaction.extenddefault.ClientAction">
+			<result name="success" type="json">
+				<param name="root">clients</param>
+			</result>
+		</action>
+		<action name="pagination" method="paginationList" class="mg.ventedeterrain.servletaction.extenddefault.ClientAction">
+			<result name="success" type="json">
+				<param name="root">clients</param>
+			</result>
+		</action>
+	</package>
 	<!-- jsons	-->
 	<!--	<package name="login-json" namespace="/login" extends="json-default">-->
 	<!--		<action name="authentication" method="authentication" class="mg.ventedeterrain.servletaction.extenddefault.LoginAction">-->

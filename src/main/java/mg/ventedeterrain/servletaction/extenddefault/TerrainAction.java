@@ -3,41 +3,42 @@ package mg.ventedeterrain.servletaction.extenddefault;
 import com.opensymphony.xwork2.ActionSupport;
 import mg.ventedeterrain.entites.Client;
 import mg.ventedeterrain.entites.Terrain;
+import mg.ventedeterrain.service.ClientService;
+import mg.ventedeterrain.service.TerrainService;
 import org.apache.struts2.interceptor.SessionAware;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
 public class TerrainAction extends ActionSupport implements SessionAware {
     private Map<String, Object> session;
     private String fileHost = "http://localhost/vente_de_terrain/terrain", defaultThumbnail = "default.jpg", keyword, apercuContentType, apercuFileName, uploadedFilename, identity, namespace;
     private List<Terrain> terrains;
+    private List<Client> clientForms;
     private File apercu;
-    private String saveThumb[], excludeThumb[];
+    private String[] saveThumb, excludeThumb;
     private final String uploadDestination = "/var/www/html/vente_de_terrain/terrain/";
+    @Autowired
+    private TerrainService terrainService;
+    @Autowired
+    private ClientService clientService;
+    
+    // link parameters
+    private int page, limit;
     
     public String execute() {
         setNamespace("terrain");
-        terrains = new ArrayList<>();
-        Terrain terrain = new Terrain();
-        Set<String> apercues = new HashSet<>();
-        Client client = new Client();
-        client.setNom("Rijaniaina");
-        client.setPrenom("Elie Fidèle");
-        terrain.setProprietaire(client);
-        terrain.setEnVente(false);
-        terrain.setLocalisation("localisation");
-        terrain.setRelief("montagne");
-        terrain.setEnVente(false);
-        terrain.setApercues(apercues);
-        terrains.add(terrain);
-        terrains.add(terrain);
-        terrains.add(terrain);
-        terrains.add(terrain);
+        terrains = terrainService.select(page, limit);
+        clientForms = clientService.select();
+        System.out.println("cleints : " + clientForms.size());
 //return this.session.containsKey("username") ? SUCCESS : LOGIN;
         return SUCCESS;
     }
@@ -169,5 +170,13 @@ public class TerrainAction extends ActionSupport implements SessionAware {
     
     public void setNamespace(String namespace) {
         this.namespace = namespace;
+    }
+    
+    public List<Client> getClientForms() {
+        return clientForms;
+    }
+    
+    public void setClientForms(List<Client> clientForms) {
+        this.clientForms = clientForms;
     }
 }

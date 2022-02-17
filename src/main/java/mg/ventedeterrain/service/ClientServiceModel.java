@@ -28,7 +28,7 @@ public class ClientServiceModel implements ClientService {
 	}
 	
 	@Override
-	public PaginationResult<Client> select(PaginationConstraint paginationConstraint) {
+	public List<Client> select(PaginationConstraint paginationConstraint) {
 		return this.dao.select(paginationConstraint);
 	}
 	
