@@ -52,3 +52,10 @@ html, body {
 	border: 1px solid #4a4a4a;
 	box-shadow: black 0 0 10px;
 }
+ .page-link {
+	padding: 10px;	
+}
+
+.page-link .material-icons {
+	font-size: 1.25em;
+}

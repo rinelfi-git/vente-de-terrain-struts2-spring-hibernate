@@ -85,6 +85,7 @@
 			</result>
 		</action>
 	</package>
+	
 	<package name="client-json" namespace="/client" extends="json-default">
 		<action name="insert" method="insert" class="mg.ventedeterrain.servletaction.extenddefault.ClientAction">
 			<result name="success" type="json">
@@ -99,6 +100,11 @@
 		<action name="pagination" method="paginationList" class="mg.ventedeterrain.servletaction.extenddefault.ClientAction">
 			<result name="success" type="json">
 				<param name="root">clients</param>
+			</result>
+		</action>
+		<action name="records" method="totalRecordPostRequest" class="mg.ventedeterrain.servletaction.extenddefault.ClientAction">
+			<result name="success" type="json">
+				<param name="root">totalRecords</param>
 			</result>
 		</action>
 	</package>

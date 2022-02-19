@@ -31,3 +31,8 @@
 	display: block;
 	padding-bottom: 100%;
 }
+
+.custom-class-icon-edit-overlay {
+	position: absolute;
+	display: none;
+}

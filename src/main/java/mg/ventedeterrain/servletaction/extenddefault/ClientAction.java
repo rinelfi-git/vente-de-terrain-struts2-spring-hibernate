@@ -16,8 +16,8 @@ public class ClientAction extends ActionSupport implements SessionAware {
     private String redirection, profileHost = "http://localhost/vente_de_terrain/client/", keyword, namespace;
     private List<Client> clients;
     private String[] telephones;
-    private String cin, nom, prenom, ville, lot, orderDirection, paginationSearchKeyword, paginationSearchField;
-    private int codePostal, pageCurrent, pageElementNumber, elementPerPage;
+    private String cin, nom, prenom, ville, lot, orderDirection, paginationSearchKeyword, paginationSearchField, paginationFieldOrder;
+    private int codePostal, pageCurrent, pageElementNumber, elementPerPage, totalRecords;
     private boolean paginationOrdered, paginationSearchActivated;
     @Autowired
     private ClientService clientService;
@@ -39,7 +39,8 @@ public class ClientAction extends ActionSupport implements SessionAware {
         adresse.setVille(ville);
         client.setCin(cin);
         client.setNom(nom);
-        client.setPhoto(prenom);
+        client.setPrenom(prenom);
+        client.setPhoto("default.png");
         client.setAdresse(adresse);
         for (String telephone : telephones) client.getTelephones().add(telephone);
         clientService.insert(client);
@@ -53,16 +54,28 @@ public class ClientAction extends ActionSupport implements SessionAware {
     
     public String paginationList() {
     	PaginationConstraint paginationConstraint = new PaginationConstraint();
+    	paginationConstraint.setOrdered(this.paginationOrdered);
     	paginationConstraint.setOrderDirection(this.orderDirection);
+    	paginationConstraint.setOrderField(this.paginationFieldOrder);
     	paginationConstraint.setLimit(this.elementPerPage);
     	paginationConstraint.setOffset((this.pageCurrent - 1) * this.elementPerPage);
-    	paginationConstraint.setOrdered(this.paginationOrdered);
     	paginationConstraint.setSearchActive(this.paginationSearchActivated);
     	paginationConstraint.setKeywordSearch(this.paginationSearchKeyword);
     	paginationConstraint.setSearchField(this.paginationSearchField);
     	
-    	System.out.println(this.pageCurrent);
     	this.clients = this.clientService.select(paginationConstraint); 
+    	return SUCCESS;
+    }
+    
+    public String totalRecordPostRequest() {
+    	PaginationConstraint paginationConstraint = new PaginationConstraint();
+    	paginationConstraint.setLimit(this.elementPerPage);
+    	paginationConstraint.setOffset((this.pageCurrent - 1) * this.elementPerPage);
+    	paginationConstraint.setSearchActive(this.paginationSearchActivated);
+    	paginationConstraint.setKeywordSearch(this.paginationSearchKeyword);
+    	paginationConstraint.setSearchField(this.paginationSearchField);
+    	
+    	this.totalRecords = (int) this.clientService.countSelection(paginationConstraint);
     	return SUCCESS;
     }
     
@@ -234,4 +247,21 @@ public class ClientAction extends ActionSupport implements SessionAware {
 	public void setPaginationSearchActivated(boolean paginationSearchActivated) {
 		this.paginationSearchActivated = paginationSearchActivated;
 	}
+
+	public int getTotalRecords() {
+		return totalRecords;
+	}
+
+	public void setTotalRecords(int totalRecords) {
+		this.totalRecords = totalRecords;
+	}
+
+	public String getPaginationFieldOrder() {
+		return paginationFieldOrder;
+	}
+
+	public void setPaginationFieldOrder(String paginationFieldOrder) {
+		this.paginationFieldOrder = paginationFieldOrder;
+	}
+	
 }

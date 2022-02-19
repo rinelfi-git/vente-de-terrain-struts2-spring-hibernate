@@ -21,6 +21,8 @@ public interface ClientDao {
 	
 	long countAll();
 	
+	long countAll(PaginationConstraint paginationConstraint);
+	
 	long countSelection(PaginationConstraint constraint);
 	
 	List<Object[]> derniersClients();

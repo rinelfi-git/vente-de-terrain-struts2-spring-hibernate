@@ -111,9 +111,11 @@ public class ClientAction extends ActionSupport {
 	}
 	
 	public String listPagination() {
-		this.paginatedClientList = this.clientService.select(this.constraint);
-		if (this.constraint.isSearchActive()) this.paginatedClientList.setTotal(this.clientService.countSelection(this.constraint));
-		else this.paginatedClientList.setTotal(this.clientService.countAll());
+		/**
+			this.paginatedClientList = this.clientService.select(this.constraint);
+			if (this.constraint.isSearchActive()) this.paginatedClientList.setTotal(this.clientService.countSelection(this.constraint));
+			else this.paginatedClientList.setTotal(this.clientService.countAll());
+		*/
 		return SUCCESS;
 	}
 	

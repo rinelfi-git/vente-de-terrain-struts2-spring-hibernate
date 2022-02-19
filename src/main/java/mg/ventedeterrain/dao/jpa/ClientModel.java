@@ -1,6 +1,7 @@
 package mg.ventedeterrain.dao.jpa;
 
 import mg.ventedeterrain.dao.ClientDao;
+import mg.ventedeterrain.entites.Adresse;
 import mg.ventedeterrain.entites.Client;
 import mg.ventedeterrain.utils.PaginationConstraint;
 import mg.ventedeterrain.utils.PaginationResult;
@@ -57,8 +58,9 @@ public class ClientModel implements ClientDao {
 		Root<Client> client_root = criteria_query.from(Client.class);
 		
 		if (constraint.isOrdered()) {
-			if (constraint.getOrderField().equalsIgnoreCase("nom")) {
-				List<Order> orders = new ArrayList<>();
+			List<Order> orders = new ArrayList<>();
+			switch (constraint.getOrderField()) {
+			case "nom":
 				if (constraint.getOrderDirection().equalsIgnoreCase("asc")) {
 					orders.add(criteria_builder.asc(client_root.get("nom")));
 					orders.add(criteria_builder.asc(client_root.get("prenom")));
@@ -66,11 +68,23 @@ public class ClientModel implements ClientDao {
 					orders.add(criteria_builder.desc(client_root.get("nom")));
 					orders.add(criteria_builder.desc(client_root.get("prenom")));
 				}
-				criteria_query.orderBy(orders);
-			} else {
+				break;
+			case "adresse":
+				if (constraint.getOrderDirection().equalsIgnoreCase("asc")) {
+					orders.add(criteria_builder.asc(client_root.get("adresse").get("codePostal")));
+					orders.add(criteria_builder.asc(client_root.get("adresse").get("ville")));
+					orders.add(criteria_builder.asc(client_root.get("adresse").get("lot")));
+				} else {
+					orders.add(criteria_builder.desc(client_root.get("adresse").get("codePostal")));
+					orders.add(criteria_builder.desc(client_root.get("adresse").get("ville")));
+					orders.add(criteria_builder.desc(client_root.get("adresse").get("lot")));
+				}
+			default:
 				if (constraint.getOrderDirection().equalsIgnoreCase("asc")) criteria_query.orderBy(criteria_builder.asc(client_root.get(constraint.getOrderField())));
 				else criteria_query.orderBy(criteria_builder.desc(client_root.get(constraint.getOrderField())));
+				break;
 			}
+			criteria_query.orderBy(orders);
 		} else {
 			List<Order> order_by_list = new ArrayList<>();
 			order_by_list.add(criteria_builder.asc(client_root.get("nom")));
@@ -81,6 +95,9 @@ public class ClientModel implements ClientDao {
 		
 		if (constraint.isSearchActive()) {
 			switch (constraint.getSearchField()) {
+				case "cin":
+					criteria_query.where(criteria_builder.like(criteria_builder.upper(client_root.get("cin")), "%" + constraint.getKeywordSearch() + "%"));
+					break;
 				case "nom":
 					String[] splits = constraint.getKeywordSearch().toUpperCase().trim().split(" ");
 					Predicate[] predicates = new Predicate[splits.length * 2];
@@ -90,6 +107,9 @@ public class ClientModel implements ClientDao {
 						predicates[index++] = criteria_builder.like(criteria_builder.upper(client_root.get("prenom")), "%" + split + "%");
 					}
 					criteria_query.where(criteria_builder.or(predicates));
+					break;
+				case "telephone":
+					criteria_query.where(criteria_builder.isMember(constraint.getKeywordSearch(), client_root.get("telephones")));
 					break;
 				case "adresse":
 					String[] adresse_splits = constraint.getKeywordSearch().toUpperCase().trim().split(" ");
@@ -113,7 +133,6 @@ public class ClientModel implements ClientDao {
 		query.setFirstResult(constraint.getOffset());
 		query.setMaxResults(constraint.getLimit());
 		List<Client> select = query.getResultList();
-		System.out.println(constraint.getOffset() + " " + constraint.getLimit());
 		return  select;
 	}
 	
@@ -124,11 +143,19 @@ public class ClientModel implements ClientDao {
 	}
 	
 	@Override
+	public long countAll(PaginationConstraint paginationConstraint) {
+		
+		TypedQuery<Long> query = this.entityManager.createQuery("select count(id) from Client", Long.class);
+		return query.getSingleResult();
+	}
+	
+	@Override
 	public long countSelection(PaginationConstraint constraint) {
 		CriteriaBuilder criteria_builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Long> criteria_query = criteria_builder.createQuery(Long.class);
 		Root<Client> client_root = criteria_query.from(Client.class);
-		switch (constraint.getSearchField()) {
+		if(constraint.isSearchActive()) {
+			switch (constraint.getSearchField()) {
 			case "nom":
 				String[] nom_splits = constraint.getKeywordSearch().toUpperCase().trim().split(" ");
 				Predicate[] nom_predicates = new Predicate[nom_splits.length * 2];
@@ -155,8 +182,11 @@ public class ClientModel implements ClientDao {
 				criteria_query.where(where_predicate);
 				break;
 		}
+		}
 		criteria_query.select(criteria_builder.count(client_root.get("cin")));
-		return entityManager.createQuery(criteria_query).getSingleResult();
+		long countSelection = entityManager.createQuery(criteria_query).getSingleResult();
+		System.out.println(countSelection);
+		return countSelection;
 	}
 	
 	@Override
