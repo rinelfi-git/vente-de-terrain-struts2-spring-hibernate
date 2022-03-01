@@ -20,12 +20,25 @@ import java.util.Map;
 
 public class TerrainAction extends ActionSupport implements SessionAware {
     private Map<String, Object> session;
-    private String fileHost = "http://localhost/vente_de_terrain/terrain", defaultThumbnail = "default.jpg", keyword, apercuContentType, apercuFileName, uploadedFilename, identity, namespace;
+    private String fileHost = "http://localhost/vente_de_terrain/terrain",
+        defaultThumbnail = "default.jpg",
+        keyword,
+        apercuContentType,
+        apercuFileName,
+        uploadedFilename,
+        identity,
+        namespace,
+        localisation,
+        relief;
     private List<Terrain> terrains;
     private List<Client> clientForms;
     private File apercu;
     private String[] saveThumb, excludeThumb;
     private final String uploadDestination = "/var/www/html/vente_de_terrain/terrain/";
+    private int proprietaire, prix;
+    private float surface;
+    private boolean enVente;
+    
     @Autowired
     private TerrainService terrainService;
     @Autowired
@@ -62,6 +75,19 @@ public class TerrainAction extends ActionSupport implements SessionAware {
             Path file = Paths.get(uploadDestination + image);
             if (Files.exists(file)) Files.delete(file);
         }
+        return SUCCESS;
+    }
+    
+    
+    public String insert() {
+        Terrain terrain = new Terrain();
+        terrain.setLocalisation(this.localisation);
+        terrain.setProprietaire(this.clientService.select(this.proprietaire));
+        terrain.setSurface(this.surface);
+        terrain.setPrixParMetreCarre(this.prix);
+        terrain.setRelief(this.relief);
+        terrain.setEnVente(this.enVente);
+        this.terrainService.insert(terrain);
         return SUCCESS;
     }
     
@@ -178,5 +204,53 @@ public class TerrainAction extends ActionSupport implements SessionAware {
     
     public void setClientForms(List<Client> clientForms) {
         this.clientForms = clientForms;
+    }
+    
+    public String getLocalisation() {
+        return localisation;
+    }
+    
+    public void setLocalisation(String localisation) {
+        this.localisation = localisation;
+    }
+    
+    public int getProprietaire() {
+        return proprietaire;
+    }
+    
+    public void setProprietaire(int proprietaire) {
+        this.proprietaire = proprietaire;
+    }
+    
+    public float getSurface() {
+        return surface;
+    }
+    
+    public void setSurface(float surface) {
+        this.surface = surface;
+    }
+    
+    public int getPrix() {
+        return prix;
+    }
+    
+    public void setPrix(int prix) {
+        this.prix = prix;
+    }
+    
+    public boolean isEnVente() {
+        return enVente;
+    }
+    
+    public void setEnVente(boolean enVente) {
+        this.enVente = enVente;
+    }
+    
+    public String getRelief() {
+        return relief;
+    }
+    
+    public void setRelief(String relief) {
+        this.relief = relief;
     }
 }

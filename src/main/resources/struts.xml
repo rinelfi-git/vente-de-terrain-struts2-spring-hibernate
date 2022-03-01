@@ -56,6 +56,14 @@
 	<package name="terrain-default" namespace="/terrain" extends="struts-default">
 	</package>
 	
+	<package name="terrain-json" namespace="/terrain" extends="json-default">
+		<action name="insert" method="insert" class="mg.ventedeterrain.servletaction.extenddefault.TerrainAction">
+			<result name="success" type="json">
+				<param name="root">true</param>
+			</result>
+		</action>
+	</package>
+	
 	<package name="client-default" namespace="/client" extends="struts-default">
 		<action name="search" class="mg.ventedeterrain.servletaction.extenddefault.ClientAction">
 			<result name="success">/jsp/client.jsp</result>

@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="matrix" />
         <module name="vente-de-terrain" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="jsocket-io" target="8" />
+      <module name="matrix" target="8" />
       <module name="vente-de-terrain" target="1.8" />
     </bytecodeTargetLevel>
   </component>
