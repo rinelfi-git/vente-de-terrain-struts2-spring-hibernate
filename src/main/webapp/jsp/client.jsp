@@ -133,27 +133,6 @@
 		return false
 	}
 	
-	function generatePagination(start, end) {
-		var paginationHtml = '<li class="page-item' + (paginationCurrentPage <= 1 ? ' disabled': '') + '">'
-		paginationHtml+='<button class="page-link" onclick="navigatePaginationTo(1)"><span class="material-icons md-18">first_page</span></button>'
-		paginationHtml+='</li>'
-		paginationHtml+='<li class="page-item' + (paginationCurrentPage <= 1 ? ' disabled': '') + '">'
-		paginationHtml+='<button class="page-link" onclick="navigatePaginationTo(' + (paginationCurrentPage - 1) + ')"><span class="material-icons md-18">chevron_left</span></button>'
-		paginationHtml+='</li>'
-		for(var i = start; i <= end; i++) {
-			paginationHtml+='<li class="page-item ' + (i == paginationCurrentPage ? 'active' : '') + '">'
-			paginationHtml+='<button class="page-link" onclick="navigatePaginationTo(' + i + ')">' + i + '</button>'
-			paginationHtml+='</li>'
-		}
-		paginationHtml+='<li class="page-item' + (paginationCurrentPage >= end ? ' disabled': '') + '">'
-		paginationHtml+='<button class="page-link" onclick="navigatePaginationTo(' + (paginationCurrentPage + 1) + ')"><span class="material-icons md-18">chevron_right</span></button>'
-		paginationHtml+='</li>'
-		paginationHtml+='<li class="page-item' + (paginationCurrentPage >= end ? ' disabled': '') + '">'
-		paginationHtml+='<button class="page-link" onclick="navigatePaginationTo(' + end + ')"><span class="material-icons md-18">last_page</span></button>'
-		paginationHtml+='</li>'
-		return paginationHtml
-	}
-	
 	function navigatePaginationTo(target) {
 		var min = Math.min(target, pageLength), max = Math.max(1, target)
 		paginationCurrentPage = min == pageLength ? min : max
@@ -175,7 +154,7 @@
 			dataType: 'json',
 			success: function(response) {
 				pageLength = Math.ceil(response / paginationElementPerPage)
-				$('#client-pagination').html(generatePagination(1, pageLength))
+				$('#client-pagination').html(paginationTemplate(1, pageLength, paginationCurrentPage))
 			}
 		})
 	}
