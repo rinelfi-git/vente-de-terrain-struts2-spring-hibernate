@@ -48,10 +48,11 @@ function terrainCardTemplate(index, terrain) {
 			<div class="w-100 col-12 col-sm-12 col-md-6 col-lg-4 d-flex align-items-stretch">
 			    <div class="card bg-white card-lightblue card-outline w-100">
 			        <div class="card-body">
-			          ${apercuHtml}
-			            <button class="btn btn-outline-dark btn-flat" data-toggle="modal" data-target="#thumbnail-modal" onclick="loadThumbnails(${terrain.id}, ${apercuesJson})">
-			              <span class="material-icons">insert_photo</span>
-			              Changer les aperçues
+			            ${apercuHtml}
+			            <button class="btn btn-outline-dark btn-flat" data-toggle="modal" data-target="#thumbnail-modal"
+			                onclick="loadThumbnails(${terrain.id}, ${apercuesJson})">
+			                <span class="material-icons">insert_photo</span>
+			                Changer les aperçues
 			            </button>
 			            <table class="w-100">
 			                <tr>
@@ -81,21 +82,35 @@ function terrainCardTemplate(index, terrain) {
 			            </table>
 			        </div>
 			        <div class="card-footer">
-			            <div class="text-left">
-			                <div class="input-group">
-			                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-			                        action
-			                    </button>
-			                    <div class="dropdown-menu">
-			                        <a href="!#" class="dropdown-item" data-toggle="modal" data-target="#modification-modal${index}"><span class="material-icons">update</span> modifier</a>
-			                        <div class="dropdown-divider"></div>
-			                        <a href="!#" class="dropdown-item"><span class="material-icons">delete_forever</span> supprimer</a>
+			            <div class="row">
+			                <div class="col">
+			                    <div class="text-left">
+			                        <div class="input-group">
+			                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+			                                aria-expanded="false">
+			                                action
+			                            </button>
+			                            <div class="dropdown-menu">
+			                                <a href="!#" class="dropdown-item" data-toggle="modal"
+			                                    data-target="#modification-modal${index}"><span class="material-icons">update</span>
+			                                    modifier</a>
+			                                <div class="dropdown-divider"></div>
+			                                <a href="!#" class="dropdown-item"><span class="material-icons">delete_forever</span>
+			                                    supprimer</a>
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			                <div class="col">
+			                    <div class="text-right">
+			                        <button class="btn btn-default" onclick="locateOnMap(47.0908595, -21.4560529)">
+			                            <i class="fa fa-map-marker"></i>
+			                        </button>
 			                    </div>
 			                </div>
 			            </div>
 			        </div>
 			    </div>
-			
 			</div>
 	`
 }

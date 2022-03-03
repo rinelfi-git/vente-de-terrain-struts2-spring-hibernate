@@ -7,18 +7,25 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Terrain</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
     <s:include value="fragments/links.jsp"/>
     <s:include value="fragments/scripts.jsp"/>
     <script src="${pageContext.request.contextPath}/js/terrain/card-template.js"></script>
     <script src="${pageContext.request.contextPath}/js/pagination-template.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
 </head>
 <body class="layout-top-nav">
 <div class="wrapper">
     <%--top nav--%>
     <s:include value="fragments/navs.jsp"/>
+    <s:include value="terrain/map.jsp"/>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -60,6 +67,13 @@
     </div>
 </div>
 <script type="text/javascript">
+    mapboxgl.accessToken = 'pk.eyJ1IjoicmluZWxmaSIsImEiOiJjbDBhdXVteDQwM3JsM2tvN2NjMXEzdGM3In0.Fv-NkbIGRVB4RdBMO6pNGw'
+	const map = new mapboxgl.Map({
+		container: 'map-container',
+		style: 'mapbox://styles/mapbox/outdoors-v11', // style URL,
+		zoom: 4,
+		center: [47.0908595, -21.4560529]
+	})
 	let currentPage = 1
 	let elementPerPage = 12
 	let pageLength = 1
@@ -97,6 +111,36 @@
 		})
 	}
 	
+	function locateOnMap(longitude, latitude) {
+		const mapLong = document.getElementById('map-long')
+		const mapLat = document.getElementById('map-lat')
+		const latlong = [typeof longitude === 'undefined' ? mapLong.value : longitude, typeof latitude === 'undefined' ? mapLat.value : latitude]
+		mapLong.value = latlong[0]
+		mapLat.value = latlong[1]
+		$('#map').off('shown.bs.modal').on('shown.bs.modal', function() {
+			map.resize()
+			const marker = new mapboxgl.Marker().setLngLat(latlong).addTo(map)
+			map.flyTo({
+				center: latlong,
+				zoom: 18
+			})
+		$('#map').off('hide.bs.modal').on('hidden.bs.modal', function() {
+			marker.remove()
+		})
+		})
+		if(!$('#map').is(':visible'))$('#map').modal('show')
+		else {
+			map.flyTo({
+				center: latlong,
+				zoom: 18
+			})	
+		}
+    }
+	
+	function calcSelectionChanged(element) {
+		map.setStyle(element.value)
+	}
+	
 	function getDataFromService() {
 		var keyword = $('[name=keyword]').val()
 		$.ajax({
@@ -126,6 +170,7 @@
 	}
 	
 	$(document).ready(function () {
+		map.addControl(new mapboxgl.NavigationControl())
 		getDataFromService()
 	})
 </script>
