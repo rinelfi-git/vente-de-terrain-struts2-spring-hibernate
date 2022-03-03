@@ -19,7 +19,6 @@
                 <p><small>(Veuillez cliquer sur les images pour les supprimer ou annuler leur ajout)</small></p>
                 <div id="thumbnail-content">
                     <div class="row">
-                    
                     </div>
                     <div class="custom-file">
                         <input type="file" class="custom-file-input" id="thumb-validation" onchange="onAddInputThumbnail(this)">
@@ -38,7 +37,7 @@
 </div>
 <script>
 	$(() => {
-		$('#thumbnail-modal').on('show.bs.modal', () => {
+		$('#thumbnail-modal').on('hide.bs.modal', () => {
 			$('#thumb-validation').next('.custom-file-label').text('Sélectionner une fichier')
 			thumbnails = []
 			todelete = []
@@ -51,7 +50,7 @@
 	
 	function thumbTemplate(image) {
 		return `<div class="col-md-6 col-sm-12 mb-3" onclick="onDeleteThumbnail('` + image + `')">
-                    <div class="thumbnail" style="background: url('http://localhost/vente_de_terrain/terrain/` + image + `') no-repeat center;background-size: cover">
+                    <div class="thumbnail" style="background: url('` + terrainApercuUrl(image) + `') no-repeat center;background-size: cover">
                         <div class="cross cross-top"></div>
                         <div class="cross cross-bottom"></div>
                     </div>

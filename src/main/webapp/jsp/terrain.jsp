@@ -64,6 +64,12 @@
 	let elementPerPage = 12
 	let pageLength = 1
 	let selectedIdentity = 0
+    
+    function loadThumbnails(identity, apercues) {
+	    selectedIdentity = identity
+        thumbnails = apercues
+		updateThumbnailView()
+    }
 	
 	function navigatePaginationTo(target) {
 		var min = Math.min(target, pageLength), max = Math.max(1, target)

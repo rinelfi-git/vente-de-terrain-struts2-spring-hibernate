@@ -43,12 +43,16 @@ function terrainCardTemplate(index, terrain) {
 		</div>
 		`
 	}
+	const apercuesJson = JSON.stringify(apercues).replaceAll('"', '\'')
 	return `
 			<div class="w-100 col-12 col-sm-12 col-md-6 col-lg-4 d-flex align-items-stretch">
 			    <div class="card bg-white card-lightblue card-outline w-100">
 			        <div class="card-body">
 			          ${apercuHtml}
-			            <button class="btn btn-outline-dark btn-flat" data-toggle="modal" data-target="#thumbnail-modal" onclick="(function (){selectedIdentity = ${terrain.id}})()"><span class="material-icons">insert_photo</span> Changer les aperçues</button>
+			            <button class="btn btn-outline-dark btn-flat" data-toggle="modal" data-target="#thumbnail-modal" onclick="loadThumbnails(${terrain.id}, ${apercuesJson})">
+			              <span class="material-icons">insert_photo</span>
+			              Changer les aperçues
+			            </button>
 			            <table class="w-100">
 			                <tr>
 			                    <td><small><strong>Localisation</strong></small></td>
