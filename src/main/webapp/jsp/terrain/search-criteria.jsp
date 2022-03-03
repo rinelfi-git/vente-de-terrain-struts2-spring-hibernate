@@ -6,7 +6,7 @@
   Time: 15:09
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <div class="container mb-2">
     <div class="card">
         <div class="card-body">
@@ -86,27 +86,15 @@
             <div class="modal-body">
                 <form onsubmit="return false">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="search-field" id="search-field-cin" value="cin" checked>
-                        <label class="form-check-label" for="search-field-cin">
-                            CIN
+                        <input class="form-check-input" type="radio" name="search-field" id="search-field-localisation" value="localisation" checked>
+                        <label class="form-check-label" for="search-field-localisation">
+                            Localisation
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="search-field" id="search-field-nom" value="nom">
-                        <label class="form-check-label" for="search-field-nom">
-                            Nom et prénoms
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="search-field" id="search-field-telephone" value="telephone">
-                        <label class="form-check-label" for="search-field-telephone">
-                            Numéro de téléphone
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="search-field" id="search-field-adresse" value="adresse">
-                        <label class="form-check-label" for="search-field-adresse">
-                            Adresse
+                        <input class="form-check-input" type="radio" name="search-field" id="search-field-proprietaire" value="proprietaire">
+                        <label class="form-check-label" for="search-field-proprietaire">
+                            Propriétaire
                         </label>
                     </div>
                 </form>
@@ -130,21 +118,15 @@
             <div class="modal-body">
                 <form onsubmit="return false">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort-field" id="sort-field-cin" value="cin" checked>
-                        <label class="form-check-label" for="sort-field-cin">
-                            CIN
+                        <input class="form-check-input" type="radio" name="sort-field" id="sort-field-localisation" value="localisation" checked>
+                        <label class="form-check-label" for="sort-field-localisation">
+                            Localisation
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort-field" id="sort-field-nom" value="nom">
-                        <label class="form-check-label" for="sort-field-nom">
-                            Nom et prénoms
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort-field" id="sort-field-adresse" value="adresse">
-                        <label class="form-check-label" for="sort-field-adresse">
-                            Adresse
+                        <input class="form-check-input" type="radio" name="sort-field" id="sort-field-proprietaire" value="proprietaire">
+                        <label class="form-check-label" for="sort-field-proprietaire">
+                            Proprietaire
                         </label>
                     </div>
                     <fieldset>
@@ -173,6 +155,6 @@
 
 <script>
 	function updatePaginationPerPage(element) {
-		paginationElementPerPage = parseInt(element.value)
+		elementPerPage = parseInt(element.value)
 	}
 </script>

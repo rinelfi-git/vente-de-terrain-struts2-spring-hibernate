@@ -13,6 +13,7 @@
     <s:include value="fragments/links.jsp"/>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/client.css">
     <s:include value="fragments/scripts.jsp"/>
+    <script src="${pageContext.request.contextPath}/js/pagination-template.js"></script>
 </head>
 <body class="layout-top-nav">
 <div class="wrapper">

@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="modal fade" id="thumbnail-modal">
+<div class="modal" id="thumbnail-modal">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -96,7 +96,10 @@
 	}
 	
 	function saveThumbnail() {
-		saveThumbnailRequest().then(response => console.log(response))
+		saveThumbnailRequest().then(function () {
+			getDataFromService()
+			$('#thumbnail-modal').modal('hide')
+		})
 	}
 	
 	function saveThumbnailRequest() {
@@ -106,7 +109,7 @@
 				method: 'post',
 				dataType: 'json',
 				traditional: true,
-				data: {saveThumb: thumbnails, excludeThumb: todelete, identity: 1},
+				data: {saveThumb: thumbnails, excludeThumb: todelete, identity: selectedIdentity},
 				success: response => resolve(response),
 				error: (error1, error2, error3) => reject([error1, error2, error3])
 			})

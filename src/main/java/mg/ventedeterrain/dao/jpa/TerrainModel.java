@@ -113,32 +113,32 @@ public class TerrainModel implements TerrainDao {
     }
     
     @Override
-    public PaginationResult<Terrain> select(PaginationConstraint constraint) {
-        PaginationResult<Terrain> pagination = new PaginationResult<>();
+    public List<Terrain> select(PaginationConstraint constraint) {
         CriteriaBuilder criteria_builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Terrain> criteria_query = criteria_builder.createQuery(Terrain.class);
         Root<Terrain> terrain_root = criteria_query.from(Terrain.class);
         Join<Terrain, Client> client_join = terrain_root.join("proprietaire", JoinType.INNER);
+        List<Order> orders = new ArrayList<>();
         
         if (constraint.isOrdered()) {
-            if (constraint.getOrderField().equalsIgnoreCase("proprietaire")) {
-                List<Order> orders = new ArrayList<>();
-                if (constraint.getOrderDirection().equalsIgnoreCase("asc")) {
-                    orders.add(criteria_builder.asc(client_join.get("nom")));
-                    orders.add(criteria_builder.asc(client_join.get("prenom")));
-                } else {
-                    orders.add(criteria_builder.desc(client_join.get("nom")));
-                    orders.add(criteria_builder.desc(client_join.get("prenom")));
-                }
-                criteria_query.orderBy(orders);
-            } else {
-                if (constraint.getOrderDirection().equalsIgnoreCase("asc"))
-                    criteria_query.orderBy(criteria_builder.asc(client_join.get(constraint.getOrderDirection())));
-                else
-                    criteria_query.orderBy(criteria_builder.desc(client_join.get(constraint.getOrderDirection())));
+            switch (constraint.getOrderField()) {
+                case "proprietaire":
+                    if (constraint.getOrderDirection().equalsIgnoreCase("asc")) {
+                        orders.add(criteria_builder.asc(client_join.get("nom")));
+                        orders.add(criteria_builder.asc(client_join.get("prenom")));
+                    } else {
+                        orders.add(criteria_builder.desc(client_join.get("nom")));
+                        orders.add(criteria_builder.desc(client_join.get("prenom")));
+                    }
+                    break;
+                default:
+                    if (constraint.getOrderDirection().equalsIgnoreCase("asc"))
+                        criteria_query.orderBy(criteria_builder.asc(terrain_root.get(constraint.getOrderField())));
+                    else
+                        criteria_query.orderBy(criteria_builder.desc(terrain_root.get(constraint.getOrderField())));
+                    break;
             }
         } else {
-            List<Order> orders = new ArrayList<>();
             orders.add(criteria_builder.asc(terrain_root.get("localisation")));
             orders.add(criteria_builder.asc(client_join.get("nom")));
             orders.add(criteria_builder.asc(client_join.get("prenom")));
@@ -147,23 +147,20 @@ public class TerrainModel implements TerrainDao {
         
         if (constraint.isSearchActive()) {
             Predicate predicate_field;
-            if (constraint.getOrderField().equalsIgnoreCase("proprietaire")) {
-                Predicate proprietaire_nom = criteria_builder.like(criteria_builder.upper(client_join.get("nom")), String.format("%%s%", constraint.getKeywordSearch().toUpperCase()));
-                Predicate proprietaire_prenom = criteria_builder.like(criteria_builder.upper(client_join.get("prenom")), String.format("%%s%", constraint.getKeywordSearch().toUpperCase()));
+            if (constraint.getSearchField().equalsIgnoreCase("proprietaire")) {
+                Predicate proprietaire_nom = criteria_builder.like(criteria_builder.upper(client_join.get("nom")), "%" + constraint.getKeywordSearch().toUpperCase() + "%");
+                Predicate proprietaire_prenom = criteria_builder.like(criteria_builder.upper(client_join.get("prenom")), "%" + constraint.getKeywordSearch().toUpperCase() + "%");
                 predicate_field = criteria_builder.or(proprietaire_nom, proprietaire_prenom);
             } else {
-                predicate_field = criteria_builder.like(criteria_builder.upper(client_join.get(constraint.getSearchField())), String.format("%%s%", constraint.getKeywordSearch().toUpperCase()));
+                predicate_field = criteria_builder.like(criteria_builder.upper(terrain_root.get(constraint.getSearchField())), "%" + constraint.getKeywordSearch().toUpperCase() + "%");
             }
             criteria_query.where(predicate_field);
         }
         
-        Query query = entityManager.createQuery(criteria_query);
-        query.setFirstResult(constraint.getLimit());
-        query.setMaxResults(constraint.getOffset());
-        pagination.setElements(query.getResultList());
-        pagination.setLimit(constraint.getLimit());
-        pagination.setOffset(constraint.getOffset());
-        return pagination;
+        TypedQuery<Terrain> query = entityManager.createQuery(criteria_query);
+        query.setFirstResult(constraint.getOffset());
+        query.setMaxResults(constraint.getLimit());
+        return query.getResultList();
     }
     
     @Override
@@ -184,5 +181,29 @@ public class TerrainModel implements TerrainDao {
     public List<Terrain> select(int page, int limit) {
         TypedQuery<Terrain> query = entityManager.createQuery("select t from Terrain as t inner join Client as c on c = t.proprietaire order by t.localisation asc, c.nom asc, c.prenom asc", Terrain.class);
         return query.setMaxResults(limit).setFirstResult((page - 1) * limit).getResultList();
+    }
+    
+    @Override
+    public long countSelection(PaginationConstraint constraint) {
+        CriteriaBuilder criteria_builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> criteria_query = criteria_builder.createQuery(Long.class);
+        Root<Terrain> terrain_root = criteria_query.from(Terrain.class);
+        Join<Terrain, Client> client_join = terrain_root.join("proprietaire", JoinType.INNER);
+    
+        if (constraint.isSearchActive()) {
+            Predicate predicate_field;
+            if (constraint.getSearchField().equalsIgnoreCase("proprietaire")) {
+                Predicate proprietaire_nom = criteria_builder.like(criteria_builder.upper(client_join.get("nom")), "%" + constraint.getKeywordSearch().toUpperCase() + "%");
+                Predicate proprietaire_prenom = criteria_builder.like(criteria_builder.upper(client_join.get("prenom")), "%" + constraint.getKeywordSearch().toUpperCase() + "%");
+                predicate_field = criteria_builder.or(proprietaire_nom, proprietaire_prenom);
+            } else {
+                predicate_field = criteria_builder.like(criteria_builder.upper(terrain_root.get(constraint.getSearchField())), "%" + constraint.getKeywordSearch().toUpperCase() + "%");
+            }
+            criteria_query.where(predicate_field);
+        }
+        
+        criteria_query.select(criteria_builder.count(terrain_root.get("id")));
+        long countSelection = entityManager.createQuery(criteria_query).getSingleResult();
+        return countSelection;
     }
 };

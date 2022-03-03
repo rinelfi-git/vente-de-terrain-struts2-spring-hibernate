@@ -56,7 +56,7 @@ public class TerrainAction extends ActionSupport {
 	}
 	
 	public String list_pagination() {
-		this.paginationTerrain = this.terrainService.select(this.constraint);
+		// this.paginationTerrain = this.terrainService.select(this.constraint);
 		this.paginationTerrain.setTotal(this.terrainService.countAll());
 		return SUCCESS;
 	}

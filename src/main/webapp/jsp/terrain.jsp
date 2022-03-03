@@ -13,6 +13,7 @@
     <s:include value="fragments/links.jsp"/>
     <s:include value="fragments/scripts.jsp"/>
     <script src="${pageContext.request.contextPath}/js/terrain/card-template.js"></script>
+    <script src="${pageContext.request.contextPath}/js/pagination-template.js"></script>
 </head>
 <body class="layout-top-nav">
 <div class="wrapper">
@@ -36,7 +37,7 @@
             </div><!-- /.container-fluid -->
         </div>
         <s:include value="terrain/search-criteria.jsp"/>
-        <s:include value="terrain/insert.jsp" />
+        <s:include value="terrain/insert.jsp"/>
         <s:include value="terrain/thumbnail.jsp"/>
         
         <!-- Main content -->
@@ -48,7 +49,8 @@
                 
                 <!--			pagination-->
                 <div class="row">
-                    <div class="col-12" id="terrain-cards-pagination">
+                    <div class="col-12">
+                        <ul id="terrain-cards-pagination" class="pagination float-right"></ul>
                     </div>
                 </div>
             </div>
@@ -58,18 +60,45 @@
     </div>
 </div>
 <script type="text/javascript">
-    var currentpage = 1
-	var elementperpage = 12
-	var pagelength = 1
-
-    function getDataFromService() {
+	let currentPage = 1
+	let elementPerPage = 12
+	let pageLength = 1
+	let selectedIdentity = 0
+	
+	function navigatePaginationTo(target) {
+		var min = Math.min(target, pageLength), max = Math.max(1, target)
+		currentPage = min == pageLength ? min : max
+		getDataFromService()
+	}
+	
+	function getPagesList() {
+		var keyword = $('[name=keyword]').val()
+		$.ajax({
+			method: 'post',
+			url: baseUrl('terrain/records.action'),
+			data: {
+				pageCurrent: currentPage,
+				elementPerPage: elementPerPage,
+				paginationSearchActivated: keyword.length > 0,
+				paginationSearchKeyword: keyword,
+				paginationSearchField: $('[name=search-field]').filter(':checked').val()
+			},
+			dataType: 'json',
+			success: function (response) {
+				pageLength = Math.ceil(response / elementPerPage)
+				$('#terrain-cards-pagination').html(paginationTemplate(1, pageLength, currentPage))
+			}
+		})
+	}
+	
+	function getDataFromService() {
 		var keyword = $('[name=keyword]').val()
 		$.ajax({
 			method: 'post',
 			url: baseUrl('terrain/pagination.action'),
 			data: {
-				pageCurrent: paginationCurrentPage,
-				elementPerPage: paginationElementPerPage,
+				pageCurrent: currentPage,
+				elementPerPage: elementPerPage,
 				paginationSearchActivated: keyword.length > 0,
 				paginationSearchKeyword: keyword,
 				paginationSearchField: $('[name=search-field]').filter(':checked').val(),
@@ -78,10 +107,10 @@
 				paginationFieldOrder: $('[name=sort-field]').filter(':checked').val()
 			},
 			dataType: 'json',
-			success: function(response) {
+			success: function (response) {
 				let terrainCardHtml = ''
-				for(terrain of response) {
-					terrainCardHtml += terrainCardTemplate(terrain)
+				for (let i = 0; i < response.length; i++) {
+					terrainCardHtml += terrainCardTemplate(i, response[i])
 				}
 				$('#terrain-cards').html(terrainCardHtml)
 				getPagesList()
@@ -89,6 +118,10 @@
 		})
 		return false
 	}
+	
+	$(document).ready(function () {
+		getDataFromService()
+	})
 </script>
 </body>
 </html>

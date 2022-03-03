@@ -2,7 +2,6 @@ package mg.ventedeterrain.service;
 
 import mg.ventedeterrain.entites.Terrain;
 import mg.ventedeterrain.utils.PaginationConstraint;
-import mg.ventedeterrain.utils.PaginationResult;
 import mg.ventedeterrain.utils.VenteConstraint;
 
 import java.util.List;
@@ -22,11 +21,13 @@ public interface TerrainService {
     
     void delete(int id);
     
-    PaginationResult<Terrain> select(PaginationConstraint paginationConstraint);
+    List<Terrain> select(PaginationConstraint paginationConstraint);
     
     long countAll();
     
     List<Object[]> derniersTerrains();
     
     List<Terrain> select(int page, int limit);
+    
+    long countSelection(PaginationConstraint paginationConstraint);
 }

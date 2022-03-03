@@ -117,8 +117,9 @@
 					relief: $('#insert-relief').val(),
 					enVente: $('#insert-en-vente').is(':checked')
 				},
-				success: function (response) {
-				
+				success: function () {
+					getDataFromService()
+                    $('#insert-modal').modal('hide')
 				},
 				error: function () {
 					alert('error')

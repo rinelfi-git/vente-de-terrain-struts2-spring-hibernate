@@ -144,7 +144,6 @@ public class ClientModel implements ClientDao {
 	
 	@Override
 	public long countAll(PaginationConstraint paginationConstraint) {
-		
 		TypedQuery<Long> query = this.entityManager.createQuery("select count(id) from Client", Long.class);
 		return query.getSingleResult();
 	}
@@ -185,7 +184,6 @@ public class ClientModel implements ClientDao {
 		}
 		criteria_query.select(criteria_builder.count(client_root.get("cin")));
 		long countSelection = entityManager.createQuery(criteria_query).getSingleResult();
-		System.out.println(countSelection);
 		return countSelection;
 	}
 	

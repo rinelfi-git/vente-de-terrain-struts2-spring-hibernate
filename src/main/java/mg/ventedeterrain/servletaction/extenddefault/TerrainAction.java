@@ -1,10 +1,12 @@
 package mg.ventedeterrain.servletaction.extenddefault;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import mg.ventedeterrain.entites.Client;
 import mg.ventedeterrain.entites.Terrain;
 import mg.ventedeterrain.service.ClientService;
 import mg.ventedeterrain.service.TerrainService;
+import mg.ventedeterrain.utils.PaginationConstraint;
 import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,14 +15,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TerrainAction extends ActionSupport implements SessionAware {
     private Map<String, Object> session;
     private String fileHost = "http://localhost/vente_de_terrain/terrain",
+        uploadDestination = "/var/www/html/vente_de_terrain/terrain/",
         defaultThumbnail = "default.jpg",
         keyword,
         apercuContentType,
@@ -29,15 +29,24 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         identity,
         namespace,
         localisation,
-        relief;
+        relief,
+        orderDirection,
+        paginationFieldOrder,
+        paginationSearchKeyword,
+        paginationSearchField;
     private List<Terrain> terrains;
     private List<Client> clientForms;
     private File apercu;
     private String[] saveThumb, excludeThumb;
-    private final String uploadDestination = "/var/www/html/vente_de_terrain/terrain/";
-    private int proprietaire, prix;
+    private int proprietaire,
+        prix,
+        elementPerPage,
+        pageCurrent,
+        totalRecords;
     private float surface;
-    private boolean enVente;
+    private boolean enVente,
+        paginationOrdered,
+        paginationSearchActivated;
     
     @Autowired
     private TerrainService terrainService;
@@ -48,10 +57,7 @@ public class TerrainAction extends ActionSupport implements SessionAware {
     private int page, limit;
     
     public String execute() {
-        setNamespace("terrain");
-        terrains = terrainService.select(page, limit);
         clientForms = clientService.select();
-        System.out.println("cleints : " + clientForms.size());
 //return this.session.containsKey("username") ? SUCCESS : LOGIN;
         return SUCCESS;
     }
@@ -70,10 +76,17 @@ public class TerrainAction extends ActionSupport implements SessionAware {
     }
     
     public String saveThumbnail() throws IOException {
-        System.out.println(Arrays.toString(this.saveThumb));
-        for (String image : this.excludeThumb) {
-            Path file = Paths.get(uploadDestination + image);
-            if (Files.exists(file)) Files.delete(file);
+        if (this.saveThumb != null) {
+            Terrain terrain = this.terrainService.select(Integer.parseInt(identity));
+            terrain.setApercues(new HashSet<>());
+            for (String image : this.saveThumb) terrain.getApercues().add(image);
+            terrainService.update(terrain);
+        }
+        if (this.excludeThumb != null) {
+            for (String image : this.excludeThumb) {
+                Path file = Paths.get(uploadDestination + image);
+                if (Files.exists(file)) Files.delete(file);
+            }
         }
         return SUCCESS;
     }
@@ -88,6 +101,33 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         terrain.setRelief(this.relief);
         terrain.setEnVente(this.enVente);
         this.terrainService.insert(terrain);
+        return SUCCESS;
+    }
+    
+    public String paginationList() {
+        PaginationConstraint paginationConstraint = new PaginationConstraint();
+        paginationConstraint.setOrdered(this.paginationOrdered);
+        paginationConstraint.setOrderDirection(this.orderDirection);
+        paginationConstraint.setOrderField(this.paginationFieldOrder);
+        paginationConstraint.setLimit(this.elementPerPage);
+        paginationConstraint.setOffset((this.pageCurrent - 1) * this.elementPerPage);
+        paginationConstraint.setSearchActive(this.paginationSearchActivated);
+        paginationConstraint.setKeywordSearch(this.paginationSearchKeyword);
+        paginationConstraint.setSearchField(this.paginationSearchField);
+        System.out.println("pagination");
+        this.terrains = this.terrainService.select(paginationConstraint);
+        return SUCCESS;
+    }
+    
+    public String totalRecordPostRequest() {
+        PaginationConstraint paginationConstraint = new PaginationConstraint();
+        paginationConstraint.setLimit(this.elementPerPage);
+        paginationConstraint.setOffset((this.pageCurrent - 1) * this.elementPerPage);
+        paginationConstraint.setSearchActive(this.paginationSearchActivated);
+        paginationConstraint.setKeywordSearch(this.paginationSearchKeyword);
+        paginationConstraint.setSearchField(this.paginationSearchField);
+        
+        this.totalRecords = (int) this.terrainService.countSelection(paginationConstraint);
         return SUCCESS;
     }
     
@@ -253,4 +293,77 @@ public class TerrainAction extends ActionSupport implements SessionAware {
     public void setRelief(String relief) {
         this.relief = relief;
     }
+    
+    public String getOrderDirection() {
+        return orderDirection;
+    }
+    
+    public void setOrderDirection(String orderDirection) {
+        this.orderDirection = orderDirection;
+    }
+    
+    public String getPaginationFieldOrder() {
+        return paginationFieldOrder;
+    }
+    
+    public void setPaginationFieldOrder(String paginationFieldOrder) {
+        this.paginationFieldOrder = paginationFieldOrder;
+    }
+    
+    public String getPaginationSearchKeyword() {
+        return paginationSearchKeyword;
+    }
+    
+    public void setPaginationSearchKeyword(String paginationSearchKeyword) {
+        this.paginationSearchKeyword = paginationSearchKeyword;
+    }
+    
+    public String getPaginationSearchField() {
+        return paginationSearchField;
+    }
+    
+    public void setPaginationSearchField(String paginationSearchField) {
+        this.paginationSearchField = paginationSearchField;
+    }
+    
+    public int getElementPerPage() {
+        return elementPerPage;
+    }
+    
+    public void setElementPerPage(int elementPerPage) {
+        this.elementPerPage = elementPerPage;
+    }
+    
+    public int getPageCurrent() {
+        return pageCurrent;
+    }
+    
+    public void setPageCurrent(int pageCurrent) {
+        this.pageCurrent = pageCurrent;
+    }
+    
+    public int getTotalRecords() {
+        return totalRecords;
+    }
+    
+    public void setTotalRecords(int totalRecords) {
+        this.totalRecords = totalRecords;
+    }
+    
+    public boolean isPaginationOrdered() {
+        return paginationOrdered;
+    }
+    
+    public void setPaginationOrdered(boolean paginationOrdered) {
+        this.paginationOrdered = paginationOrdered;
+    }
+    
+    public boolean isPaginationSearchActivated() {
+        return paginationSearchActivated;
+    }
+    
+    public void setPaginationSearchActivated(boolean paginationSearchActivated) {
+        this.paginationSearchActivated = paginationSearchActivated;
+    }
+    
 }
