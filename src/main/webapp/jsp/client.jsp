@@ -12,9 +12,12 @@
     <head>
         <title>Client</title>
         <s:include value="fragments/links.jsp"/>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/client.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/2.0.0-alpha.2/cropper.min.css" integrity="sha512-6QxSiaKfNSQmmqwqpTNyhHErr+Bbm8u8HHSiinMEz0uimy9nu7lc/2NaXJiUJj2y4BApd5vgDjSHyLzC8nP6Ng==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/client/client.css">
         <s:include value="fragments/scripts.jsp"/>
         <script src="${pageContext.request.contextPath}/js/pagination-template.js"></script>
+        <script src="${pageContext.request.contextPath}/js/client/insert.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/2.0.0-alpha.2/cropper.min.js" integrity="sha512-IlZV3863HqEgMeFLVllRjbNOoh8uVj0kgx0aYxgt4rdBABTZCl/h5MfshHD9BrnVs6Rs9yNN7kUQpzhcLkNmHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
     <body class="layout-top-nav">
         <div class="wrapper">
@@ -39,6 +42,7 @@
 
                 <s:include value="client/search-criterias.jsp"/>
                 <s:include value="client/insert.jsp"/>
+                <s:include value="client/profile-image-update.jsp"/>
 
                 <div class="content">
                     <div class="container">
@@ -50,9 +54,7 @@
                         <!--			pagination-->
                         <div class="row">
                             <div class="col-12">
-                                <ul class="pagination float-right" id="client-pagination">
-
-                                </ul>
+                                <ul class="pagination float-right" id="client-pagination"></ul>
                             </div>
                         </div>
                     </div>
@@ -86,7 +88,7 @@
                 clientCardTemplate += '<img src="' + profileUrl(photo) + '" alt="' + nom + '" class="img-circle img-fluid" style="background: #0069d9;">'
                 clientCardTemplate += '<div class="custom-class-image-edit-overlay custom-class-image-edit-overlay-background"></div>'
                 clientCardTemplate += '<i class="fa fa-camera fa-2x text-white custom-class-icon-edit-overlay"></i>'
-                clientCardTemplate += '<div class="custom-class-image-edit-overlay custom-class-image-edit-overlay-foreground" data-toggle="modal" data-target="#modification-photo" (click)="initialiserFormulairePhoto(' + id + ')"></div>'
+                clientCardTemplate += '<div class="custom-class-image-edit-overlay custom-class-image-edit-overlay-foreground" data-toggle="modal" data-target="#modification-photo" onclick="udpateClientProfileImage( ' + id + ')"></div>'
                 clientCardTemplate += '</div>'
                 clientCardTemplate += '</div>'
                 clientCardTemplate += '</div>'
