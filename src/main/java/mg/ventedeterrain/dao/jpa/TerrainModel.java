@@ -23,7 +23,7 @@ public class TerrainModel implements TerrainDao {
     
     @Override
     public List<Terrain> select() {
-        return entityManager.createQuery("select t from Terrain as t inner join Client as c on c = t.proprietaire order by t.localisation asc, c.nom asc, c.prenom asc", Terrain.class).getResultList();
+        return entityManager.createQuery("select t from Terrain as t inner join Client as c on c = t.proprietaire order by t.adresse asc, c.nom asc, c.prenom asc", Terrain.class).getResultList();
     }
     
     @Override
@@ -33,8 +33,8 @@ public class TerrainModel implements TerrainDao {
         Root<Terrain> terrain_root = criteria_query.from(Terrain.class);
         List<Predicate> where_predicate = new ArrayList<>();
         
-        if (!constraint.getLocalisation().equals("")) {
-            where_predicate.add(criteria_builder.like(criteria_builder.upper(terrain_root.get("localisation")), "%" + constraint.getLocalisation().toUpperCase() + "%"));
+        if (!constraint.getAdresse().equals("")) {
+            where_predicate.add(criteria_builder.like(criteria_builder.upper(terrain_root.get("adresse")), "%" + constraint.getAdresse().toUpperCase() + "%"));
         }
         
         if (!constraint.getSurfaceConstraint().equals(AppConst.NOT)) {
@@ -139,7 +139,7 @@ public class TerrainModel implements TerrainDao {
                     break;
             }
         } else {
-            orders.add(criteria_builder.asc(terrain_root.get("localisation")));
+            orders.add(criteria_builder.asc(terrain_root.get("adresse")));
             orders.add(criteria_builder.asc(client_join.get("nom")));
             orders.add(criteria_builder.asc(client_join.get("prenom")));
             criteria_query.orderBy(orders);
@@ -171,7 +171,7 @@ public class TerrainModel implements TerrainDao {
     
     @Override
     public List<Object[]> derniersTerrains() {
-        TypedQuery<Object[]> query = this.entityManager.createQuery("select c.nom, c.prenom, t.localisation, (t.prixParMetreCarre * t.surface) as prix, t.surface as surface from Terrain as t join Client as c on c = t.proprietaire", Object[].class);
+        TypedQuery<Object[]> query = this.entityManager.createQuery("select c.nom, c.prenom, t.adresse, (t.prixParMetreCarre * t.surface) as prix, t.surface as surface from Terrain as t join Client as c on c = t.proprietaire", Object[].class);
         query.setFirstResult(0);
         query.setMaxResults(7);
         return query.getResultList();
@@ -179,7 +179,7 @@ public class TerrainModel implements TerrainDao {
     
     @Override
     public List<Terrain> select(int page, int limit) {
-        TypedQuery<Terrain> query = entityManager.createQuery("select t from Terrain as t inner join Client as c on c = t.proprietaire order by t.localisation asc, c.nom asc, c.prenom asc", Terrain.class);
+        TypedQuery<Terrain> query = entityManager.createQuery("select t from Terrain as t inner join Client as c on c = t.proprietaire order by t.adresse asc, c.nom asc, c.prenom asc", Terrain.class);
         return query.setMaxResults(limit).setFirstResult((page - 1) * limit).getResultList();
     }
     

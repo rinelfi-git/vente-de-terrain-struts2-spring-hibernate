@@ -1,30 +1,26 @@
 function terrainCardTemplate(index, terrain) {
-	const apercues = terrain.apercues
-	let apercuHtml = ''
-	if (apercues.length <= 1) {
-		apercuHtml = `
-		<div class="row">
-        <div class="col-12">
-            ${
-			apercues.length == 1 ?
-				'<div style="background-image: url(' + terrainApercuUrl(apercues[0]) + '); height: 175px; background-position: center; background-size: cover"></div>' :
-				'<div style="background-image: url(' + terrainApercuUrl('default.jpg') + '); height: 175px; background-position: center; background-size: cover"></div>'
-		}
+    const apercues = terrain.apercues
+    let apercuHtml = ''
+    if (apercues.length <= 1) {
+        apercuHtml = `
+        <div class="row">
+            <div class="col-12">
+                ${apercues.length == 1 ? '<div style="background-image: url(' + terrainApercuUrl(apercues[0]) + '); height: 175px; background-position: center; background-size: cover"></div>' : '<div style="background-image: url(' + terrainApercuUrl('default.jpg') + '); height: 175px; background-position: center; background-size: cover"></div>'}
+            </div>
         </div>
-    </div>
 		`
-	} else {
-		let indicatorsHtml = ''
-		let apercuesHtml = ''
-		for (let i = 0; i < apercues.length; i++) {
-			indicatorsHtml += `<li data-target="#carousel-indicator${index}" data-slide-to="${i}" class="${i == 0 ? 'active' : ''}"></li>`
-			apercuesHtml += `
+    } else {
+        let indicatorsHtml = ''
+        let apercuesHtml = ''
+        for (let i = 0; i < apercues.length; i++) {
+            indicatorsHtml += `<li data-target="#carousel-indicator${index}" data-slide-to="${i}" class="${i == 0 ? 'active' : ''}"></li>`
+            apercuesHtml += `
 			<div class="carousel-item${i == 0 ? ' active' : ''}">
 				<div class="d-block w-100" style="background-image: url(${terrainApercuUrl(apercues[i])}); height: 175px; background-position: center; background-size: cover"></div>
 			</div>
 			`
-		}
-		apercuHtml = `
+        }
+        apercuHtml = `
 		<div id="carousel-indicator${index}" class="carousel slide" data-ride="carousel" data-interval="false">
 			<ol class="carousel-indicators">
 				${indicatorsHtml}
@@ -42,9 +38,9 @@ function terrainCardTemplate(index, terrain) {
 			</a>
 		</div>
 		`
-	}
-	const apercuesJson = JSON.stringify(apercues).replaceAll('"', '\'')
-	return `
+    }
+    const apercuesJson = JSON.stringify(apercues).replaceAll('"', '\'')
+    return `
 			<div class="w-100 col-12 col-sm-12 col-md-6 col-lg-4 d-flex align-items-stretch">
 			    <div class="card bg-white card-lightblue card-outline w-100">
 			        <div class="card-body">
@@ -56,20 +52,20 @@ function terrainCardTemplate(index, terrain) {
 			            </button>
 			            <table class="w-100">
 			                <tr>
-			                    <td><small><strong>Localisation</strong></small></td>
-			                    <td><small>${terrain.localisation}</small></td>
+			                    <td><small><strong>Adresse</strong></small></td>
+			                    <td><small>${terrain.adresse}</small></td>
 			                </tr>
 			                <tr>
 			                    <td><small><strong>Propriétaire</strong></small></td>
 			                    <td><small>${terrain.proprietaire.nom} ${terrain.proprietaire.prenom}</small></td>
 			                </tr>
 			                <tr>
-			                    <td><small><strong>Surface (m²)</strong></small></td>
-			                    <td class="text-right"><small>${terrain.surface}</small></td>
+			                    <td><small><strong>Surface</strong></small></td>
+			                    <td class="text-right"><small>${terrain.surface} m²</small></td>
 			                </tr>
 			                <tr>
-			                    <td><small><strong>Prix par m² (Ar)</strong></small></td>
-			                    <td class="text-right"><small>${terrain.prixParMetreCarre}</small></td>
+			                    <td><small><strong>Prix</strong></small></td>
+			                    <td class="text-right"><small>${terrain.prix} Ariary/m²</small></td>
 			                </tr>
 			                <tr>
 			                    <td><small><strong>Relief</strong></small></td>
@@ -103,8 +99,8 @@ function terrainCardTemplate(index, terrain) {
 			                </div>
 			                <div class="col">
 			                    <div class="text-right">
-			                        <button class="btn btn-default" onclick="locateOnMap(47.0908595, -21.4560529)">
-			                            <i class="fa fa-map-marker"></i>
+			                        <button class="btn btn-default" onclick="locateOnMap(${terrain.coordinates.latitude}, ${terrain.coordinates.longitude})">
+			                            <i class="fa fa-map-marker-alt"></i>
 			                        </button>
 			                    </div>
 			                </div>

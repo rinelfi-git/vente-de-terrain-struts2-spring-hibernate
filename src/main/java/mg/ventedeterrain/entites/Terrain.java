@@ -4,101 +4,119 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import mg.ventedeterrain.entites.embedded.GeolocationEmbedded;
 
 @Entity
 @Table(name = "terrain")
 public class Terrain implements Serializable {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "terrain_id")
-	private int id;
-	@OneToOne @JoinColumn(name = "terrain_proprietaire")
-	private Client proprietaire;
-	@Column(name = "terrain_en_vente")
-	private boolean enVente;
-	@Column(name = "terrain_localisation")
-	private String localisation;
-	@Column(name = "terrain_surface")
-	private float surface;
-	@Column(name = "terrain_prix_par_metre_carre")
-	private int prixParMetreCarre;
-	@Column(name = "terrain_relief")
-	private String relief;
-	@ElementCollection(fetch = FetchType.EAGER)
-	@JoinTable(name = "apercue", joinColumns = @JoinColumn(name = "fk_terrain"))
-	@Column(name = "image_url")
-	private Set<String> apercues;
-	
-	@OneToMany(mappedBy = "terrain", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-	private Set<Vente> ventes;
-	
-	public Terrain() {
-		super();
-		this.apercues = new HashSet<>();
-		
-	}
-	
-	public int getId() {
-		return id;
-	}
-	
-	public void setId(int id) {
-		this.id = id;
-	}
-	
-	public Client getProprietaire() {
-		return proprietaire;
-	}
-	
-	public void setProprietaire(Client proprietaire) {
-		this.proprietaire = proprietaire;
-	}
-	
-	public boolean isEnVente() {
-		return enVente;
-	}
-	
-	public void setEnVente(boolean enVente) {
-		this.enVente = enVente;
-	}
-	
-	public String getLocalisation() {
-		return localisation;
-	}
-	
-	public void setLocalisation(String localisation) {
-		this.localisation = localisation;
-	}
-	
-	public float getSurface() {
-		return surface;
-	}
-	
-	public void setSurface(float surface) {
-		this.surface = surface;
-	}
-	
-	public int getPrixParMetreCarre() {
-		return prixParMetreCarre;
-	}
-	
-	public void setPrixParMetreCarre(int prixParMetreCarre) {
-		this.prixParMetreCarre = prixParMetreCarre;
-	}
-	
-	public String getRelief() {
-		return relief;
-	}
-	
-	public void setRelief(String relief) {
-		this.relief = relief;
-	}
-	
-	public Set<String> getApercues() {
-		return apercues;
-	}
-	
-	public void setApercues(Set<String> apercues) {
-		this.apercues = apercues;
-	}
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @OneToOne
+    private Client proprietaire;
+    @Column(name = "en_vente")
+    private boolean enVente;
+    @Column(length = 255)
+    private String adresse;
+    private float surface;
+    private int prix;
+    private String relief;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @JoinTable(name = "apercue", joinColumns = @JoinColumn(name = "fk_terrain"))
+    @Column(name = "apercues")
+    private Set<String> apercues;
+    @Embedded
+    private GeolocationEmbedded coordinates;
+    private boolean geolocated;
+
+    @OneToMany(mappedBy = "terrain", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Set<Vente> ventes;
+
+    public Terrain() {
+        super();
+        this.apercues = new HashSet<>();
+        this.coordinates = new GeolocationEmbedded();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Client getProprietaire() {
+        return proprietaire;
+    }
+
+    public void setProprietaire(Client proprietaire) {
+        this.proprietaire = proprietaire;
+    }
+
+    public boolean isEnVente() {
+        return enVente;
+    }
+
+    public void setEnVente(boolean enVente) {
+        this.enVente = enVente;
+    }
+
+    public String getAdresse() {
+        return this.adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public float getSurface() {
+        return surface;
+    }
+
+    public void setSurface(float surface) {
+        this.surface = surface;
+    }
+
+    public int getPrix() {
+        return prix;
+    }
+
+    public void setPrix(int prix) {
+        this.prix = prix;
+    }
+
+    public String getRelief() {
+        return relief;
+    }
+
+    public void setRelief(String relief) {
+        this.relief = relief;
+    }
+
+    public Set<String> getApercues() {
+        return apercues;
+    }
+
+    public void setApercues(Set<String> apercues) {
+        this.apercues = apercues;
+    }
+
+    public GeolocationEmbedded getCoordinates() {
+        return coordinates;
+    }
+
+    public Set<Vente> getVentes() {
+        return ventes;
+    }
+
+    public boolean isGeolocated() {
+        return geolocated;
+    }
+
+    public void setGeolocated(boolean geolocated) {
+        this.geolocated = geolocated;
+    }
+    
 }

@@ -3,15 +3,15 @@ package mg.ventedeterrain.utils;
 import java.io.Serializable;
 
 public class VenteConstraint implements Serializable {
-	private String localisation, surfaceConstraint, budgetConstraint, relief;
+	private String adresse, surfaceConstraint, budgetConstraint, relief;
 	private float surface, budget;
 	
-	public String getLocalisation() {
-		return localisation;
+	public String getAdresse() {
+		return adresse;
 	}
 	
-	public void setLocalisation(String localisation) {
-		this.localisation = localisation;
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
 	}
 	
 	public String getSurfaceConstraint() {

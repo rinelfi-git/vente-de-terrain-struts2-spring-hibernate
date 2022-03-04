@@ -86,9 +86,9 @@
             <div class="modal-body">
                 <form onsubmit="return false">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="search-field" id="search-field-localisation" value="localisation" checked>
-                        <label class="form-check-label" for="search-field-localisation">
-                            Localisation
+                        <input class="form-check-input" type="radio" name="search-field" id="search-field-adresse" value="adresse" checked>
+                        <label class="form-check-label" for="search-field-adresse">
+                            Adresse
                         </label>
                     </div>
                     <div class="form-check">
@@ -118,9 +118,9 @@
             <div class="modal-body">
                 <form onsubmit="return false">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="sort-field" id="sort-field-localisation" value="localisation" checked>
-                        <label class="form-check-label" for="sort-field-localisation">
-                            Localisation
+                        <input class="form-check-input" type="radio" name="sort-field" id="sort-field-adresse" value="adresse" checked>
+                        <label class="form-check-label" for="sort-field-adresse">
+                            Adresse
                         </label>
                     </div>
                     <div class="form-check">
