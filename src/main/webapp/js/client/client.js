@@ -66,12 +66,14 @@ function checkInputCin(element) {
     const insertionNombre = !isNaN(parseInt(element.value.slice(-1)))
     if (insertionNombre) {
         const cassures = [3, 7, 11];
+        const selectionStart = element.selectionStart;
         let correction = element.value.replaceAll('-', '')
         cassures.forEach(function (cassure) {
             if (correction.length > cassure)
                 correction = correction.slice(0, cassure) + '-' + correction.slice(cassure, correction.length)
         })
         element.value = correction
+        if(element.value.length -1 !== selectionStart || element.value.slice(-2, -1) !== '-') element.setSelectionRange(selectionStart, selectionStart)
     } else
         element.value = element.value.slice(0, -1)
 }
