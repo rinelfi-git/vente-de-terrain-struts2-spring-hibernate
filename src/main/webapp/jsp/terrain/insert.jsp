@@ -44,8 +44,8 @@
                         </div>
                     </div>
                     <div class="input-group mb-2" id="insert-coordinates">
-                        <input type="number" id="insert-longitude" class="form-control" placeholder="Longitude" oninput="updateCurrentLocationInput('insert')" step="0.000001" value="0.0">
-                        <input type="number" id="insert-latitude" class="form-control" placeholder="Latitude" oninput="updateCurrentLocationInput('insert')" step="0.000001" value="0.0">
+                        <input type="number" id="insert-longitude" class="form-control" placeholder="Longitude" oninput="updateCurrentLocationInput('insert')" step="0.00001" value="0.0">
+                        <input type="number" id="insert-latitude" class="form-control" placeholder="Latitude" oninput="updateCurrentLocationInput('insert')" step="0.00001" value="0.0">
                         <div class="input-group-append">
                             <button class="btn btn-default" type="button" onclick="updateCurrentLocation('insert')">
                                 <i class="fa fa-location"></i>

@@ -32,9 +32,9 @@ public class Client implements Serializable {
 	@Column(name = "telephone_numero")
 	private Set<String> telephones;
 	
-	@OneToMany(mappedBy = "proprietaire", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "proprietaire", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private Set<Terrain> terrains;
-	@OneToMany(mappedBy = "client",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "client",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private Set<Vente> ventes;
 	
 	public Client() {

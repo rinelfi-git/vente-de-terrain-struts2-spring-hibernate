@@ -24,6 +24,7 @@
                 </button>
             </div>
             <div class="modal-body">
+                <input type="number" hidden id="upload-identity" >
                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 500px; background-image: url('${pageContext.request.contextPath}/img/thumbnail-default.jpg'); background-repeat: no-repeat; background-size: cover; background-position: center;" class="mb-2">
                     <img id="image" src="">
                 </div>

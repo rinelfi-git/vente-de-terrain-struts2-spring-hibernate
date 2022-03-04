@@ -81,5 +81,4 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-<script src="${pageContext.request.contextPath}/js/client/insert.js"></script>
 

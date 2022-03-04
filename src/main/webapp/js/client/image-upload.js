@@ -13,7 +13,8 @@ function uploadImageChange(element) {
     reader.onload = function () {
         image.src = reader.result
         $('label[for=profile-image]').text(file.name)
-        if (cropper != null) cropper.destroy()
+        if (cropper != null)
+            cropper.destroy()
         cropper = new Cropper(image, {
             aspectRatio: 1,
             viewMode: 1
@@ -23,6 +24,35 @@ function uploadImageChange(element) {
 }
 
 function saveProfileImage() {
-    const croppedimage = cropper.getCroppedCanvas().toDataURL("image/png");
-    
+    let croppedimage = cropper.getCroppedCanvas().toDataURL("image/png");
+    croppedimage = croppedimage.substring(croppedimage.indexOf(',') + 1, croppedimage.length)
+    const formData = new FormData()
+    formData.append('base64image', croppedimage)
+    formData.append('identity', $('#upload-identity').val())
+    $.ajax({
+        url: baseUrl('client/profile.action'),
+        method: 'post',
+        dataType: 'json',
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function () {
+            getDataFromService()
+            $('#update-profile-image').modal('hide')
+        },
+        error: function () {
+
+        }
+    })
 }
+
+$(document).ready(function () {
+    $('#update-profile-image').on('hidden.bs.modal', function () {
+        if (cropper != null){
+            cropper.destroy()
+            image.src = ''
+            $('label[for=profile-image]').text('Choose file')
+        }
+            
+    })
+})

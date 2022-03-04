@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 function udpateClientProfileImage(id) {
-    console.log('alert')
+    $('#upload-identity').val(id)
     $('#update-profile-image').modal('show')
 }
 
