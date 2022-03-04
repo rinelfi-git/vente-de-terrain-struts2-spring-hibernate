@@ -18,6 +18,7 @@
         <script src="${pageContext.request.contextPath}/js/pagination-template.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/2.0.0-alpha.2/cropper.min.js" integrity="sha512-IlZV3863HqEgMeFLVllRjbNOoh8uVj0kgx0aYxgt4rdBABTZCl/h5MfshHD9BrnVs6Rs9yNN7kUQpzhcLkNmHw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="${pageContext.request.contextPath}/js/client/card-template.js"></script>
+        <script src="${pageContext.request.contextPath}/js/client/phone-form-template.js"></script>
         <script src="${pageContext.request.contextPath}/js/client/insert.js"></script>
         <script src="${pageContext.request.contextPath}/js/client/client.js"></script>
     </head>

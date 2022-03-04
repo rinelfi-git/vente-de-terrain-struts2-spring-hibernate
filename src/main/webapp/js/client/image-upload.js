@@ -28,7 +28,7 @@ function saveProfileImage() {
     croppedimage = croppedimage.substring(croppedimage.indexOf(',') + 1, croppedimage.length)
     const formData = new FormData()
     formData.append('base64image', croppedimage)
-    formData.append('identity', $('#upload-identity').val())
+    formData.append('identity', identity)
     $.ajax({
         url: baseUrl('client/profile.action'),
         method: 'post',

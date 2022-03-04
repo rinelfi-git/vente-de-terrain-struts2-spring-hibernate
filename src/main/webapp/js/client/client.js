@@ -1,6 +1,12 @@
-var paginationCurrentPage = 1
-var paginationElementPerPage = 12
-var pageLength = 1
+let paginationCurrentPage = 1
+let paginationElementPerPage = 12
+let pageLength = 1
+let identity = -1
+
+function udpateClientProfileImage(id) {
+    identity = id
+    $('#update-profile-image').modal('show')
+}
 
 function getDataFromService() {
     var keyword = $('[name=keyword]').val()
@@ -54,6 +60,134 @@ function getPagesList() {
             $('#client-pagination').html(paginationTemplate(1, pageLength, paginationCurrentPage))
         }
     })
+}
+
+function checkInputCin(element) {
+    const insertionNombre = !isNaN(parseInt(element.value.slice(-1)))
+    if (insertionNombre) {
+        const cassures = [3, 7, 11];
+        let correction = element.value.replaceAll('-', '')
+        cassures.forEach(function (cassure) {
+            if (correction.length > cassure)
+                correction = correction.slice(0, cassure) + '-' + correction.slice(cassure, correction.length)
+        })
+        element.value = correction
+    } else
+        element.value = element.value.slice(0, -1)
+}
+
+function validateStepForm(step, scope, button) {
+    $('.is-invalid').removeClass('is-invalid')
+    $('.form-text').css({display: 'none'})
+    const scopes = [
+        `${scope}-personal-form`,
+        `${scope}-phones-form`,
+        `${scope}-address-form`
+    ]
+
+    let validators = []
+    let validatorValid = null
+
+    switch (parseInt(step)) {
+        case 1:
+            validators = [
+                $formValidation(`${scope}-cin`),
+                $formValidation(`${scope}-nom`),
+                $formValidation(`${scope}-prenom`)
+            ];
+            validatorValid = validators.find(function (validator) {
+                if (!validator.isValid()) {
+                    return validator;
+                }
+            })
+            if (typeof validatorValid === 'undefined') {
+                loadStepForm(2, scope);
+            } else {
+                validators.forEach(function (validator) {
+                    if (!validator.isValid()) {
+                        validator.field.classList.add('is-invalid');
+                        validator.putError(`${validator.field.getAttribute('id')}-error`);
+                    }
+                })
+            }
+            break;
+        case 2:
+            validators = [];
+            
+            const phones = document.querySelectorAll(`.${scope}-phone-input`);
+            for (let i = 0; i < phones.length; i++) {
+                validators.push($formValidation(`${scope}-phone${i}`))
+            }
+            
+            validatorValid = validators.find(function (validator) {
+                if (!validator.isValid()) {
+                    return validator;
+                }
+            })
+
+            if (typeof validatorValid === 'undefined') {
+                loadStepForm(3, scope)
+            } else {
+                validators.forEach(function (validator) {
+                    if (!validator.isValid()) {
+                        validator.field.classList.add('is-invalid');
+                        validator.putError(`${validator.field.getAttribute('id')}-error`);
+                    }
+                })
+            }
+            break;
+        case 3:
+            break;
+    }
+    return false;
+}
+
+function recheckStepForm(step, scope) {
+    switch (parseInt(step)) {
+        case 2:
+            loadStepForm(1, scope)
+            break
+        case 3:
+            loadStepForm(2, scope)
+            break
+    }
+    return false;
+}
+
+function loadStepForm(step, scope) {
+    const scopes = [
+        `${scope}-personal-form`,
+        `${scope}-phones-form`,
+        `${scope}-address-form`
+    ];
+    scopes.forEach(function (current) {
+        document.getElementById(current).style.display = 'none';
+    });
+    document.getElementById(scopes[step - 1]).style.display = 'block';
+    switch (step) {
+        case 1:
+            document.getElementById(`${scope}-cancel`).style.display = 'block';
+            document.getElementById(`${scope}-previous`).style.display = 'none';
+            document.getElementById(`${scope}-next`).style.display = 'block';
+            document.getElementById(`${scope}-next`).dataset.target = 1;
+            document.getElementById(`${scope}-save`).style.display = 'none'
+            break
+        case 2:
+            document.getElementById(`${scope}-cancel`).style.display = 'none'
+            document.getElementById(`${scope}-previous`).style.display = 'block'
+            document.getElementById(`${scope}-previous`).dataset.target = 2
+            document.getElementById(`${scope}-next`).style.display = 'block'
+            document.getElementById(`${scope}-next`).dataset.target = 2
+            document.getElementById(`${scope}-save`).style.display = 'none'
+            break
+        case 3:
+            document.getElementById(`${scope}-cancel`).style.display = 'none'
+            document.getElementById(`${scope}-previous`).style.display = 'block'
+            document.getElementById(`${scope}-previous`).dataset.target = 3
+            document.getElementById(`${scope}-next`).style.display = 'none'
+            document.getElementById(`${scope}-save`).style.display = 'block'
+            break
+    }
 }
 
 $(document).ready(function () {
