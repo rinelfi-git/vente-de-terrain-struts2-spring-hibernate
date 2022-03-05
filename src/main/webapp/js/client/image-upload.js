@@ -8,10 +8,9 @@
 const image = document.getElementById('image');
 let cropper = null
 function uploadImageChange(element) {
-    const reader = new FileReader()
     const file = element.files[0]
-    reader.onload = function () {
-        image.src = reader.result
+    const load = function (url) {
+        image.src = url
         $('label[for=profile-image]').text(file.name)
         if (cropper != null)
             cropper.destroy()
@@ -20,39 +19,57 @@ function uploadImageChange(element) {
             viewMode: 1
         });
     }
-    reader.readAsDataURL(file);
+    if (URL) {
+        load(URL.createObjectURL(file))
+    } else if (FileReader) {
+        const reader = new FileReader()
+        reader.onload = function () {
+            load(reader.result)
+        }
+        reader.readAsDataURL(file);
+    }
 }
 
 function saveProfileImage() {
-    let croppedimage = cropper.getCroppedCanvas().toDataURL("image/png");
-    croppedimage = croppedimage.substring(croppedimage.indexOf(',') + 1, croppedimage.length)
-    const formData = new FormData()
-    formData.append('base64image', croppedimage)
-    formData.append('identity', identity)
-    $.ajax({
-        url: baseUrl('client/profile.action'),
-        method: 'post',
-        dataType: 'json',
-        contentType: false,
-        processData: false,
-        data: formData,
-        success: function () {
-            getDataFromService()
-            $('#update-profile-image').modal('hide')
-        },
-        error: function () {
+    let canvas = cropper.getCroppedCanvas({
+        width: 150,
+        height: 150
+    });
 
+    canvas.toBlob(function (blob) {
+        const url = URL.createObjectURL(blob);
+        const reader = new FileReader();
+        reader.onloadend = function () {
+            let base64image = reader.result;
+            base64image = base64image.slice(base64image.indexOf(',') + 1, base64image.length);
+            $.ajax({
+                url: baseUrl('client/profile.action'),
+                method: 'post',
+                dataType: 'json',
+                data: {
+                    base64image,
+                    identity
+                },
+                success: function () {
+                    getDataFromService()
+                    $('#update-profile-image').modal('hide')
+                },
+                error: function () {
+
+                }
+            })
         }
-    })
+        reader.readAsDataURL(blob);
+    });
 }
 
 $(document).ready(function () {
     $('#update-profile-image').on('hidden.bs.modal', function () {
-        if (cropper != null){
+        if (cropper != null) {
             cropper.destroy()
             image.src = ''
             $('label[for=profile-image]').text('Choose file')
         }
-            
+
     })
 })
