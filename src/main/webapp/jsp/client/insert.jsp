@@ -36,8 +36,7 @@
                 </form>
                 <form autocomplete="off" id="insert-phones-form" onsubmit="return validateStepForm(2, 'insert')">
                     <input type="submit" hidden name="submitter" value="submit">
-                    <div id="insert-phones-iteration">
-                    </div>
+                    <div id="insert-phones-iteration"></div>
                     <div class="row">
                         <div class="col-12">
                             <button class="btn btn-primary btn-flat w-100" type="button" onclick="addPhoneForm('insert')"><i class="fa fa-plus"></i></button>
@@ -72,7 +71,7 @@
                 </form>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="insert-cancel">Annuler</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="insert-cancel" onclick="initInsertForm()">Annuler</button>
                 <button type="button" class="btn btn-default" id="insert-previous" data-target="1" onclick="recheckStepForm(this.dataset.target, 'insert')"><i class="fa fa-angle-left"></i> Précédent</button>
                 <button type="button" class="btn btn-primary" id="insert-next" data-target="1" onclick="validateStepForm(this.dataset.target, 'insert')">Suivant <i class="fa fa-angle-right"></i></button>
                 <button type="button" class="btn btn-primary" id="insert-save" onclick="validateStepForm(3, 'insert')">Enregistrer</button>

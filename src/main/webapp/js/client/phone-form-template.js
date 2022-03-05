@@ -7,7 +7,7 @@
 function clientPhoneFormTemplate(index, scope, value) {
     return `
     <div class="form-group" id="${scope}-phone${index}-container">
-        <label for="${scope}-phone${index}">Numéro de téléphone N°${index + 1}</label>
+        <label for="${scope}-phone${index}">Téléphone N°${index + 1}:<span class="text-danger">*</span></label>
         <div class="input-group">
             <input class="form-control ${scope}-phone-input" placeholder="03X XX XXX XX" type="text" pattern="^03[2-9]{1}-[0-9]{2}-[0-9]{3}-[0-9]{2}$" id="${scope}-phone${index}" value="${value}" required oninput="checkInputPhone(this)" maxlength="13">
             <div class="input-group-append">
