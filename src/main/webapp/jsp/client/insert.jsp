@@ -74,8 +74,8 @@
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal" id="insert-cancel">Annuler</button>
                 <button type="button" class="btn btn-default" id="insert-previous" data-target="1" onclick="recheckStepForm(this.dataset.target, 'insert')"><i class="fa fa-angle-left"></i> Précédent</button>
-                <button type="button" class="btn btn-primary" id="insert-next" data-target="1" onclick="validateStepForm(this.dataset.target, 'insert', true)">Suivant <i class="fa fa-angle-right"></i></button>
-                <button type="button" class="btn btn-primary" id="insert-save" onclick="validateStepForm(3, 'insert', true)">Enregistrer</button>
+                <button type="button" class="btn btn-primary" id="insert-next" data-target="1" onclick="validateStepForm(this.dataset.target, 'insert')">Suivant <i class="fa fa-angle-right"></i></button>
+                <button type="button" class="btn btn-primary" id="insert-save" onclick="validateStepForm(3, 'insert')">Enregistrer</button>
             </div>
         </div>
         <!-- /.modal-content -->

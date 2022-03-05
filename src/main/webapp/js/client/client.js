@@ -73,29 +73,30 @@ function checkInputCin(element) {
                 correction = correction.slice(0, cassure) + '-' + correction.slice(cassure, correction.length);
         });
         element.value = correction;
-        if(element.value.length -1 !== selectionStart || element.value.slice(-2, -1) !== '-') element.setSelectionRange(selectionStart, selectionStart);
+        if (element.value.length - 1 !== selectionStart || element.value.slice(-2, -1) !== '-') element.setSelectionRange(selectionStart, selectionStart);
     } else
         element.value = element.value.slice(0, -1);
 }
 
-function validateStepForm(step, scope, button) {
+function validateStepForm(step, scope) {
     $('.is-invalid').removeClass('is-invalid');
-    $('.form-text').css({display: 'none'});
+    $('.form-text').css({
+        display: 'none'
+    });
 
     let validators = [];
     let validatorValid = null;
 
     switch (parseInt(step)) {
         case 1:
+            /*
             validators = [
                 $formValidation(`${scope}-cin`),
                 $formValidation(`${scope}-nom`),
                 $formValidation(`${scope}-prenom`)
             ];
             validatorValid = validators.find(function (validator) {
-                if (!validator.isValid()) {
-                    return validator;
-                }
+                if (!validator.isValid()) return validator;
             });
             if (typeof validatorValid === 'undefined') {
                 loadStepForm(2, scope);
@@ -107,15 +108,18 @@ function validateStepForm(step, scope, button) {
                     }
                 });
             }
+            */
+           loadStepForm(2, scope);
             break;
         case 2:
+            /*
             validators = [];
-            
+
             const phones = document.querySelectorAll(`.${scope}-phone-input`);
             for (let i = 0; i < phones.length; i++) {
                 validators.push($formValidation(`${scope}-phone${i}`));
             }
-            
+
             validatorValid = validators.find(function (validator) {
                 if (!validator.isValid()) {
                     return validator;
@@ -132,8 +136,54 @@ function validateStepForm(step, scope, button) {
                     }
                 });
             }
+            */
+           loadStepForm(3, scope);
             break;
         case 3:
+            validators = [
+                $formValidation(`${scope}-ville`),
+                $formValidation(`${scope}-postal`),
+                $formValidation(`${scope}-lot`)
+            ];
+            validatorValid = validators.find(function (validator) {
+                if (!validator.isValid()) {
+                    return validator;
+                }
+            });
+            if (typeof validatorValid === 'undefined') {
+                // envoi des données vers le serveur
+                const data = {
+                    cin: document.getElementById(`${scope}-cin`).value.replaceAll('-', ''),
+                    nom: document.getElementById(`${scope}-nom`).value,
+                    prenom: document.getElementById(`${scope}-prenom`).value,
+                    ville: document.getElementById(`${scope}-ville`).value,
+                    postal: document.getElementById(`${scope}-postal`).value,
+                    lot: document.getElementById(`${scope}-lot`).value,
+                    telephones: []
+                };
+                const phones = document.querySelectorAll(`${scope}-phone-input`);
+                
+                for (const phone of phones) data.telephones.push(phone.replaceAll('-', ''));
+                
+                if (scope === 'update') data.identity = identity;
+                
+                $.ajax({
+                    url: baseUrl(`client/${scope}.action`),
+                    method: 'post',
+                    data,
+                    dataType: 'json',
+                    success: function (response) {
+                        alert('ok')
+                    }
+                });
+            } else {
+                validators.forEach(function (validator) {
+                    if (!validator.isValid()) {
+                        validator.field.classList.add('is-invalid');
+                        validator.putError(`${validator.field.getAttribute('id')}-error`);
+                    }
+                });
+            }
             break;
     }
     return false;

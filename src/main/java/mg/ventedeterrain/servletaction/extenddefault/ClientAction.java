@@ -32,7 +32,7 @@ public class ClientAction extends ActionSupport implements SessionAware {
             paginationSearchField,
             paginationFieldOrder,
             base64image;
-    private int codePostal,
+    private int postal,
             pageCurrent,
             pageElementNumber,
             elementPerPage,
@@ -55,7 +55,7 @@ public class ClientAction extends ActionSupport implements SessionAware {
         Client client = new Client();
         Adresse adresse = new Adresse();
         adresse.setLot(lot);
-        adresse.setCodePostal(codePostal);
+        adresse.setCodePostal(postal);
         adresse.setVille(ville);
         client.setCin(cin);
         client.setNom(nom);
@@ -65,7 +65,26 @@ public class ClientAction extends ActionSupport implements SessionAware {
         for (String telephone : telephones) {
             client.getTelephones().add(telephone);
         }
-        clientService.insert(client);
+        // clientService.insert(client);
+        return SUCCESS;
+    }
+    
+    public String update() {
+        Client client = new Client();
+        Adresse adresse = new Adresse();
+        adresse.setLot(lot);
+        adresse.setCodePostal(postal);
+        adresse.setVille(ville);
+        client.setId(this.identity);
+        client.setCin(cin);
+        client.setNom(nom);
+        client.setPrenom(prenom);
+        client.setPhoto("default.png");
+        client.setAdresse(adresse);
+        for (String telephone : telephones) {
+            client.getTelephones().add(telephone);
+        }
+        // clientService.update(client);
         return SUCCESS;
     }
 
@@ -219,12 +238,12 @@ public class ClientAction extends ActionSupport implements SessionAware {
         this.lot = lot;
     }
 
-    public int getCodePostal() {
-        return codePostal;
+    public int getPostal() {
+        return postal;
     }
 
-    public void setCodePostal(int codePostal) {
-        this.codePostal = codePostal;
+    public void setPostal(int postal) {
+        this.postal = postal;
     }
 
     public String getOrderDirection() {

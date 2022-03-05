@@ -21,7 +21,7 @@ function $formValidation(field) {
             return valid
         },
         patternValid: function () {
-            const valid = (this.field.pattern.length > 0 && this.field.value.match(this.field.pattern)) !== null;
+            const valid = typeof this.field.pattern === 'undefined' || (this.field.pattern.length > 0 && this.field.value.match(this.field.pattern)) !== null;
             if (!valid)
                 error = 'Le format doit corréspondre à ' + this.field.pattern
             return valid;
