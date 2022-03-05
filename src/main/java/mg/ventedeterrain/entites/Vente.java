@@ -11,8 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class Vente implements Serializable {
 
     @Id
-    @GenericGenerator(name = "key_generator", strategy = "increment")
-    @GeneratedValue(generator = "key_generator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private Date operation;
     @OneToOne

@@ -12,8 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class Terrain implements Serializable {
 
     @Id
-    @GenericGenerator(name = "key_generator", strategy = "increment")
-    @GeneratedValue(generator = "key_generator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @OneToOne
     private Client proprietaire;

@@ -11,8 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 public class Client implements Serializable {
 
     @Id
-    @GenericGenerator(name = "key_generator", strategy = "increment")
-    @GeneratedValue(generator = "key_generator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String cin;
     private String nom;

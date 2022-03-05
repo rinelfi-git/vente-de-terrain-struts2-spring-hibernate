@@ -62,13 +62,13 @@ public class ClientAction extends ActionSupport implements SessionAware {
         client.setPrenom(prenom);
         client.setPhoto("default.png");
         client.setAdresse(adresse);
-        for (String telephone : telephones) {
-            client.getTelephones().add(telephone);
+        if (this.telephones != null) {
+            client.getTelephones().addAll(Arrays.asList(this.telephones));
         }
-        // clientService.insert(client);
+        this.clientService.insert(client);
         return SUCCESS;
     }
-    
+
     public String update() {
         Client client = new Client();
         Adresse adresse = new Adresse();
@@ -81,10 +81,10 @@ public class ClientAction extends ActionSupport implements SessionAware {
         client.setPrenom(prenom);
         client.setPhoto("default.png");
         client.setAdresse(adresse);
-        for (String telephone : telephones) {
-            client.getTelephones().add(telephone);
+        if (this.telephones != null) {
+            client.getTelephones().addAll(Arrays.asList(this.telephones));
         }
-        // clientService.update(client);
+        this.clientService.update(client);
         return SUCCESS;
     }
 

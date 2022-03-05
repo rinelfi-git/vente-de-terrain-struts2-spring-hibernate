@@ -89,7 +89,6 @@ function validateStepForm(step, scope) {
 
     switch (parseInt(step)) {
         case 1:
-            /*
             validators = [
                 $formValidation(`${scope}-cin`),
                 $formValidation(`${scope}-nom`),
@@ -108,11 +107,8 @@ function validateStepForm(step, scope) {
                     }
                 });
             }
-            */
-           loadStepForm(2, scope);
             break;
         case 2:
-            /*
             validators = [];
 
             const phones = document.querySelectorAll(`.${scope}-phone-input`);
@@ -136,8 +132,6 @@ function validateStepForm(step, scope) {
                     }
                 });
             }
-            */
-           loadStepForm(3, scope);
             break;
         case 3:
             validators = [
@@ -161,9 +155,9 @@ function validateStepForm(step, scope) {
                     lot: document.getElementById(`${scope}-lot`).value,
                     telephones: []
                 };
-                const phones = document.querySelectorAll(`${scope}-phone-input`);
+                const phones = document.querySelectorAll(`.${scope}-phone-input`);
                 
-                for (const phone of phones) data.telephones.push(phone.replaceAll('-', ''));
+                for (const phone of phones) data.telephones.push(phone.value.replaceAll('-', ''));
                 
                 if (scope === 'update') data.identity = identity;
                 
@@ -172,8 +166,10 @@ function validateStepForm(step, scope) {
                     method: 'post',
                     data,
                     dataType: 'json',
+                    traditional: true,
                     success: function (response) {
-                        alert('ok')
+                        $(`#${scope}-modal`).modal('hide');
+                        getDataFromService();
                     }
                 });
             } else {
