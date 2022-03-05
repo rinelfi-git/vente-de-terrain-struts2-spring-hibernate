@@ -5,13 +5,15 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import mg.ventedeterrain.entites.embedded.GeolocationEmbedded;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "terrain")
 public class Terrain implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "key_generator", strategy = "increment")
+    @GeneratedValue(generator = "key_generator")
     private int id;
     @OneToOne
     private Client proprietaire;

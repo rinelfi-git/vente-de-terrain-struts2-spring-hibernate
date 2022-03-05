@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+/* global URL, FileReader, identity */
+
 // import 'cropperjs/dist/cropper.css';
 
 const image = document.getElementById('image');
 let cropper = null;
 
 function uploadImageChange(element) {
-    const file = element.files[0]
+    const file = element.files[0];
     const load = function (url) {
         image.src = url;
         $('label[for=profile-image]').text(file.name);
@@ -19,21 +21,21 @@ function uploadImageChange(element) {
             aspectRatio: 1,
             viewMode: 1
         });
-    }
+    };
     if (URL) {
         // plus léger
-        load(URL.createObjectURL(file))
+        load(URL.createObjectURL(file));
     } else if (FileReader) {
-        const reader = new FileReader()
+        const reader = new FileReader();
         reader.onload = function () {
-            load(reader.result)
-        }
+            load(reader.result);
+        };
         reader.readAsDataURL(file);
     }
 }
 
 function saveProfileImage() {
-    let canvas = cropper.getCroppedCanvas({
+    const canvas = cropper.getCroppedCanvas({
         width: 150,
         height: 150
     });
@@ -73,4 +75,4 @@ $(document).ready(function () {
             $('label[for=profile-image]').text('Choose file');
         }
     });
-})
+});

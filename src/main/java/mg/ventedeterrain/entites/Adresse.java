@@ -6,11 +6,9 @@ import java.io.Serializable;
 
 @Embeddable
 public class Adresse implements Serializable {
-	@Column(name = "adresse_ville")
 	private String ville;
-	@Column(name = "adresse_lot")
 	private String lot;
-	@Column(name = "adresse_code_postal")
+	@Column(name = "code_postal")
 	private int codePostal;
 	
 	public String getVille() {

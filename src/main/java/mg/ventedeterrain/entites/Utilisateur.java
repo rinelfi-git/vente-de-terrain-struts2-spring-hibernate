@@ -7,13 +7,13 @@ import java.io.Serializable;
 @Table(name = "utilisateur")
 public class Utilisateur implements Serializable {
 	@Id
-	@Column(name = "user_name")
+	@Column(name = "name")
 	private String nomUtilisateur;
-	@Column(name = "user_email")
+	@Column(name = "email")
 	private String email;
-	@Column(name = "user_password")
+	@Column(name = "password")
 	private String motDePasse;
-	@Column(name = "user_photo")
+	@Column(name = "photo")
 	private String photo;
 	
 	public String getNomUtilisateur() {
