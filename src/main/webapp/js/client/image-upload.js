@@ -6,20 +6,22 @@
 // import 'cropperjs/dist/cropper.css';
 
 const image = document.getElementById('image');
-let cropper = null
+let cropper = null;
+
 function uploadImageChange(element) {
     const file = element.files[0]
     const load = function (url) {
-        image.src = url
-        $('label[for=profile-image]').text(file.name)
-        if (cropper != null)
-            cropper.destroy()
+        image.src = url;
+        $('label[for=profile-image]').text(file.name);
+        if (cropper !== null)
+            cropper.destroy();
         cropper = new Cropper(image, {
             aspectRatio: 1,
             viewMode: 1
         });
     }
     if (URL) {
+        // plus léger
         load(URL.createObjectURL(file))
     } else if (FileReader) {
         const reader = new FileReader()
@@ -51,25 +53,24 @@ function saveProfileImage() {
                     identity
                 },
                 success: function () {
-                    getDataFromService()
-                    $('#update-profile-image').modal('hide')
+                    getDataFromService();
+                    $('#update-profile-image').modal('hide');
                 },
                 error: function () {
 
                 }
-            })
-        }
+            });
+        };
         reader.readAsDataURL(blob);
     });
 }
 
 $(document).ready(function () {
     $('#update-profile-image').on('hidden.bs.modal', function () {
-        if (cropper != null) {
-            cropper.destroy()
-            image.src = ''
-            $('label[for=profile-image]').text('Choose file')
+        if (cropper !== null) {
+            cropper.destroy();
+            image.src = '';
+            $('label[for=profile-image]').text('Choose file');
         }
-
-    })
+    });
 })
