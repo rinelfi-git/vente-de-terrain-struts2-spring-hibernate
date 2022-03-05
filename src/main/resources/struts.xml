@@ -91,6 +91,11 @@
                 <param name="root">true</param>
             </result>
         </action>
+        <action name="select" method="select" class="mg.ventedeterrain.servletaction.extenddefault.ClientAction">
+            <result name="success" type="json">
+                <param name="root">select</param>
+            </result>
+        </action>
         <action name="list" method="list" class="mg.ventedeterrain.servletaction.extenddefault.ClientAction">
             <result name="success" type="json">
                 <param name="root">clients</param>

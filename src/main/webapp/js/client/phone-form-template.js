@@ -31,13 +31,13 @@ function deletePhoneAt(index, scope) {
     document.getElementById(`${scope}-phones-iteration`).innerHTML = phoneHtml
 }
 
-function addPhoneForm(scope) {
+function addPhoneForm(scope, value) {
     const phones = document.querySelectorAll(`.${scope}-phone-input`)
     let phoneHtml = ''
     for (let i = 0; i < phones.length; i++) {
         phoneHtml += clientPhoneFormTemplate(i, scope, phones[i].value)
     }
-    phoneHtml += clientPhoneFormTemplate(phones.length, scope, '')
+    phoneHtml += clientPhoneFormTemplate(phones.length, scope, typeof value !== 'undefined' ? value : '')
     document.getElementById(`${scope}-phones-iteration`).innerHTML = phoneHtml
 }
 

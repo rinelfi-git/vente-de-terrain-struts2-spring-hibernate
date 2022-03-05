@@ -39,9 +39,11 @@ public class ClientAction extends ActionSupport implements SessionAware {
             totalRecords,
             identity;
     private boolean paginationOrdered, paginationSearchActivated;
+    private Client select;
     @Autowired
     private ClientService clientService;
 
+    @Override
     public String execute() {
         setNamespace("client");
         return this.session.containsKey("username") ? SUCCESS : LOGIN;
@@ -70,7 +72,7 @@ public class ClientAction extends ActionSupport implements SessionAware {
     }
 
     public String update() {
-        Client client = new Client();
+        Client client = this.clientService.select(this.identity);
         Adresse adresse = new Adresse();
         adresse.setLot(lot);
         adresse.setCodePostal(postal);
@@ -79,12 +81,17 @@ public class ClientAction extends ActionSupport implements SessionAware {
         client.setCin(cin);
         client.setNom(nom);
         client.setPrenom(prenom);
-        client.setPhoto("default.png");
         client.setAdresse(adresse);
+        client.getTelephones().clear();
         if (this.telephones != null) {
             client.getTelephones().addAll(Arrays.asList(this.telephones));
         }
         this.clientService.update(client);
+        return SUCCESS;
+    }
+    
+    public String select() {
+        this.select = this.clientService.select(this.identity);
         return SUCCESS;
     }
 
@@ -340,6 +347,14 @@ public class ClientAction extends ActionSupport implements SessionAware {
 
     public void setIdentity(int identity) {
         this.identity = identity;
+    }
+
+    public Client getSelect() {
+        return select;
+    }
+
+    public void setSelect(Client select) {
+        this.select = select;
     }
 
 }

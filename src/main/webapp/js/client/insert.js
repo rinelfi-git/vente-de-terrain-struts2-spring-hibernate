@@ -11,6 +11,7 @@ function insertAction() {
 }
 
 function initInsertForm() {
+    document.getElementById(`insert-personal-form`).style.display = 'block';
     document.getElementById(`insert-phones-form`).style.display = 'none';
     document.getElementById(`insert-address-form`).style.display = 'none';
     document.getElementById(`insert-cancel`).style.display = 'block';

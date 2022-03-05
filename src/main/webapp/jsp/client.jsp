@@ -20,6 +20,7 @@
         <script src="${pageContext.request.contextPath}/js/client/card-template.js"></script>
         <script src="${pageContext.request.contextPath}/js/client/phone-form-template.js"></script>
         <script src="${pageContext.request.contextPath}/js/client/insert.js"></script>
+        <script src="${pageContext.request.contextPath}/js/client/update.js"></script>
         <script src="${pageContext.request.contextPath}/js/client/client.js"></script>
     </head>
     <body class="layout-top-nav">
@@ -45,6 +46,7 @@
 
                 <s:include value="client/search-criterias.jsp"/>
                 <s:include value="client/insert.jsp"/>
+                <s:include value="client/update.jsp"/>
                 <s:include value="client/profile-image-update.jsp"/>
 
                 <div class="content">

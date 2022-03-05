@@ -16,11 +16,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form autocomplete="off" id="update-personal-form">
-                    <input type="submit" hidden="hidden" id="update-information-submitters">
+                <form autocomplete="off" id="update-personal-form" onsubmit="return validateStepForm(1, 'update')">
+                    <input type="submit" hidden name="submitter" value="submit">
                     <div class="form-group">
                         <label for="update-cin">cin:<span class="text-danger">*</span></label>
-                        <input type="text" placeholder="xxx xx(1 ou 2) xxx xxx (Sans espace)" name="cin" id="update-cin" class="form-control" required maxlength="12" pattern="[0-9]{5}(1|2){1}[0-9]{6}">
+                        <input type="text" placeholder="XXX XXX XXX XXX" name="cin" id="update-cin" class="form-control" required maxlength="15" pattern="^[0-9]{3}-[0-9]{2}(1|2){1}-[0-9]{3}-[0-9]{3}$" oninput="checkInputCin(this)">
                         <small class="form-text text-danger" id="update-cin-error"></small>
                     </div>
                     <div class="form-group">
@@ -31,20 +31,20 @@
                     <div class="form-group">
                         <label for="update-prenom">prénom:</label>
                         <input type="text" placeholder="ex: Benjamina" class="form-control" id="update-prenom" name="prenom">
+                        <small class="form-text text-danger" id="update-prenom-error"></small>
                     </div>
                 </form>
-                <form autocomplete="off" id="update-telephones-form">
-                    <input type="submit" hidden="hidden" id="update-telephones-submitters">
-                    <div id="update-telephones-iteration">
-                    </div>
+                <form autocomplete="off" id="update-phones-form" onsubmit="return validateStepForm(2, 'update')">
+                    <input type="submit" hidden name="submitter" value="submit">
+                    <div id="update-phones-iteration"></div>
                     <div class="row">
                         <div class="col-12">
-                            <button class="btn btn-primary btn-flat w-100" type="button" onclick="addTelephone()"><i class="fa fa-plus"></i></button>
+                            <button class="btn btn-primary btn-flat w-100" type="button" onclick="addPhoneForm('update')"><i class="fa fa-plus"></i></button>
                         </div>
                     </div>
                 </form>
-                <form autocomplete="off" id="update-address-form">
-                    <input type="submit" hidden="hidden" id="update-address-submitter">
+                <form autocomplete="off" id="update-address-form" onsubmit="return validateStepForm(3, 'update')">
+                    <input type="submit" hidden name="submitter" value="submit">
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
@@ -72,9 +72,9 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal" id="update-cancel">Annuler</button>
-                <button type="button" class="btn btn-default" id="update-previous"><i class="fa fa-angle-left"></i> Précédent</button>
-                <button type="button" class="btn btn-primary" id="update-next">Suivant <i class="fa fa-angle-right"></i></button>
-                <button type="button" class="btn btn-primary" id="update-save">Enregistrer</button>
+                <button type="button" class="btn btn-default" id="update-previous" data-target="1" onclick="recheckStepForm(this.dataset.target, 'update')"><i class="fa fa-angle-left"></i> Précédent</button>
+                <button type="button" class="btn btn-primary" id="update-next" data-target="1" onclick="validateStepForm(this.dataset.target, 'update')">Suivant <i class="fa fa-angle-right"></i></button>
+                <button type="button" class="btn btn-primary" id="update-save" onclick="validateStepForm(3, 'update')">Enregistrer</button>
             </div>
         </div>
         <!-- /.modal-content -->
