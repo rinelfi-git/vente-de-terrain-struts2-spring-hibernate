@@ -12,7 +12,7 @@
         height: 200px;
         display: none;
     }
-    
+
     #insert-coordinates {
         display: none;
     }
@@ -28,12 +28,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form autocomplete="off" onsubmit="return insert()">
+                <form autocomplete="off" onsubmit="return submit('insert')">
                     <input type="submit" value="" hidden="hidden">
                     <div class="form-group">
-                        <label for="insert-localisation">Adresse: <span
+                        <label for="insert-adresse">Adresse: <span
                                 class="text-danger">*</span></label>
-                        <textarea class="form-control" id="insert-adresse" name="adresse" maxlength="255"></textarea>
+                        <textarea class="form-control" id="insert-adresse" name="adresse" maxlength="255" required></textarea>
+                        <small class="form-text text-danger" id="insert-adresse-error"></small>
                     </div>
                     <div class="row">
                         <div class="icheck-primary ml-2 mb-3">
@@ -53,48 +54,54 @@
                         </div>
                     </div>
                     <div class="row mb-2" id="insert-map-selection"></div>
+                    <div class="row" id="insert-map-view">
+                        <div class="icheck-primary ml-2 mb-3">
+                            <input type="checkbox" id="insert-satellite" name="satellite" onchange="updateMapViewMode(this, 'insert')">
+                            <label for="insert-satellite">
+                                Satellite
+                            </label>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="insert-proprietaire">propriétaire:<span
                                 class="text-danger">*</span></label>
-                        <div class="input-group mb-2" id="client-search-input-insert">
-                            <input type="text" class="form-control" placeholder="Recherche"
-                                   oninput="search_for_client(this, clients)"/>
+                        <div class="input-group mb-2" id="insert-client-search-container">
+                            <input type="text" class="form-control" placeholder="Recherche" oninput="searchForClient(this, clients, 'insert')"/>
                             <div class="input-group-append">
-                                <span class="btn btn-default"
-                                      id="client-search-result-number-insert">0</span>
+                                <span class="btn btn-default" id="insert-client-search-result-number">0</span>
                             </div>
                         </div>
                         <div class="input-group">
-                            <select id="insert-proprietaire" class="custom-select">
-                                <option selected="selected" hidden="hidden" disabled="disabled">(Sélectionner un propriétaire)</option>
+                            <select id="insert-proprietaire" class="custom-select" required>
+                                <option selected="selected" hidden="hidden" value="">(Sélectionner un propriétaire)</option>
                             </select>
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button" onclick="toggleClientSearch()">
+                                <button class="btn btn-primary" type="button" onclick="toggleClientSearch('insert')">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </div>
                         </div>
+                        <small class="form-text text-danger" id="insert-proprietaire-error"></small>
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                                <label for="insert-surface">surface:<span
-                                        class="text-danger">*</span></label> <input type="number"
-                                                                            class="form-control" id="insert-surface">
+                                <label for="insert-surface">surface:<span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="insert-surface" required>
+                                <small class="form-text text-danger" id="insert-surface-error"></small>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                                <label for="insert-prix">prix par m²:<span
-                                        class="text-danger">*</span></label> <input type="number"
-                                                                            class="form-control" id="insert-prix">
+                                <label for="insert-prix">prix par m²:<span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="insert-prix" required>
+                                <small class="form-text text-danger" id="insert-prix-error"></small>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="insert-relief">relief:<span
-                                class="text-danger">*</span></label> <select id="insert-relief"
-                                                                     class="custom-select">
+                        <label for="insert-relief">relief:<span class="text-danger">*</span></label>
+                        <select id="insert-relief" class="custom-select">
                             <option value="Coline">Coline</option>
                             <option value="Montagne">Montagne</option>
                             <option value="Plateau">Plateau</option>
@@ -112,8 +119,8 @@
                 </form>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary" onclick="insert()">Enregistrer</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="initInsertForm()">Annuler</button>
+                <button type="button" class="btn btn-primary" onclick="submit('insert')">Enregistrer</button>
             </div>
         </div>
         <!-- /.modal-content -->

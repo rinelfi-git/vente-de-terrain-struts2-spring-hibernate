@@ -14,7 +14,8 @@ public class Terrain implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name="client_id", nullable=false)
     private Client proprietaire;
     @Column(name = "en_vente")
     private boolean enVente;

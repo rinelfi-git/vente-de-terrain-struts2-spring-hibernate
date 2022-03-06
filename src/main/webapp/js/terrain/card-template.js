@@ -99,7 +99,7 @@ function terrainCardTemplate(index, terrain) {
 			                </div>
 			                <div class="col">
 			                    <div class="text-right">
-			                        <button class="btn btn-default" onclick="locateOnMap(${terrain.coordinates.latitude}, ${terrain.coordinates.longitude})">
+			                        <button class="btn btn-default" ${terrain.geolocated ? `onclick="locateOnMap(${terrain.coordinates.latitude}, ${terrain.coordinates.longitude})"`: 'disabled'}>
 			                            <i class="fa fa-map-marker-alt"></i>
 			                        </button>
 			                    </div>
