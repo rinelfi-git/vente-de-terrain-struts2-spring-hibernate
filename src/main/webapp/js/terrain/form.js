@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/* global formMap, identity, mapboxgl, markerMap */
+/* global formMap, identity, mapboxgl, markerMap, toastr */
 
 let clients = [];
 const views = {
@@ -105,13 +105,13 @@ function updateMapViewMode(element, scope) {
 function updateCurrentLocationInput(scope) {
     const long = document.getElementById(`${scope}-longitude`);
     const lat = document.getElementById(`${scope}-latitude`);
-    const longlat = [long.value === '' ? 0 : parseFloat(long.value), lat.value === '' ? 0 : parseFloat(lat.value)]
-    markerMap[scope].remove()
-    markerMap[scope] = new mapboxgl.Marker().setLngLat(longlat).addTo(formMap.insert)
+    const longlat = [long.value === '' ? 0 : parseFloat(long.value), lat.value === '' ? 0 : parseFloat(lat.value)];
+    markerMap[scope].remove();
+    markerMap[scope] = new mapboxgl.Marker().setLngLat(longlat).addTo(formMap.insert);
     formMap[scope].flyTo({
         zoom: 18,
         center: longlat
-    })
+    });
 }
 
 function submit(scope) {
@@ -119,7 +119,7 @@ function submit(scope) {
     $('.form-text').css({
         display: 'none'
     });
-    
+
     const validators = [
         $formValidation(`${scope}-adresse`),
         $formValidation(`${scope}-proprietaire`),
@@ -149,7 +149,10 @@ function submit(scope) {
             data,
             success: function () {
                 $(`#${scope}-modal`).modal('hide');
-                if (scope === 'insert') initInsertForm();
+                if (scope === 'insert') {
+                    initInsertForm();
+                    toastr["success"]("Un client est ajouté dans la base de données", "Insertion");
+                } else toastr["success"]("Un client dans la base de données est modifié", "Modification");
                 getDataFromService();
             },
             error: function () {

@@ -1,7 +1,26 @@
+/* global toastr */
+
 let paginationCurrentPage = 1;
 let paginationElementPerPage = 12;
 let pageLength = 1;
 let identity = -1;
+toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": false,
+    "positionClass": "toast-bottom-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "300",
+    "timeOut": "2000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+};
 
 function udpateClientProfileImage(id) {
     identity = id;
@@ -156,11 +175,10 @@ function validateStepForm(step, scope) {
                     telephones: []
                 };
                 const phones = document.querySelectorAll(`.${scope}-phone-input`);
-                
+
                 for (const phone of phones) data.telephones.push(phone.value.replaceAll('-', ''));
-                
                 if (scope === 'update') data.identity = identity;
-                
+
                 $.ajax({
                     url: baseUrl(`client/${scope}.action`),
                     method: 'post',
@@ -169,6 +187,10 @@ function validateStepForm(step, scope) {
                     traditional: true,
                     success: function (response) {
                         $(`#${scope}-modal`).modal('hide');
+                        if (scope === 'insert') {
+                            initInsertForm();
+                            toastr["success"]("Un client est ajouté dans la base de données", "Insertion");
+                        } else toastr["success"]("Un client dans la base de données est modifié", "Modification");
                         getDataFromService();
                     }
                 });

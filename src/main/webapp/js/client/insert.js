@@ -7,7 +7,7 @@
 const insertPhones = []
 
 function insertAction() {
-    return false
+    return false;
 }
 
 function initInsertForm() {
@@ -30,5 +30,5 @@ function initInsertForm() {
 }
 
 $(document).ready(function () {
-    initInsertForm()
+    initInsertForm();
 })
