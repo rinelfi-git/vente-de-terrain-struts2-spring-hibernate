@@ -137,6 +137,11 @@
                 <param name="root">totalRecords</param>
             </result>
         </action>
+        <action name="delete" method="purge" class="mg.ventedeterrain.servletaction.extenddefault.TerrainAction">
+            <result name="success" type="json">
+                <param name="root">true</param>
+            </result>
+        </action>
     </package>
 	
     <!-- jsons	-->

@@ -48,6 +48,7 @@
                 </div>
                 <s:include value="terrain/search-criteria.jsp"/>
                 <s:include value="terrain/insert.jsp"/>
+                <s:include value="terrain/confirm-delete.jsp"/>
                 <s:include value="terrain/thumbnail.jsp"/>
 
                 <!-- Main content -->

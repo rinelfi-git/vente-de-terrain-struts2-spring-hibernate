@@ -19,57 +19,53 @@ import java.util.*;
 public class TerrainAction extends ActionSupport implements SessionAware {
 
     private Map<String, Object> session;
-    private String fileHost = "http://localhost/vente_de_terrain/terrain",
-            uploadDestination = "/var/www/html/vente_de_terrain/terrain/",
-            defaultThumbnail = "default.jpg",
-            keyword,
-            apercuContentType,
-            apercuFileName,
-            uploadedFilename,
-            identity,
-            namespace,
-            adresse,
-            relief,
-            orderDirection,
-            paginationFieldOrder,
-            paginationSearchKeyword,
-            paginationSearchField;
+    private final String uploadDestination = "/var/www/html/vente_de_terrain/terrain/";
+    private String defaultThumbnail = "default.jpg",
+        keyword,
+        apercuContentType,
+        apercuFileName,
+        uploadedFilename,
+        namespace,
+        adresse,
+        relief,
+        orderDirection,
+        paginationFieldOrder,
+        paginationSearchKeyword,
+        paginationSearchField;
     private List<Terrain> terrains;
     private List<Client> clientForms;
     private File apercu;
     private String[] saveThumb,
-            excludeThumb;
+        excludeThumb;
     private int proprietaire,
-            prix,
-            elementPerPage,
-            pageCurrent,
-            totalRecords;
+        prix,
+        elementPerPage,
+        pageCurrent,
+        totalRecords,
+        identity;
     private float surface,
-            longitude,
-            latitude;
+        longitude,
+        latitude;
     private boolean enVente,
-            paginationOrdered,
-            paginationSearchActivated,
-            geolocated;
+        paginationOrdered,
+        paginationSearchActivated,
+        geolocated;
 
     @Autowired
     private TerrainService terrainService;
     @Autowired
     private ClientService clientService;
 
-    // link parameters
-    private int page, limit;
-
+    @Override
     public String execute() {
         clientForms = clientService.select();
-//return this.session.containsKey("username") ? SUCCESS : LOGIN;
-        return SUCCESS;
+        return this.session.containsKey("username") ? SUCCESS : LOGIN;
     }
 
     public String uploadThumbnail() throws IOException {
         final Calendar calendar = Calendar.getInstance();
         int start = this.apercuFileName.lastIndexOf('.'),
-                end = this.apercuFileName.length();
+            end = this.apercuFileName.length();
         String filename = String.format("terrain_img_%d_%d_%dat%d_%d_%d_%d%s", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), calendar.get(Calendar.MILLISECOND), this.apercuFileName.substring(start, end));
         File destination = new File(uploadDestination + filename);
         Files.move(apercu.toPath(), destination.toPath());
@@ -81,11 +77,9 @@ public class TerrainAction extends ActionSupport implements SessionAware {
 
     public String saveThumbnail() throws IOException {
         if (this.saveThumb != null) {
-            Terrain terrain = this.terrainService.select(Integer.parseInt(identity));
+            Terrain terrain = this.terrainService.select(this.identity);
             terrain.setApercues(new HashSet<>());
-            for (String image : this.saveThumb) {
-                terrain.getApercues().add(image);
-            }
+            terrain.getApercues().addAll(Arrays.asList(this.saveThumb));
             terrainService.update(terrain);
         }
         if (this.excludeThumb != null) {
@@ -111,6 +105,11 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         terrain.setRelief(this.relief);
         terrain.setEnVente(this.enVente);
         this.terrainService.insert(terrain);
+        return SUCCESS;
+    }
+
+    public String purge() {
+        this.terrainService.delete(this.identity);
         return SUCCESS;
     }
 
@@ -148,14 +147,6 @@ public class TerrainAction extends ActionSupport implements SessionAware {
 
     public Map<String, Object> getSession() {
         return session;
-    }
-
-    public String getFileHost() {
-        return fileHost;
-    }
-
-    public void setFileHost(String fileHost) {
-        this.fileHost = fileHost;
     }
 
     public String getKeyword() {
@@ -214,11 +205,11 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         this.uploadedFilename = uploadedFilename;
     }
 
-    public String getIdentity() {
+    public int getIdentity() {
         return identity;
     }
 
-    public void setIdentity(String identity) {
+    public void setIdentity(int identity) {
         this.identity = identity;
     }
 

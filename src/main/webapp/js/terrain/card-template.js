@@ -1,24 +1,24 @@
 function terrainCardTemplate(index, terrain) {
-    const apercues = terrain.apercues
-    let apercuHtml = ''
+    const apercues = terrain.apercues;
+    let apercuHtml = '';
     if (apercues.length <= 1) {
         apercuHtml = `
         <div class="row">
             <div class="col-12">
-                ${apercues.length == 1 ? '<div style="background-image: url(' + terrainApercuUrl(apercues[0]) + '); height: 175px; background-position: center; background-size: cover"></div>' : '<div style="background-image: url(' + terrainApercuUrl('default.jpg') + '); height: 175px; background-position: center; background-size: cover"></div>'}
+                ${apercues.length === 1 ? '<div style="background-image: url(' + terrainApercuUrl(apercues[0]) + '); height: 175px; background-position: center; background-size: cover"></div>' : '<div style="background-image: url(' + terrainApercuUrl('default.jpg') + '); height: 175px; background-position: center; background-size: cover"></div>'}
             </div>
         </div>
-		`
+		`;
     } else {
-        let indicatorsHtml = ''
-        let apercuesHtml = ''
+        let indicatorsHtml = '';
+        let apercuesHtml = '';
         for (let i = 0; i < apercues.length; i++) {
-            indicatorsHtml += `<li data-target="#carousel-indicator${index}" data-slide-to="${i}" class="${i == 0 ? 'active' : ''}"></li>`
+            indicatorsHtml += `<li data-target="#carousel-indicator${index}" data-slide-to="${i}" class="${i === 0 ? 'active' : ''}"></li>`;
             apercuesHtml += `
-			<div class="carousel-item${i == 0 ? ' active' : ''}">
+			<div class="carousel-item${i === 0 ? ' active' : ''}">
 				<div class="d-block w-100" style="background-image: url(${terrainApercuUrl(apercues[i])}); height: 175px; background-position: center; background-size: cover"></div>
 			</div>
-			`
+			`;
         }
         apercuHtml = `
 		<div id="carousel-indicator${index}" class="carousel slide" data-ride="carousel" data-interval="false">
@@ -37,9 +37,9 @@ function terrainCardTemplate(index, terrain) {
 				<span class="sr-only">Next</span>
 			</a>
 		</div>
-		`
+		`;
     }
-    const apercuesJson = JSON.stringify(apercues).replaceAll('"', '\'')
+    const apercuesJson = JSON.stringify(apercues).replaceAll('"', '\'');
     return `
 			<div class="w-100 col-12 col-sm-12 col-md-6 col-lg-4 d-flex align-items-stretch">
 			    <div class="card bg-white card-lightblue card-outline w-100">
@@ -87,11 +87,11 @@ function terrainCardTemplate(index, terrain) {
 			                                action
 			                            </button>
 			                            <div class="dropdown-menu">
-			                                <a href="!#" class="dropdown-item" data-toggle="modal"
+			                                <a href="javascript:;" class="dropdown-item" data-toggle="modal"
 			                                    data-target="#modification-modal${index}"><span class="material-icons">update</span>
 			                                    modifier</a>
 			                                <div class="dropdown-divider"></div>
-			                                <a href="!#" class="dropdown-item"><span class="material-icons">delete_forever</span>
+			                                <a href="javascript:;" class="dropdown-item" onclick="promptDelete(${terrain.id}, '${terrain.adresse.replaceAll("'", "\'")}')"><span class="material-icons">delete_forever</span>
 			                                    supprimer</a>
 			                            </div>
 			                        </div>
@@ -108,5 +108,5 @@ function terrainCardTemplate(index, terrain) {
 			        </div>
 			    </div>
 			</div>
-	`
+	`;
 }
