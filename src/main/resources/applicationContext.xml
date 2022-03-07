@@ -9,42 +9,42 @@
        http://www.springframework.org/schema/context/spring-context-3.2.xsd
        http://www.springframework.org/schema/tx
        http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
-	<bean id="clientModel" class="mg.ventedeterrain.dao.jpa.ClientModel"/>
-	<bean id="terrainModel" class="mg.ventedeterrain.dao.jpa.TerrainModel"/>
-	<bean id="utilisateurModel" class="mg.ventedeterrain.dao.jpa.UserModel"/>
-	<bean id="venteModel" class="mg.ventedeterrain.dao.jpa.VenteModel"/>
-	<bean id="clientService" class="mg.ventedeterrain.service.ClientServiceModel">
-		<property name="dao" ref="clientModel"/>
-	</bean>
-	<bean id="terrainService" class="mg.ventedeterrain.service.TerrainServiceModel">
-		<property name="dao" ref="terrainModel"/>
-	</bean>
-	<bean id="utilisateurService" class="mg.ventedeterrain.service.UserServiceModel">
-		<property name="dao" ref="utilisateurModel"/>
-	</bean>
-	<bean id="venteService" class="mg.ventedeterrain.service.VenteServiceModel">
-		<property name="dao" ref="venteModel"/>
-	</bean>
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="org.postgresql.Driver"/>
-		<property name="url" value="jdbc:postgresql://localhost:5430/vente_de_terrain"/>
-		<property name="username" value="postgres"/>
-		<property name="password" value="postgres"/>
-	</bean>
-	<bean id="persistenceUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
-		<property name="persistenceXmlLocations">
-			<list>
-				<value>classpath*:persistence.xml</value>
-			</list>
-		</property>
-		<property name="defaultDataSource" ref="dataSource"/>
-	</bean>
-	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceUnitManager" ref="persistenceUnitManager"/>
-	</bean>
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory"/>
-	</bean>
-	<tx:annotation-driven transaction-manager="transactionManager"/>
-	<context:annotation-config></context:annotation-config>
+    <bean id="clientModel" class="mg.ventedeterrain.dao.jpa.ClientModel"/>
+    <bean id="terrainModel" class="mg.ventedeterrain.dao.jpa.TerrainModel"/>
+    <bean id="utilisateurModel" class="mg.ventedeterrain.dao.jpa.UserModel"/>
+    <bean id="venteModel" class="mg.ventedeterrain.dao.jpa.VenteModel"/>
+    <bean id="clientService" class="mg.ventedeterrain.service.ClientServiceModel">
+        <property name="dao" ref="clientModel"/>
+    </bean>
+    <bean id="terrainService" class="mg.ventedeterrain.service.TerrainServiceModel">
+        <property name="dao" ref="terrainModel"/>
+    </bean>
+    <bean id="utilisateurService" class="mg.ventedeterrain.service.UserServiceModel">
+        <property name="dao" ref="utilisateurModel"/>
+    </bean>
+    <bean id="venteService" class="mg.ventedeterrain.service.VenteServiceModel">
+        <property name="dao" ref="venteModel"/>
+    </bean>
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/vente_de_terrain"/>
+        <property name="username" value="java"/>
+        <property name="password" value="java"/>
+    </bean>
+    <bean id="persistenceUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+        <property name="persistenceXmlLocations">
+            <list>
+                <value>classpath*:persistence.xml</value>
+            </list>
+        </property>
+        <property name="defaultDataSource" ref="dataSource"/>
+    </bean>
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="persistenceUnitManager"/>
+    </bean>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <context:annotation-config></context:annotation-config>
 </beans>

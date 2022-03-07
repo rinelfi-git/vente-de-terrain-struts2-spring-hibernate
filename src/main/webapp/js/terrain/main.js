@@ -7,22 +7,12 @@
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmluZWxmaSIsImEiOiJjbDBhdXVteDQwM3JsM2tvN2NjMXEzdGM3In0.Fv-NkbIGRVB4RdBMO6pNGw';
 const formMap = {
-    insert: new mapboxgl.Map({
-        container: 'insert-map-selection',
-        style: 'mapbox://styles/mapbox/outdoors-v11', // style URL,
-        zoom: 4,
-        center: [47.0908595, -21.4560529]
-    })
+    insert: null,
 };
 const markerMap = {
-    insert: new mapboxgl.Marker().setLngLat([47.0908595, -21.4560529]).addTo(formMap.insert)
+    insert: null
 };
-const previewMap = new mapboxgl.Map({
-    container: 'map-container',
-    style: 'mapbox://styles/mapbox/outdoors-v11', // style URL,
-    zoom: 4,
-    center: [47.0908595, -21.4560529]
-});
+let previewMap = null;
 let currentPage = 1;
 let elementPerPage = 12;
 let pageLength = 1;
@@ -179,6 +169,22 @@ function deleteTerrain() {
 }
 
 $(document).ready(function () {
+    formMap.insert = new mapboxgl.Map({
+        container: 'insert-map-selection',
+        style: 'mapbox://styles/mapbox/outdoors-v11', // style URL,
+        zoom: 4,
+        center: [47.0908595, -21.4560529]
+    });
+
+    markerMap.insert = new mapboxgl.Marker().setLngLat([47.0908595, -21.4560529]).addTo(formMap.insert);
+
+    previewMap = new mapboxgl.Map({
+        container: 'map-container',
+        style: 'mapbox://styles/mapbox/outdoors-v11', // style URL,
+        zoom: 4,
+        center: [47.0908595, -21.4560529]
+    });
+
     previewMap.addControl(new mapboxgl.NavigationControl());
     getDataFromService();
 

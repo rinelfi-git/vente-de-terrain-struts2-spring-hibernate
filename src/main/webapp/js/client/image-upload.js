@@ -7,10 +7,11 @@
 
 // import 'cropperjs/dist/cropper.css';
 
-const image = document.getElementById('image');
+let image = null;
 let cropper = null;
 
 function uploadImageChange(element) {
+    image = document.getElementById('image');
     const file = element.files[0];
     const load = function (url) {
         image.src = url;

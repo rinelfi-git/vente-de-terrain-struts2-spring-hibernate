@@ -1,4 +1,4 @@
-package mg.ventedeterrain.entites;
+package mg.ventedeterrain.entites.embedded;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -33,14 +33,5 @@ public class Adresse implements Serializable {
 	
 	public void setCodePostal(int codePostal) {
 		this.codePostal = codePostal;
-	}
-	
-	@Override
-	public String toString() {
-		return "Adresse{" +
-			       "ville='" + ville + '\'' +
-			       ", lot='" + lot + '\'' +
-			       ", codePostal=" + codePostal +
-			       '}';
 	}
 }

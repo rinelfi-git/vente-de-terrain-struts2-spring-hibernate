@@ -1,10 +1,10 @@
 package mg.ventedeterrain.entites;
 
+import mg.ventedeterrain.entites.embedded.Adresse;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "client")

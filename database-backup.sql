@@ -1,1 +1,0 @@
-insert into utilisateur values('rinelfi','elierijaniaina@gmail.com','$2a$12$ClXe6tVd7bX4EMnqLA6uPOhWMSrQl.1RpqslktHpqa7Hq8jIPPr7W','rinelfi.jpg');

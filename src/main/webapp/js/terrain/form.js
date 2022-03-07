@@ -13,7 +13,6 @@ const views = {
 };
 
 function initClientSearchField(scope) {
-    console.log(document.getElementById(`${scope}-client-search-container`));
     document.getElementById(`${scope}-client-search-container`).style.display = 'none';
 }
 
@@ -49,7 +48,6 @@ function constructClientHtml(clients, scope) {
     for (const client of clients) {
         clientHtml += '<option value="' + client.id + '">(' + client.cin + ') ' + client.nom + ' ' + (client.prenom !== null ? client.prenom : '') + '</option>';
     }
-    console.log(document.getElementById(`${scope}-proprietaire`));
     document.getElementById(`${scope}-proprietaire`).innerHTML = clientHtml;
 }
 

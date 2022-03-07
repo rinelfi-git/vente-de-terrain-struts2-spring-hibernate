@@ -2,7 +2,6 @@ package mg.ventedeterrain.dao;
 
 import mg.ventedeterrain.entites.Client;
 import mg.ventedeterrain.utils.PaginationConstraint;
-import mg.ventedeterrain.utils.PaginationResult;
 
 import java.util.List;
 

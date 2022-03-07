@@ -19,7 +19,7 @@ import java.util.*;
 public class TerrainAction extends ActionSupport implements SessionAware {
 
     private Map<String, Object> session;
-    private final String uploadDestination = "/var/www/html/vente_de_terrain/terrain/";
+    private final String uploadDestination = "C:\\packages\\xampp\\htdocs\\vente_de_terrain\\terrain\\";
     private String defaultThumbnail = "default.jpg",
         keyword,
         apercuContentType,

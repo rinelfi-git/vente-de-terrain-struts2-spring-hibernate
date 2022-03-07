@@ -4,7 +4,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import mg.ventedeterrain.entites.Adresse;
+import mg.ventedeterrain.entites.embedded.Adresse;
 import mg.ventedeterrain.entites.Client;
 import mg.ventedeterrain.service.ClientService;
 import mg.ventedeterrain.utils.PaginationConstraint;
@@ -132,7 +132,7 @@ public class ClientAction extends ActionSupport implements SessionAware {
             long name = System.currentTimeMillis();
             System.out.println("taille de l'image : " + this.base64image);
             byte[] decoded = Base64.getDecoder().decode(this.base64image);
-            File destination = new File("/var/www/html/vente_de_terrain/client/" + name + ".png");
+            File destination = new File("C:\\packages\\xampp\\htdocs\\vente_de_terrain\\client\\" + name + ".png");
             FileOutputStream fos = new FileOutputStream(destination);
             fos.write(decoded);
             destination.setReadable(true);

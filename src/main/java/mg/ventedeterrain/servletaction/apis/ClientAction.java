@@ -3,8 +3,6 @@ package mg.ventedeterrain.servletaction.apis;
 import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionSupport;
 import mg.ventedeterrain.entites.Client;
-import mg.ventedeterrain.service.ClientService;
-import mg.ventedeterrain.utils.PaginationConstraint;
 import mg.ventedeterrain.utils.PaginationResult;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import mg.ventedeterrain.service.ClientService;
+import mg.ventedeterrain.utils.PaginationConstraint;
 
 public class ClientAction extends ActionSupport {
 	@Autowired

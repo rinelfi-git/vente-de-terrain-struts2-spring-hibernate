@@ -1,7 +1,7 @@
 package mg.ventedeterrain.dao.jpa;
 
 import mg.ventedeterrain.dao.ClientDao;
-import mg.ventedeterrain.entites.Adresse;
+import mg.ventedeterrain.entites.embedded.Adresse;
 import mg.ventedeterrain.entites.Client;
 import mg.ventedeterrain.utils.PaginationConstraint;
 import mg.ventedeterrain.utils.PaginationResult;
