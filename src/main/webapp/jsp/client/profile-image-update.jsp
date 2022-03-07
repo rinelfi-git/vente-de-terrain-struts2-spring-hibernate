@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <style>
     /* Ensure the size of the image fit the container perfectly */
-    img {
+    #image {
         display: block;
         height: auto;
         /* This rule is very important, please don't ignore this */
@@ -40,4 +40,3 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-<script src="${pageContext.request.contextPath}/js/client/image-upload.js"></script>

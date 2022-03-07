@@ -152,6 +152,11 @@ public class ClientAction extends ActionSupport implements SessionAware {
     public void setSession(Map<String, Object> session) {
         this.session = session;
     }
+    
+    public String purge() {
+        this.clientService.delete(this.identity);
+        return SUCCESS;
+    }
 
     public Map<String, Object> getSession() {
         return session;

@@ -28,6 +28,24 @@ let elementPerPage = 12;
 let pageLength = 1;
 let selectedIdentity = 0;
 
+toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": false,
+    "positionClass": "toast-bottom-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "300",
+    "timeOut": "2000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+};
+
 function loadThumbnails(identity, apercues) {
     selectedIdentity = identity;
     thumbnails = apercues;
@@ -52,23 +70,6 @@ function updateCurrentLocation(scope) {
             center: [position.coords.longitude, position.coords.latitude]
         });
     }, function (err) {
-        toastr.options = {
-            "closeButton": false,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
-            "positionClass": "toast-bottom-right",
-            "preventDuplicates": true,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "300",
-            "timeOut": "3000",
-            "extendedTimeOut": "0",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        };
         toastr["error"]("Le navigateur ne permet pas le prélèvement de la localisation. Assurez vous que votre connexion est sécurisée et que vous avez permis la géolocalisation.<br>Détail : " + err.code + ": " + err.message, "Erreur de localisation");
     }, {
         enableHighAccuracy: true
@@ -169,23 +170,6 @@ function deleteTerrain() {
         success: function () {
             $('#confirm-delete').modal('hide');
             getDataFromService();
-            toastr.options = {
-                "closeButton": false,
-                "debug": false,
-                "newestOnTop": true,
-                "progressBar": false,
-                "positionClass": "toast-bottom-right",
-                "preventDuplicates": false,
-                "onclick": null,
-                "showDuration": "300",
-                "hideDuration": "300",
-                "timeOut": "2000",
-                "extendedTimeOut": "1000",
-                "showEasing": "swing",
-                "hideEasing": "linear",
-                "showMethod": "fadeIn",
-                "hideMethod": "fadeOut"
-            };
             toastr["success"]("Le terrain est supprimé avec succès", "Suppression");
         },
         error: function () {

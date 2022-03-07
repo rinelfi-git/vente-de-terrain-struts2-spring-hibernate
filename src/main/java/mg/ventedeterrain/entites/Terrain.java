@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import mg.ventedeterrain.entites.embedded.GeolocationEmbedded;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "terrain")
@@ -15,7 +14,7 @@ public class Terrain implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @ManyToOne
-    @JoinColumn(name="client_id", nullable=false)
+    @JoinColumn(name = "client_id", nullable = false)
     private Client proprietaire;
     @Column(name = "en_vente")
     private boolean enVente;
@@ -25,13 +24,10 @@ public class Terrain implements Serializable {
     private int prix;
     private String relief;
     @ElementCollection(fetch = FetchType.EAGER)
-    @JoinTable(name = "apercue", joinColumns = @JoinColumn(name = "fk_terrain"))
-    @Column(name = "apercues")
     private Set<String> apercues;
     @Embedded
-    private GeolocationEmbedded coordinates;
+    private final GeolocationEmbedded coordinates;
     private boolean geolocated;
-
     @OneToMany(mappedBy = "terrain", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<Vente> ventes;
 
@@ -120,5 +116,5 @@ public class Terrain implements Serializable {
     public void setGeolocated(boolean geolocated) {
         this.geolocated = geolocated;
     }
-    
+
 }

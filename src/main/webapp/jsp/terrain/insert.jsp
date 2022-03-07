@@ -127,5 +127,4 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-<script src="${pageContext.request.contextPath}/js/terrain/insert.js"></script>
 

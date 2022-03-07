@@ -22,6 +22,29 @@ toastr.options = {
     "hideMethod": "fadeOut"
 };
 
+function deleteClient() {
+    $.ajax({
+        url: baseUrl('client/delete.action'),
+        method: 'post',
+        dataType: 'json',
+        data: {identity},
+        success: function () {
+            $('#confirm-delete').modal('hide');
+            getDataFromService();
+            toastr["success"]("Le client est supprimé avec succès", "Suppression");
+        },
+        error: function () {
+            alert('error');
+        }
+    });
+}
+
+function promptDelete(id, cin) {
+    identity = id;
+    $('#confirm-delete-cin').text(cin);
+    $('#confirm-delete').modal('show');
+}
+
 function udpateClientProfileImage(id) {
     identity = id;
     $('#update-profile-image').modal('show');

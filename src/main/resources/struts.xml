@@ -119,6 +119,11 @@
                 <param name="root">false</param>
             </result>
         </action>
+        <action name="delete" method="purge" class="mg.ventedeterrain.servletaction.extenddefault.ClientAction">
+            <result name="success" type="json">
+                <param name="root">true</param>
+            </result>
+        </action>
     </package>
 	
     <package name="terrain-json" namespace="/terrain" extends="json-default">

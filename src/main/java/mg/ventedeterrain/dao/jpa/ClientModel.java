@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
+import mg.ventedeterrain.entites.Terrain;
 
 public class ClientModel implements ClientDao {
 
@@ -46,9 +47,8 @@ public class ClientModel implements ClientDao {
 
     @Override
     public void delete(int id) {
-        Query query = this.entityManager.createQuery("delete from Client where id=:id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        Client client = this.entityManager.find(Client.class, id);
+        this.entityManager.remove(client);
         this.entityManager.flush();
     }
 

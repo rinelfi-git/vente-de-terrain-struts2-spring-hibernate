@@ -151,8 +151,8 @@ function submit(scope) {
                 $(`#${scope}-modal`).modal('hide');
                 if (scope === 'insert') {
                     initInsertForm();
-                    toastr["success"]("Un client est ajouté dans la base de données", "Insertion");
-                } else toastr["success"]("Un client dans la base de données est modifié", "Modification");
+                    toastr["success"]("Un terrain est ajouté dans la base de données", "Insertion");
+                } else toastr["success"]("Un terrain dans la base de données est modifié", "Modification");
                 getDataFromService();
             },
             error: function () {

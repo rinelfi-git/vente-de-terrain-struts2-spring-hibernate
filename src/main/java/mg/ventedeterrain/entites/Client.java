@@ -20,10 +20,7 @@ public class Client implements Serializable {
     @Embedded
     private Adresse adresse;
     @ElementCollection(fetch = FetchType.EAGER)
-    @JoinTable(name = "telephone", joinColumns = @JoinColumn(name = "fk_client"))
-    @Column(name = "telephone_numero")
     private Set<String> telephones;
-
     @OneToMany(mappedBy = "proprietaire", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Terrain> terrains;
     @OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
