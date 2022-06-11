@@ -1,0 +1,1 @@
+insert into utilisateur(name, email, password, photo) values('Rinelfi', 'elierijaniaina@gmail.com', '$2a$12$9Xn91LK7vDuNiBUJV6Ki..lFuLtUPW0qBKFKJu4reTfQlaPI9lVrO', 'rinelfi.png')

@@ -9,9 +9,14 @@ import mg.ventedeterrain.entites.Client;
 import mg.ventedeterrain.service.ClientService;
 import mg.ventedeterrain.utils.PaginationConstraint;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.ServletContext;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -130,9 +135,11 @@ public class ClientAction extends ActionSupport implements SessionAware {
     public String profile() {
         try {
             long name = System.currentTimeMillis();
-            System.out.println("taille de l'image : " + this.base64image);
             byte[] decoded = Base64.getDecoder().decode(this.base64image);
-            File destination = new File("C:\\packages\\xampp\\htdocs\\vente_de_terrain\\client\\" + name + ".png");
+            ServletContext context = ServletActionContext.getServletContext();
+            Path directory = Paths.get(context.getRealPath("upload" + File.separator + "images" + File.separator + "client"));
+            if(!Files.isDirectory(directory)) Files.createDirectory(directory);
+            File destination = new File(context.getRealPath("upload" + File.separator + "images" + File.separator + "client"  + File.separator + name + ".png"));
             FileOutputStream fos = new FileOutputStream(destination);
             fos.write(decoded);
             destination.setReadable(true);

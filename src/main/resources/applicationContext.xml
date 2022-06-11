@@ -28,8 +28,8 @@
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
         <property name="url" value="jdbc:postgresql://localhost:5432/vente_de_terrain"/>
-        <property name="username" value="java"/>
-        <property name="password" value="java"/>
+        <property name="username" value="java_web"/>
+        <property name="password" value="java_web"/>
     </bean>
     <bean id="persistenceUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
         <property name="persistenceXmlLocations">

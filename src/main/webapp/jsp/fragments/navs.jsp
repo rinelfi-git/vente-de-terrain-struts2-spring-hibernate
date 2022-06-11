@@ -42,7 +42,7 @@
             <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img src="${back}/${session.photo}" class="user-image img-circle elevation-2" alt="profile">
+                        <img src="${pageContext.request.contextPath}/upload/images/utilisateur/${session.photo}" class="user-image img-circle elevation-2" alt="profile">
                         <span class="d-none d-md-inline">${session.username}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
