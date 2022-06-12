@@ -48,7 +48,7 @@
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <!-- Utilisateur image -->
                         <li class="user-header bg-lightblue">
-                            <img src="${back}/${session.photo}" class="img-circle elevation-2" alt="profile" style="background: #0069d9;">
+                            <img src="${pageContext.request.contextPath}/upload/images/utilisateur/${session.photo}" class="img-circle elevation-2" alt="profile" style="background: #0069d9;">
                             <p>
                                 ${session.username} - ${session.email}
                             </p>

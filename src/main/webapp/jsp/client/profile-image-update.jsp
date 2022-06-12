@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-primary" onclick="saveProfileImage()">Enregistrer</button>
+                <button type="button" class="btn btn-primary" onclick="return saveProfileImage()">Enregistrer</button>
             </div>
         </div>
         <!-- /.modal-content -->

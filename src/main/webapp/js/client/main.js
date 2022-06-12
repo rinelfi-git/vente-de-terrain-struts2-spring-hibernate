@@ -68,6 +68,7 @@ function getDataFromService() {
         dataType: 'json',
         success: function (response) {
             clientsHtml = '';
+            const images = [];
             for (const client of response) {
                 clientsHtml += clientCardTemplate(client.id, client.nom, client.prenom, client.cin, client.adresse, client.telephones, client.photo);
             }
@@ -80,7 +81,7 @@ function getDataFromService() {
 
 function navigatePaginationTo(target) {
     var min = Math.min(target, pageLength), max = Math.max(1, target);
-    paginationCurrentPage = min == pageLength ? min : max;
+    paginationCurrentPage = min === pageLength ? min : max;
     getDataFromService();
 }
 

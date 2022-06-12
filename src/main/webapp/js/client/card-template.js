@@ -21,7 +21,7 @@ function clientCardTemplate(id, nom, prenom, cin, adresse, telephones, photo) {
     clientCardTemplate += '</ul>'
     clientCardTemplate += '</div>'
     clientCardTemplate += '<div class="col-4 text-center">'
-    clientCardTemplate += '<img src="' + profileUrl(photo) + '" alt="' + nom + '" class="img-circle img-fluid" style="background: #0069d9;">'
+    clientCardTemplate += '<img id="client-image-id-' + id + '" src="' + profileUrl(photo) + '" alt="' + nom + '" class="img-circle img-fluid" style="background: #0069d9;">'
     clientCardTemplate += '<div class="custom-class-image-edit-overlay custom-class-image-edit-overlay-background"></div>'
     clientCardTemplate += '<i class="fa fa-camera fa-2x text-white custom-class-icon-edit-overlay"></i>'
     clientCardTemplate += '<div class="custom-class-image-edit-overlay custom-class-image-edit-overlay-foreground" data-toggle="modal" data-target="#modification-photo" onclick="udpateClientProfileImage( ' + id + ')"></div>'

@@ -29,7 +29,8 @@ public class LoginAction extends ActionSupport implements SessionAware {
 
     public String execute() {
         String url = ServletActionContext.getRequest().getContextPath();
-        if (url != null && url.charAt(url.length() - 1) == '/') {
+        System.out.println("Url is: '" + url +"'");
+        if (url != null && !url.isEmpty() && url.charAt(url.length() - 1) == '/') {
             url = url.substring(0, url.length() - 1);
         }
         this.redirection = String.format("%s/dashboard.action", url);
@@ -44,7 +45,7 @@ public class LoginAction extends ActionSupport implements SessionAware {
         if (userExists && password != null && BCrypt.checkpw(this.password, password)) {
             output = SUCCESS;
             String url = ServletActionContext.getRequest().getContextPath();
-            if (url != null && url.charAt(url.length() - 1) == '/') {
+            if (url != null && !url.isEmpty() && url.charAt(url.length() - 1) == '/') {
                 url = url.substring(0, url.length() - 1);
             }
             this.redirection = String.format("%s/login/session.action?username=%s", url, this.username);

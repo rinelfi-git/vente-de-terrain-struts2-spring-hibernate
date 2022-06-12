@@ -17,10 +17,10 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class TerrainAction extends ActionSupport implements SessionAware {
-
+    
     private Map<String, Object> session;
     private final String uploadDestination = "C:\\packages\\xampp\\htdocs\\vente_de_terrain\\terrain\\";
-    private String defaultThumbnail = "default.jpg",
+    private String defaultThumbnail = "default.png",
         keyword,
         apercuContentType,
         apercuFileName,
@@ -50,18 +50,18 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         paginationOrdered,
         paginationSearchActivated,
         geolocated;
-
+    
     @Autowired
     private TerrainService terrainService;
     @Autowired
     private ClientService clientService;
-
+    
     @Override
     public String execute() {
         clientForms = clientService.select();
         return this.session.containsKey("username") ? SUCCESS : LOGIN;
     }
-
+    
     public String uploadThumbnail() throws IOException {
         final Calendar calendar = Calendar.getInstance();
         int start = this.apercuFileName.lastIndexOf('.'),
@@ -74,7 +74,7 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         this.uploadedFilename = filename;
         return SUCCESS;
     }
-
+    
     public String saveThumbnail() throws IOException {
         if (this.saveThumb != null) {
             Terrain terrain = this.terrainService.select(this.identity);
@@ -92,7 +92,7 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         }
         return SUCCESS;
     }
-
+    
     public String insert() {
         Terrain terrain = new Terrain();
         terrain.setAdresse(this.adresse);
@@ -107,12 +107,12 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         this.terrainService.insert(terrain);
         return SUCCESS;
     }
-
+    
     public String purge() {
         this.terrainService.delete(this.identity);
         return SUCCESS;
     }
-
+    
     public String paginationList() {
         PaginationConstraint paginationConstraint = new PaginationConstraint();
         paginationConstraint.setOrdered(this.paginationOrdered);
@@ -127,7 +127,7 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         this.terrains = this.terrainService.select(paginationConstraint);
         return SUCCESS;
     }
-
+    
     public String totalRecordPostRequest() {
         PaginationConstraint paginationConstraint = new PaginationConstraint();
         paginationConstraint.setLimit(this.elementPerPage);
@@ -135,258 +135,258 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         paginationConstraint.setSearchActive(this.paginationSearchActivated);
         paginationConstraint.setKeywordSearch(this.paginationSearchKeyword);
         paginationConstraint.setSearchField(this.paginationSearchField);
-
+        
         this.totalRecords = (int) this.terrainService.countSelection(paginationConstraint);
         return SUCCESS;
     }
-
+    
     @Override
     public void setSession(Map<String, Object> session) {
         this.session = session;
     }
-
+    
     public Map<String, Object> getSession() {
         return session;
     }
-
+    
     public String getKeyword() {
         return keyword;
     }
-
+    
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
-
+    
     public List<Terrain> getTerrains() {
         return terrains;
     }
-
+    
     public void setTerrains(List<Terrain> terrains) {
         this.terrains = terrains;
     }
-
+    
     public String getDefaultThumbnail() {
         return defaultThumbnail;
     }
-
+    
     public void setDefaultThumbnail(String defaultThumbnail) {
         this.defaultThumbnail = defaultThumbnail;
     }
-
+    
     public File getApercu() {
         return apercu;
     }
-
+    
     public void setApercu(File apercu) {
         this.apercu = apercu;
     }
-
+    
     public String getApercuContentType() {
         return apercuContentType;
     }
-
+    
     public void setApercuContentType(String apercuContentType) {
         this.apercuContentType = apercuContentType;
     }
-
+    
     public String getApercuFileName() {
         return apercuFileName;
     }
-
+    
     public void setApercuFileName(String apercuFileName) {
         this.apercuFileName = apercuFileName;
     }
-
+    
     public String getUploadedFilename() {
         return uploadedFilename;
     }
-
+    
     public void setUploadedFilename(String uploadedFilename) {
         this.uploadedFilename = uploadedFilename;
     }
-
+    
     public int getIdentity() {
         return identity;
     }
-
+    
     public void setIdentity(int identity) {
         this.identity = identity;
     }
-
+    
     public String[] getSaveThumb() {
         return saveThumb;
     }
-
+    
     public void setSaveThumb(String[] saveThumb) {
         this.saveThumb = saveThumb;
     }
-
+    
     public String[] getExcludeThumb() {
         return excludeThumb;
     }
-
+    
     public void setExcludeThumb(String[] excludeThumb) {
         this.excludeThumb = excludeThumb;
     }
-
+    
     public String getNamespace() {
         return namespace;
     }
-
+    
     public void setNamespace(String namespace) {
         this.namespace = namespace;
     }
-
+    
     public List<Client> getClientForms() {
         return clientForms;
     }
-
+    
     public void setClientForms(List<Client> clientForms) {
         this.clientForms = clientForms;
     }
-
+    
     public String getAdresse() {
         return adresse;
     }
-
+    
     public void setAdresse(String adresse) {
         this.adresse = adresse;
     }
-
+    
     public int getProprietaire() {
         return proprietaire;
     }
-
+    
     public void setProprietaire(int proprietaire) {
         this.proprietaire = proprietaire;
     }
-
+    
     public float getSurface() {
         return surface;
     }
-
+    
     public void setSurface(float surface) {
         this.surface = surface;
     }
-
+    
     public int getPrix() {
         return prix;
     }
-
+    
     public void setPrix(int prix) {
         this.prix = prix;
     }
-
+    
     public boolean isEnVente() {
         return enVente;
     }
-
+    
     public void setEnVente(boolean enVente) {
         this.enVente = enVente;
     }
-
+    
     public String getRelief() {
         return relief;
     }
-
+    
     public void setRelief(String relief) {
         this.relief = relief;
     }
-
+    
     public String getOrderDirection() {
         return orderDirection;
     }
-
+    
     public void setOrderDirection(String orderDirection) {
         this.orderDirection = orderDirection;
     }
-
+    
     public String getPaginationFieldOrder() {
         return paginationFieldOrder;
     }
-
+    
     public void setPaginationFieldOrder(String paginationFieldOrder) {
         this.paginationFieldOrder = paginationFieldOrder;
     }
-
+    
     public String getPaginationSearchKeyword() {
         return paginationSearchKeyword;
     }
-
+    
     public void setPaginationSearchKeyword(String paginationSearchKeyword) {
         this.paginationSearchKeyword = paginationSearchKeyword;
     }
-
+    
     public String getPaginationSearchField() {
         return paginationSearchField;
     }
-
+    
     public void setPaginationSearchField(String paginationSearchField) {
         this.paginationSearchField = paginationSearchField;
     }
-
+    
     public int getElementPerPage() {
         return elementPerPage;
     }
-
+    
     public void setElementPerPage(int elementPerPage) {
         this.elementPerPage = elementPerPage;
     }
-
+    
     public int getPageCurrent() {
         return pageCurrent;
     }
-
+    
     public void setPageCurrent(int pageCurrent) {
         this.pageCurrent = pageCurrent;
     }
-
+    
     public int getTotalRecords() {
         return totalRecords;
     }
-
+    
     public void setTotalRecords(int totalRecords) {
         this.totalRecords = totalRecords;
     }
-
+    
     public boolean isPaginationOrdered() {
         return paginationOrdered;
     }
-
+    
     public void setPaginationOrdered(boolean paginationOrdered) {
         this.paginationOrdered = paginationOrdered;
     }
-
+    
     public boolean isPaginationSearchActivated() {
         return paginationSearchActivated;
     }
-
+    
     public void setPaginationSearchActivated(boolean paginationSearchActivated) {
         this.paginationSearchActivated = paginationSearchActivated;
     }
-
+    
     public float getLongitude() {
         return longitude;
     }
-
+    
     public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
-
+    
     public float getLatitude() {
         return latitude;
     }
-
+    
     public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
-
+    
     public boolean isGeolocated() {
         return geolocated;
     }
-
+    
     public void setGeolocated(boolean geolocated) {
         this.geolocated = geolocated;
     }
-
+    
 }
