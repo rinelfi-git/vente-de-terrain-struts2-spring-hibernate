@@ -7,6 +7,7 @@
 /* global formMap, identity, mapboxgl, markerMap, toastr */
 
 let clients = [];
+let proprietaire_id = -1;
 const views = {
     global: 5,
     centered: 17
@@ -49,6 +50,8 @@ function constructClientHtml(clients, scope) {
         clientHtml += '<option value="' + client.id + '">(' + client.cin + ') ' + client.nom + ' ' + (client.prenom !== null ? client.prenom : '') + '</option>';
     }
     document.getElementById(`${scope}-proprietaire`).innerHTML = clientHtml;
+    console.log(identity, 'identity');
+    if(proprietaire_id > 0) document.getElementById(`${scope}-proprietaire`).value = proprietaire_id;
 }
 
 function searchForClient(element, clients, scope) {
@@ -59,11 +62,14 @@ function searchForClient(element, clients, scope) {
                 return client;
         });
         document.getElementById(`${scope}-client-search-result-number`).textContent = copy.length;
-    } else document.getElementById(`${scope}-client-search-result-number`).textContent = 0;
+    } else {
+        document.getElementById(`${scope}-client-search-result-number`).textContent = 0;
+    }
     constructClientHtml(copy, scope);
 }
 
 function switchGeolocationMode(element, scope) {
+    console.log(element, 'with scope', scope);
     if ($(element).is(':checked')) {
         $(`#${scope}-coordinates`).css({
             display: 'flex'
@@ -105,7 +111,7 @@ function updateCurrentLocationInput(scope) {
     const lat = document.getElementById(`${scope}-latitude`);
     const longlat = [long.value === '' ? 0 : parseFloat(long.value), lat.value === '' ? 0 : parseFloat(lat.value)];
     markerMap[scope].remove();
-    markerMap[scope] = new mapboxgl.Marker().setLngLat(longlat).addTo(formMap.insert);
+    markerMap[scope] = new mapboxgl.Marker().setLngLat(longlat).addTo(formMap[scope]);
     formMap[scope].flyTo({
         zoom: 18,
         center: longlat
@@ -139,7 +145,7 @@ function submit(scope) {
             relief: document.getElementById(`${scope}-relief`).value,
             enVente: document.getElementById(`${scope}-en-vente`).checked
         };
-        if (scope === 'update') data.identity = identity;
+        if (scope === 'update') data.id = identity;
         $.ajax({
             url: baseUrl(`/terrain/${scope}.action`),
             method: 'post',
@@ -150,7 +156,11 @@ function submit(scope) {
                 if (scope === 'insert') {
                     initInsertForm();
                     toastr["success"]("Un terrain est ajouté dans la base de données", "Insertion");
-                } else toastr["success"]("Un terrain dans la base de données est modifié", "Modification");
+                } else {
+                    toastr["success"]("Un terrain dans la base de données est modifié", "Modification");
+                    proprietaire_id = -1;
+                    identity = -1;
+                }
                 getDataFromService();
             },
             error: function () {
@@ -169,9 +179,23 @@ function submit(scope) {
 }
 
 $(document).ready(function () {
-    initClientSearchField('insert');
     getClients().then(function (resolve) {
         clients = resolve;
         constructClientHtml(clients, 'insert');
+        constructClientHtml(clients, 'update');
+    });
+    $('#insert-modal').on('bs-modal-show', () => {
+        initClientSearchField('insert');
+    });
+    ['insert', 'update'].forEach(scope => {
+        $(`${scope}-modal`).on('bs-modal-hide', () => {
+            formMap[scope] = new mapboxgl.Map({
+                container: `${scope}-map-selection`,
+                style: 'mapbox://styles/mapbox/outdoors-v11', // style URL,
+                zoom: 4,
+                center: [47.0908595, -21.4560529]
+            });
+            markerMap[scope] = new mapboxgl.Marker().setLngLat([47.0908595, -21.4560529]).addTo(formMap[scope]);
+        })
     });
 });

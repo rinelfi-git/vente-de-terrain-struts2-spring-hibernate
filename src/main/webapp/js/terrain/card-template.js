@@ -87,8 +87,7 @@ function terrainCardTemplate(index, terrain) {
 			                                action
 			                            </button>
 			                            <div class="dropdown-menu">
-			                                <a href="javascript:;" class="dropdown-item" data-toggle="modal"
-			                                    data-target="#modification-modal${index}"><span class="material-icons">update</span>
+			                                <a href="javascript:;" class="dropdown-item" onclick="initialiserModifier(${terrain.id})"><span class="material-icons">update</span>
 			                                    modifier</a>
 			                                <div class="dropdown-divider"></div>
 			                                <a href="javascript:;" class="dropdown-item" onclick="promptDelete(${terrain.id}, '${terrain.adresse.replaceAll("'", "\'")}')"><span class="material-icons">delete_forever</span>

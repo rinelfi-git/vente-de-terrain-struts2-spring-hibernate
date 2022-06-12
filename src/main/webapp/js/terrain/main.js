@@ -8,15 +8,18 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoicmluZWxmaSIsImEiOiJjbDBhdXVteDQwM3JsM2tvN2NjMXEzdGM3In0.Fv-NkbIGRVB4RdBMO6pNGw';
 const formMap = {
     insert: null,
+    update: null
 };
 const markerMap = {
-    insert: null
+    insert: null,
+    update: null
 };
 let previewMap = null;
 let currentPage = 1;
 let elementPerPage = 12;
 let pageLength = 1;
 let selectedIdentity = 0;
+let identity = -1;
 
 toastr.options = {
     "closeButton": false,
@@ -50,11 +53,10 @@ function navigatePaginationTo(target) {
 
 function updateCurrentLocation(scope) {
     navigator.geolocation.getCurrentPosition(function (position) {
-        console.log('update', position.coords);
-        document.getElementById('insert-longitude').value = position.coords.longitude;
-        document.getElementById('insert-latitude').value = position.coords.latitude;
+        document.getElementById(`${scope}-longitude`).value = position.coords.longitude;
+        document.getElementById(`${scope}-latitude`).value = position.coords.longitude;
         markerMap[scope].remove();
-        markerMap[scope] = new mapboxgl.Marker().setLngLat([position.coords.longitude, position.coords.latitude]).addTo(formMap.insert);
+        markerMap[scope] = new mapboxgl.Marker().setLngLat([position.coords.longitude, position.coords.latitude]).addTo(formMap[scope]);
         formMap[scope].flyTo({
             zoom: 18,
             center: [position.coords.longitude, position.coords.latitude]
@@ -169,14 +171,15 @@ function deleteTerrain() {
 }
 
 $(document).ready(function () {
-    formMap.insert = new mapboxgl.Map({
-        container: 'insert-map-selection',
-        style: 'mapbox://styles/mapbox/outdoors-v11', // style URL,
-        zoom: 4,
-        center: [47.0908595, -21.4560529]
+    ['insert', 'update'].forEach(scope => {
+        formMap[scope] = new mapboxgl.Map({
+            container: `${scope}-map-selection`,
+            style: 'mapbox://styles/mapbox/outdoors-v11', // style URL,
+            zoom: 4,
+            center: [47.0908595, -21.4560529]
+        });
+        markerMap[scope] = new mapboxgl.Marker().setLngLat([47.0908595, -21.4560529]).addTo(formMap[scope]);
     });
-
-    markerMap.insert = new mapboxgl.Marker().setLngLat([47.0908595, -21.4560529]).addTo(formMap.insert);
 
     previewMap = new mapboxgl.Map({
         container: 'map-container',
@@ -188,7 +191,7 @@ $(document).ready(function () {
     previewMap.addControl(new mapboxgl.NavigationControl());
     getDataFromService();
 
-    ['insert'].forEach(function (scope) {
+    ['insert', 'update'].forEach(function (scope) {
         $('#' + scope + '-modal').on('shown.bs.modal', function () {
             formMap[scope].resize();
         });

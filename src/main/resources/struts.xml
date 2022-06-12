@@ -132,6 +132,11 @@
                 <param name="root">true</param>
             </result>
         </action>
+        <action name="update" method="update" class="mg.ventedeterrain.servletaction.extenddefault.TerrainAction">
+            <result name="success" type="json">
+                <param name="root">true</param>
+            </result>
+        </action>
         <action name="pagination" method="paginationList" class="mg.ventedeterrain.servletaction.extenddefault.TerrainAction">
             <result name="success" type="json">
                 <param name="root">terrains</param>
@@ -145,6 +150,11 @@
         <action name="delete" method="purge" class="mg.ventedeterrain.servletaction.extenddefault.TerrainAction">
             <result name="success" type="json">
                 <param name="root">true</param>
+            </result>
+        </action>
+        <action name="select" method="select" class="mg.ventedeterrain.servletaction.extenddefault.TerrainAction">
+            <result name="success" type="json">
+                <param name="root">terrain</param>
             </result>
         </action>
     </package>

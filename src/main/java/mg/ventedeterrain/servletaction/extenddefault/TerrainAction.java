@@ -38,7 +38,7 @@ public class TerrainAction extends ActionSupport implements SessionAware {
     private List<Client> clientForms;
     private String[] saveThumb,
         excludeThumb;
-    private int proprietaire,
+    private int proprietaire, id,
         prix,
         elementPerPage,
         pageCurrent,
@@ -51,6 +51,7 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         paginationOrdered,
         paginationSearchActivated,
         geolocated;
+    private Terrain terrain;
     
     @Autowired
     private TerrainService terrainService;
@@ -80,12 +81,13 @@ public class TerrainAction extends ActionSupport implements SessionAware {
     }
     
     public String saveThumbnail() throws IOException {
+        Terrain terrain = this.terrainService.select(this.identity);
+        terrain.setApercues(new HashSet<>());
         if (this.saveThumb != null) {
-            Terrain terrain = this.terrainService.select(this.identity);
-            terrain.setApercues(new HashSet<>());
+            System.out.println("aperçues : " + Arrays.toString(this.saveThumb));
             terrain.getApercues().addAll(Arrays.asList(this.saveThumb));
-            terrainService.update(terrain);
         }
+        terrainService.update(terrain);
         if (this.excludeThumb != null) {
             ServletContext context = ServletActionContext.getServletContext();
             for (String image : this.excludeThumb) {
@@ -99,7 +101,7 @@ public class TerrainAction extends ActionSupport implements SessionAware {
     }
     
     public String insert() {
-        Terrain terrain = new Terrain();
+        terrain = new Terrain();
         terrain.setAdresse(this.adresse);
         terrain.setGeolocated(this.geolocated);
         terrain.getCoordinates().setLongitude(this.longitude);
@@ -110,6 +112,21 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         terrain.setRelief(this.relief);
         terrain.setEnVente(this.enVente);
         this.terrainService.insert(terrain);
+        return SUCCESS;
+    }
+    
+    public String update() {
+        terrain = this.terrainService.select(this.id);
+        terrain.setAdresse(this.adresse);
+        terrain.setGeolocated(this.geolocated);
+        terrain.getCoordinates().setLongitude(this.longitude);
+        terrain.getCoordinates().setLatitude(this.latitude);
+        terrain.setProprietaire(this.clientService.select(this.proprietaire));
+        terrain.setSurface(this.surface);
+        terrain.setPrix(this.prix);
+        terrain.setRelief(this.relief);
+        terrain.setEnVente(this.enVente);
+        this.terrainService.update(terrain);
         return SUCCESS;
     }
     
@@ -128,7 +145,6 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         paginationConstraint.setSearchActive(this.paginationSearchActivated);
         paginationConstraint.setKeywordSearch(this.paginationSearchKeyword);
         paginationConstraint.setSearchField(this.paginationSearchField);
-        System.out.println("pagination");
         this.terrains = this.terrainService.select(paginationConstraint);
         return SUCCESS;
     }
@@ -143,6 +159,28 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         
         this.totalRecords = (int) this.terrainService.countSelection(paginationConstraint);
         return SUCCESS;
+    }
+    
+    public String select() {
+        this.terrain = this.terrainService.select(this.id);
+        System.out.println(this.terrain);
+        return SUCCESS;
+    }
+    
+    public int getId() {
+        return id;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public Terrain getTerrain() {
+        return terrain;
+    }
+    
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
     }
     
     @Override

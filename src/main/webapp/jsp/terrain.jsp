@@ -22,6 +22,7 @@
         <script src="${pageContext.request.contextPath}/js/terrain/card-template.js"></script>
         <script src="${pageContext.request.contextPath}/js/terrain/main.js"></script>
         <script src="${pageContext.request.contextPath}/js/terrain/insert.js"></script>
+        <script src="${pageContext.request.contextPath}/js/terrain/update.js"></script>
         <script src="${pageContext.request.contextPath}/js/terrain/form.js"></script>
         <script src="${pageContext.request.contextPath}/js/terrain/thumbnail.js"></script>
     </head>
@@ -49,6 +50,7 @@
                 </div>
                 <s:include value="terrain/search-criteria.jsp"/>
                 <s:include value="terrain/insert.jsp"/>
+                <s:include value="terrain/update.jsp"/>
                 <s:include value="terrain/confirm-delete.jsp"/>
                 <s:include value="terrain/thumbnail.jsp"/>
 
