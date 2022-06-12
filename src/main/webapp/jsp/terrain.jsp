@@ -18,8 +18,8 @@
         <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
         <s:include value="fragments/scripts.jsp"/>
         <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
-        <script src="${pageContext.request.contextPath}/js/terrain/card-template.js"></script>
         <script src="${pageContext.request.contextPath}/js/pagination-template.js"></script>
+        <script src="${pageContext.request.contextPath}/js/terrain/card-template.js"></script>
         <script src="${pageContext.request.contextPath}/js/terrain/main.js"></script>
         <script src="${pageContext.request.contextPath}/js/terrain/insert.js"></script>
         <script src="${pageContext.request.contextPath}/js/terrain/form.js"></script>

@@ -21,14 +21,14 @@
                     <div class="row">
                     </div>
                     <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="thumb-validation" onchange="onAddInputThumbnail(this)">
+                        <input type="file" class="custom-file-input" id="thumb-validation" onchange="return onAddInputThumbnail(this)">
                         <label class="custom-file-label" for="thumb-validation">Sélectionner une fichier</label>
                     </div>
                 </div>
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary" onclick="saveThumbnail()">Enregistrer</button>
+                <button type="button" class="btn btn-primary" onclick="return saveThumbnail()">Enregistrer</button>
             </div>
         </div>
         <!-- /.modal-content -->

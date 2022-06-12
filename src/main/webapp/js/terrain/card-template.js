@@ -5,7 +5,7 @@ function terrainCardTemplate(index, terrain) {
         apercuHtml = `
         <div class="row">
             <div class="col-12">
-                ${apercues.length === 1 ? '<div style="background-image: url(' + terrainApercuUrl(apercues[0]) + '); height: 175px; background-position: center; background-size: cover"></div>' : '<div style="background-image: url(' + terrainApercuUrl('default.jpg') + '); height: 175px; background-position: center; background-size: cover"></div>'}
+                ${apercues.length === 1 ? '<div style="background-image: url(' + terrainApercuUrl(apercues[0]) + '); height: 175px; background-position: center; background-size: cover"></div>' : '<div style="background-image: url(' + terrainApercuUrl('default.png') + '); height: 175px; background-position: center; background-size: cover"></div>'}
             </div>
         </div>
 		`;

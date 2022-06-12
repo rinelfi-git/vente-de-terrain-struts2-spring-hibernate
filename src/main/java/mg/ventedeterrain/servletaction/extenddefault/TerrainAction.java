@@ -6,10 +6,13 @@ import mg.ventedeterrain.entites.Terrain;
 import mg.ventedeterrain.service.ClientService;
 import mg.ventedeterrain.service.TerrainService;
 import mg.ventedeterrain.utils.PaginationConstraint;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.ServletContext;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,11 +22,10 @@ import java.util.*;
 public class TerrainAction extends ActionSupport implements SessionAware {
     
     private Map<String, Object> session;
-    private final String uploadDestination = "C:\\packages\\xampp\\htdocs\\vente_de_terrain\\terrain\\";
-    private String defaultThumbnail = "default.png",
+    private String
         keyword,
-        apercuContentType,
-        apercuFileName,
+        apercu,
+    extension,
         uploadedFilename,
         namespace,
         adresse,
@@ -34,7 +36,6 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         paginationSearchField;
     private List<Terrain> terrains;
     private List<Client> clientForms;
-    private File apercu;
     private String[] saveThumb,
         excludeThumb;
     private int proprietaire,
@@ -64,14 +65,17 @@ public class TerrainAction extends ActionSupport implements SessionAware {
     
     public String uploadThumbnail() throws IOException {
         final Calendar calendar = Calendar.getInstance();
-        int start = this.apercuFileName.lastIndexOf('.'),
-            end = this.apercuFileName.length();
-        String filename = String.format("terrain_img_%d_%d_%dat%d_%d_%d_%d%s", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), calendar.get(Calendar.MILLISECOND), this.apercuFileName.substring(start, end));
-        File destination = new File(uploadDestination + filename);
-        Files.move(apercu.toPath(), destination.toPath());
-        destination.setReadable(true, false);
-        destination.setExecutable(true, false);
-        this.uploadedFilename = filename;
+        byte[] decoded_file = Base64.getDecoder().decode(this.apercu);
+        String name = String.format("terrain_img_%d_%d_%dat%d_%d_%d_%d.%s", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE), calendar.get(Calendar.HOUR), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND), calendar.get(Calendar.MILLISECOND), this.extension);
+        ServletContext context = ServletActionContext.getServletContext();
+        System.out.println("Writing into ... " + context.getRealPath("upload"));
+        File destination = new File(context.getRealPath("upload" + File.separator + "images" + File.separator + "terrain" + File.separator + name));
+        FileOutputStream fos = new FileOutputStream(destination);
+        fos.write(decoded_file);
+        destination.setReadable(true);
+        destination.setExecutable(true);
+        destination.setWritable(true);
+        this.uploadedFilename = name;
         return SUCCESS;
     }
     
@@ -83,8 +87,9 @@ public class TerrainAction extends ActionSupport implements SessionAware {
             terrainService.update(terrain);
         }
         if (this.excludeThumb != null) {
+            ServletContext context = ServletActionContext.getServletContext();
             for (String image : this.excludeThumb) {
-                Path file = Paths.get(uploadDestination + image);
+                Path file = Paths.get(context.getRealPath("upload" + File.separator + "images" + File.separator + "terrain" + File.separator + image));
                 if (Files.exists(file)) {
                     Files.delete(file);
                 }
@@ -165,36 +170,20 @@ public class TerrainAction extends ActionSupport implements SessionAware {
         this.terrains = terrains;
     }
     
-    public String getDefaultThumbnail() {
-        return defaultThumbnail;
-    }
-    
-    public void setDefaultThumbnail(String defaultThumbnail) {
-        this.defaultThumbnail = defaultThumbnail;
-    }
-    
-    public File getApercu() {
+    public String getApercu() {
         return apercu;
     }
     
-    public void setApercu(File apercu) {
+    public void setApercu(String apercu) {
         this.apercu = apercu;
     }
     
-    public String getApercuContentType() {
-        return apercuContentType;
+    public String getExtension() {
+        return extension;
     }
     
-    public void setApercuContentType(String apercuContentType) {
-        this.apercuContentType = apercuContentType;
-    }
-    
-    public String getApercuFileName() {
-        return apercuFileName;
-    }
-    
-    public void setApercuFileName(String apercuFileName) {
-        this.apercuFileName = apercuFileName;
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
     
     public String getUploadedFilename() {
